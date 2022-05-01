@@ -1,4 +1,3 @@
-===ToDo: Disabling the extension needs work
 
 # Better OSD (GNOME 42 Extension)
 
@@ -11,13 +10,13 @@ A GNOME Shell extension allowing the user to set the position, size, transparenc
 
 ```
 git clone https://github.com/neuromorph/better-osd.git \
-	~/.local/share/gnome-shell/extensions/better-osd
+	~/.local/share/gnome-shell/extensions/better-osd@neuromorph
 ```
 
 You may need to restart the gnome shell environnment
 
 - logout and login again _or_
-- `alt+f2` then type `r` and `enter`
+- `alt+f2` then type `r` and `enter` //This option doesn't work on Wayland
 
 ## What's new
 
