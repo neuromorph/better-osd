@@ -1,15 +1,14 @@
-# Better OSD (GNOME 41 Extension)
+# Better OSD (GNOME 42 Extension)
 
 A GNOME Shell extension allowing the user to set the position, size, transparency and delay of the OSD popup.
 
 ## Installation
 
-Install from [GNOME Extensions](https://extensions.gnome.org/extension/4231/better-osd-gnome-40/).
 
 > How to manually install the extension ?
 
 ```
-git clone https://github.com/hllvc/better-osd.git \
+git clone https://github.com/neuromorph/better-osd.git \
 	~/.local/share/gnome-shell/extensions/better-osd
 ```
 
