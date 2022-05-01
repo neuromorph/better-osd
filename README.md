@@ -1,3 +1,5 @@
+===ToDo: Disabling the extension needs work
+
 # Better OSD (GNOME 42 Extension)
 
 A GNOME Shell extension allowing the user to set the position, size, transparency and delay of the OSD popup.
