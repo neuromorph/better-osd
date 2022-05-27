@@ -12,6 +12,7 @@ A GNOME Shell extension allowing the user to set the position, size, transparenc
 git clone https://github.com/neuromorph/better-osd.git \
 	~/.local/share/gnome-shell/extensions/better-osd@neuromorph
 ```
+OR download the release zip file and unzip at location: ~/.local/share/gnome-shell/extensions/
 
 You may need to restart the gnome shell environnment
 
