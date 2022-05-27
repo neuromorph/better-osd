@@ -4,6 +4,6 @@
   "description": "Customize your OSD popups. Move, resize, set delay and transparency!",
   "uuid": "better-osd@neuromorph",
   "url": "https://github.com/neuromorph/better-osd",
-  "shell-version": ["40", "41", "41.1", "42"],
+  "shell-version": ["40", "41", "41.1", "42", "42.1"],
   "version": 2.1
 }
