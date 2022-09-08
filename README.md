@@ -1,7 +1,7 @@
 
 # Better OSD (GNOME 42 Extension)
 
-A GNOME Shell extension allowing the user to set the position, size, transparency and delay of the OSD popup.
+A GNOME Shell extension allowing the user to set the position, size, color, transparency and delay of the OSD popup.
 
 ## Installation
 
@@ -18,6 +18,20 @@ You may need to restart the gnome shell environnment
 
 - logout and login again _or_
 - `alt+f2` then type `r` and `enter` //This option doesn't work on Wayland
+
+## Color, Transparency, Padding etc.
+You will find a spreadsheet.css file at ~/.local/share/gnome-shell/extensions/better-osd@neuromorph
+You can edit this file to manage these style parameters.
+Example code:
+```
+.osd-transparency {
+    background-color: rgba(30,40,50,0.5);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    box-shadow: none;
+}
+```
+- background r,g,b for color and 'a' value for transparency
 
 ## What's new
 
@@ -36,7 +50,7 @@ You may need to restart the gnome shell environnment
 
 ## Screenshots
 
-![Screenshot](img/img1.png)
+![Screenshot](img/img5.png)
 ![Screenshot](img/img2.png)
 
 > without transparency
