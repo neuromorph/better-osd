@@ -1,5 +1,6 @@
 
-# Better OSD (GNOME 42 Extension)
+# Better OSD (GNOME 4X Extension)  
+==> Updated metadata for Gnome 44
 
 A GNOME Shell extension allowing the user to set the position, size, color, transparency and delay of the OSD popup.
 
