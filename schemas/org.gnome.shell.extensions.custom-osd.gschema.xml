@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="better-osd">
-  <schema id="org.gnome.shell.extensions.better-osd" path="/org/gnome/shell/extensions/better-osd/">
+<schemalist gettext-domain="custom-osd">
+  <schema id="org.gnome.shell.extensions.custom-osd" path="/org/gnome/shell/extensions/custom-osd/">
     <key type="i" name="horizontal">
       <default>0</default>
       <summary>Horizontal shifting (%)</summary>

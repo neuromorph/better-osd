@@ -1,7 +1,7 @@
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 
-const Gettext = imports.gettext.domain("better-osd");
+const Gettext = imports.gettext.domain("custom-osd");
 const _ = Gettext.gettext;
 
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -15,11 +15,11 @@ function init() {
 
 //-----------------------------------------------
 
-const OSDSettingsWidget = new GObject.registerClass(
+const CustomOSDSettingsWidget = new GObject.registerClass(
   {
     GTypeName: "OSDPrefsWidget",
   },
-  class OSDSettingsWidget extends Gtk.Box {
+  class CustomOSDSettingsWidget extends Gtk.Grid {
     _init(params) {
       super._init(params);
       this.margin = 30;
@@ -28,19 +28,54 @@ const OSDSettingsWidget = new GObject.registerClass(
       this.orientation = Gtk.Orientation.VERTICAL;
 
       this._settings = ExtensionUtils.getSettings(
-        "org.gnome.shell.extensions.better-osd"
+        "org.gnome.shell.extensions.custom-osd"
       );
 
-      let labelHorizontalPercentage = _("Horizontal position (percentage) :");
+      let rowNo = 1;
 
-      let horizontalPercentage = new Gtk.SpinButton();
-      horizontalPercentage.set_sensitive(true);
-      horizontalPercentage.set_range(-60, 60);
-      horizontalPercentage.set_value(0);
-      horizontalPercentage.set_value(this._settings.get_int("horizontal"));
-      horizontalPercentage.set_increments(1, 2);
+      this.title_label = new Gtk.Label({
+        use_markup: true,
+        label: '<span size="large" weight="heavy">'
+      +_('Custom OSD')+'</span>',
+        hexpand: true,
+        halign: Gtk.Align.CENTER
+      });
+      this.attach(this.title_label, 1, rowNo, 2, 1);
 
-      horizontalPercentage.connect(
+      rowNo += 2
+      this.version_label = new Gtk.Label({
+        use_markup: true,
+        label: '<span size="small">'+_('Version:')
+      + ' ' + Me.metadata.version + '</span>',
+        hexpand: true,
+        halign: Gtk.Align.CENTER,
+      });
+      this.attach(this.version_label, 1, rowNo, 2, 1);
+
+      rowNo += 1
+      this.link_label = new Gtk.Label({
+        use_markup: true,
+        label: '<span size="small"><a href="'+Me.metadata.url+'">'
+      + Me.metadata.url + '</a></span>',
+        hexpand: true,
+        halign: Gtk.Align.CENTER,
+        margin_bottom: this.margin_bottom
+      });
+      this.attach(this.link_label, 1, rowNo, 2, 1);
+
+      
+      rowNo += 4
+      this.insert_row(rowNo);
+      let labelHorizontalPercentage = _("Horizontal Shift (%) :");
+
+      this.horizontalPercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
+      this.horizontalPercentage.set_sensitive(true);
+      this.horizontalPercentage.set_range(-60, 60);
+      this.horizontalPercentage.set_value(0);
+      this.horizontalPercentage.set_value(this._settings.get_int("horizontal"));
+      this.horizontalPercentage.set_increments(1, 2);
+
+      this.horizontalPercentage.connect(
         "value-changed",
         function (w) {
           var value = w.get_value_as_int();
@@ -48,32 +83,28 @@ const OSDSettingsWidget = new GObject.registerClass(
         }.bind(this)
       );
 
-      let hBox = new Gtk.Box({
-        orientation: Gtk.Orientation.HORIZONTAL,
-        spacing: 15,
+      this.horizontalLabel = new Gtk.Label({
+        label: labelHorizontalPercentage,
+        use_markup: true,
+        halign: Gtk.Align.START,
       });
-      hBox.prepend(
-        new Gtk.Label({
-          label: labelHorizontalPercentage,
-          use_markup: true,
-          halign: Gtk.Align.START,
-        })
-      );
-      hBox.append(horizontalPercentage);
-      this.append(hBox);
+
+      this.attach(this.horizontalLabel,   1, rowNo, 1, 1);
+	    this.attach(this.horizontalPercentage, 2, rowNo, 1, 1);
 
       //-------------------------------------------------------
 
-      let labelVerticalPercentage = _("Vertical position (percentage) :");
+      rowNo += 2
+      let labelVerticalPercentage = _("Vertical Shift (%) :");
 
-      let verticalPercentage = new Gtk.SpinButton();
-      verticalPercentage.set_sensitive(true);
-      verticalPercentage.set_range(-110, 110);
-      verticalPercentage.set_value(70);
-      verticalPercentage.set_value(this._settings.get_int("vertical"));
-      verticalPercentage.set_increments(1, 2);
+      this.verticalPercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
+      this.verticalPercentage.set_sensitive(true);
+      this.verticalPercentage.set_range(-110, 110);
+      this.verticalPercentage.set_value(70);
+      this.verticalPercentage.set_value(this._settings.get_int("vertical"));
+      this.verticalPercentage.set_increments(1, 2);
 
-      verticalPercentage.connect(
+      this.verticalPercentage.connect(
         "value-changed",
         function (w) {
           var value = w.get_value_as_int();
@@ -81,32 +112,28 @@ const OSDSettingsWidget = new GObject.registerClass(
         }.bind(this)
       );
 
-      let vBox = new Gtk.Box({
-        orientation: Gtk.Orientation.HORIZONTAL,
-        spacing: 15,
+      this.verticalLabel = new Gtk.Label({
+        label: labelVerticalPercentage,
+        use_markup: true,
+        halign: Gtk.Align.START,
       });
-      vBox.prepend(
-        new Gtk.Label({
-          label: labelVerticalPercentage,
-          use_markup: true,
-          halign: Gtk.Align.START,
-        })
-      );
-      vBox.append(verticalPercentage);
-      this.append(vBox);
+
+      this.attach(this.verticalLabel,   1, rowNo, 1, 1);
+	    this.attach(this.verticalPercentage, 2, rowNo, 1, 1);
 
       //-------------------------------------------------------
 
-      let labelSizePercentage = _("Size (percentage) :");
+      rowNo += 2
+      let labelSizePercentage = _("Size (%) :");
 
-      let sizePercentage = new Gtk.SpinButton();
-      sizePercentage.set_sensitive(true);
-      sizePercentage.set_range(0, 100);
-      sizePercentage.set_value(20);
-      sizePercentage.set_value(this._settings.get_int("size"));
-      sizePercentage.set_increments(1, 2);
+      this.sizePercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
+      this.sizePercentage.set_sensitive(true);
+      this.sizePercentage.set_range(0, 100);
+      this.sizePercentage.set_value(10);
+      this.sizePercentage.set_value(this._settings.get_int("size"));
+      this.sizePercentage.set_increments(1, 2);
 
-      sizePercentage.connect(
+      this.sizePercentage.connect(
         "value-changed",
         function (w) {
           var value = w.get_value_as_int();
@@ -114,32 +141,29 @@ const OSDSettingsWidget = new GObject.registerClass(
         }.bind(this)
       );
 
-      let sizeBox = new Gtk.Box({
-        orientation: Gtk.Orientation.HORIZONTAL,
-        spacing: 15,
+      this.sizeLabel = new Gtk.Label({
+        label: labelSizePercentage,
+        use_markup: true,
+        halign: Gtk.Align.START,
       });
-      sizeBox.prepend(
-        new Gtk.Label({
-          label: labelSizePercentage,
-          use_markup: true,
-          halign: Gtk.Align.START,
-        })
-      );
-      sizeBox.append(sizePercentage);
-      this.append(sizeBox);
+
+      this.attach(this.sizeLabel,   1, rowNo, 1, 1);
+	    this.attach(this.sizePercentage, 2, rowNo, 1, 1);
+
 
       //-------------------------------------------------------
 
+      rowNo += 2
       let labelDelay = _("Hide Delay (ms) :");
 
-      let hideDelay = new Gtk.SpinButton();
-      hideDelay.set_sensitive(true);
-      hideDelay.set_range(0, 5000);
-      hideDelay.set_value(1500);
-      hideDelay.set_value(this._settings.get_int("delay"));
-      hideDelay.set_increments(1, 2);
+      this.hideDelay = new Gtk.SpinButton({halign: Gtk.Align.END});
+      this.hideDelay.set_sensitive(true);
+      this.hideDelay.set_range(0, 5000);
+      this.hideDelay.set_value(1500);
+      this.hideDelay.set_value(this._settings.get_int("delay"));
+      this.hideDelay.set_increments(1, 2);
 
-      hideDelay.connect(
+      this.hideDelay.connect(
         "value-changed",
         function (w) {
           var value = w.get_value_as_int();
@@ -147,28 +171,24 @@ const OSDSettingsWidget = new GObject.registerClass(
         }.bind(this)
       );
 
-      let delayBox = new Gtk.Box({
-        orientation: Gtk.Orientation.HORIZONTAL,
-        spacing: 15,
+      this.hideLabel = new Gtk.Label({
+        label: labelDelay,
+        use_markup: true,
+        halign: Gtk.Align.START,
       });
-      delayBox.prepend(
-        new Gtk.Label({
-          label: labelDelay,
-          use_markup: true,
-          halign: Gtk.Align.START,
-        })
-      );
-      delayBox.append(hideDelay);
-      this.append(delayBox);
+
+      this.attach(this.hideLabel,   1, rowNo, 1, 1);
+	    this.attach(this.hideDelay, 2, rowNo, 1, 1);
 
       //-------------------------------------------------------
 
+      rowNo += 2
       let labelTransparency = _("Transparency:");
 
-      let switchTransparency = new Gtk.Switch();
-      switchTransparency.set_active(this._settings.get_boolean("transparency"));
+      this.switchTransparency = new Gtk.Switch({halign: Gtk.Align.END});
+      this.switchTransparency.set_active(this._settings.get_boolean("transparency"));
 
-      switchTransparency.connect(
+      this.switchTransparency.connect(
         "state-set",
         function (w) {
           var value = w.get_active();
@@ -176,27 +196,41 @@ const OSDSettingsWidget = new GObject.registerClass(
         }.bind(this)
       );
 
-      let transparencyBox = new Gtk.Box({
-        orientation: Gtk.Orientation.HORIZONTAL,
-        spacing: 15,
+      this.transpLabel = new Gtk.Label({
+        label: labelTransparency,
+        use_markup: true,
+        halign: Gtk.Align.START,
       });
-      transparencyBox.prepend(
-        new Gtk.Label({
-          label: labelTransparency,
-          use_markup: true,
-          halign: Gtk.Align.START,
-        })
-      );
-      transparencyBox.append(switchTransparency);
-      this.append(transparencyBox);
+
+      this.attach(this.transpLabel,   1, rowNo, 1, 1);
+	    this.attach(this.switchTransparency, 2, rowNo, 1, 1);
+
+
+      rowNo += 3
+
+      // this.note_label = new Gtk.Label({
+      //   use_markup: true,
+      //   label: '<span size="small">'+_('')+ '</span>',
+      //   hexpand: true,
+      //   halign: Gtk.Align.CENTER,
+      // });
+
+
+      const noteImage = new Gtk.Picture({
+        vexpand: true,
+        hexpand: true,
+        halign: Gtk.Align.FILL,
+        valign: Gtk.Align.FILL
+      });
+      noteImage.set_filename(Me.path + "/media/customOSD_note.png");
+      this.attach(noteImage, 1, rowNo, 2, 10);
+
     }
   }
 );
 
-//-----------------------------------------------
 
-//I guess this is like the "enable" in extension.js : something called each
-//time he user try to access the settings' window
 function buildPrefsWidget() {
-  return new OSDSettingsWidget();
+  return new CustomOSDSettingsWidget();
 }
+
