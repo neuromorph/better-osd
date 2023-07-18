@@ -207,15 +207,6 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
 
       rowNo += 3
-
-      // this.note_label = new Gtk.Label({
-      //   use_markup: true,
-      //   label: '<span size="small">'+_('')+ '</span>',
-      //   hexpand: true,
-      //   halign: Gtk.Align.CENTER,
-      // });
-
-
       const noteImage = new Gtk.Picture({
         vexpand: true,
         hexpand: true,

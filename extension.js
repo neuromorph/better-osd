@@ -36,7 +36,6 @@ function unstyle() {
 }
 
 
-
 function injectToFunction(parent, name, func) {
   let origin = parent[name];
   parent[name] = function () {
@@ -59,65 +58,55 @@ let _size = [];
 
 
 function enable() {
- 
-  try{
 
-    let _settings = ExtensionUtils.getSettings(
-      "org.gnome.shell.extensions.custom-osd"
-    );
+  let _settings = ExtensionUtils.getSettings(
+    "org.gnome.shell.extensions.custom-osd"
+  );
 
-    style();
-    _id = Main.layoutManager.connect("monitors-changed", this.style.bind(this));
+  style();
+  _id = Main.layoutManager.connect("monitors-changed", this.style.bind(this));
 
-    injections["show"] = injectToFunction(
-      OsdWindow.OsdWindow.prototype,
-      "show",
-      function () {
-        let monitor = Main.layoutManager.monitors[this._monitorIndex];
-        let h_percent = _settings.get_int("horizontal");
-        let v_percent = _settings.get_int("vertical");
-        let osd_size = _settings.get_int("size");
-        let hide_delay = _settings.get_int("delay");
-        imports.ui.osdWindow.HIDE_TIMEOUT = hide_delay;
- 
-        let transparency = _settings.get_boolean("transparency");  
-        transparency ? style() : unstyle();
+  injections["show"] = injectToFunction(
+    OsdWindow.OsdWindow.prototype,
+    "show",
+    function () {
+      let monitor = Main.layoutManager.monitors[this._monitorIndex];
+      let h_percent = _settings.get_int("horizontal");
+      let v_percent = _settings.get_int("vertical");
+      let osd_size = _settings.get_int("size");
+      let hide_delay = _settings.get_int("delay");
+      imports.ui.osdWindow.HIDE_TIMEOUT = hide_delay;
 
-        this._hbox.translation_x = (h_percent * monitor.width) / 100;
-        this._hbox.translation_y = (v_percent * monitor.height) / 100;
+      let transparency = _settings.get_boolean("transparency");  
+      transparency ? style() : unstyle();
 
-        _size.push(this._icon.icon_size);
-        this._icon.icon_size = (osd_size * monitor.height) / 100 / 2;
-        this._hboxConstraint._minSize = (osd_size * monitor.height) / 100
+      this._hbox.translation_x = (h_percent * monitor.width) / 100;
+      this._hbox.translation_y = (v_percent * monitor.height) / 100;
 
-      }
-    );
+      _size.push(this._icon.icon_size);
+      this._icon.icon_size = (osd_size * monitor.height) / 100 / 2;
+      this._hboxConstraint._minSize = (osd_size * monitor.height) / 100
 
-  } catch (e) {
-    logError(e, 'ExtensionError');
-  };
+    }
+  );
 
 }
 
 function disable() {
 
-  try{
-    unstyle();
-    Main.layoutManager.disconnect(_id);
-    
-    let arrayOSD = Main.osdWindowManager._osdWindows;
-    for (let i = 0; i < arrayOSD.length; i++) {
-      // arrayOSD[i]._relayout();
-      arrayOSD[i]._hbox.translation_x = 0;
-      arrayOSD[i]._hbox.translation_y = 0;
-      arrayOSD[i]._icon.icon_size = _size[i];
-    }
-
-    imports.ui.osdWindow.HIDE_TIMEOUT = 1500;
-    
-    removeInjection(OsdWindow.OsdWindow.prototype, injections, "show");
+  unstyle();
+  Main.layoutManager.disconnect(_id);
   
-    }catch (e) {
-    logError(e, 'ExtensionError');
-  };
+  let arrayOSD = Main.osdWindowManager._osdWindows;
+  for (let i = 0; i < arrayOSD.length; i++) {
+    // arrayOSD[i]._relayout();
+    arrayOSD[i]._hbox.translation_x = 0;
+    arrayOSD[i]._hbox.translation_y = 0;
+    arrayOSD[i]._icon.icon_size = _size[i];
+  }
+
+  imports.ui.osdWindow.HIDE_TIMEOUT = 1500;
+  
+  removeInjection(OsdWindow.OsdWindow.prototype, injections, "show");
+  
 }
