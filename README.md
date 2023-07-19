@@ -63,4 +63,4 @@ Example code:
 
 ## Acknowledgements
 
-This version is modified from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolate and forked versions also do not support new OSD modifications in GNOME after GNOME 41+. This version ports the old extension to new GNOME mods with some additional customizations.
+This version is modified from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME after GNOME 41+. This version ports the old extension to new GNOME mods with some additional customizations.
