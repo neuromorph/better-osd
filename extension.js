@@ -11,27 +11,36 @@ function init() {
 }
 
 
-function style() {
+function style(red, green, blue, alpha) {
   for (
     let monitorIndex = 0;
     monitorIndex < OsdWindowManager._osdWindows.length;
     monitorIndex++
   ) {
     OsdWindowManager._osdWindows[monitorIndex]._hbox.add_style_class_name(
-      "osd-transparency"
+      "osd-style"
     );
+    sty = 'background-color: rgba('+red+','+green+','+blue+','+alpha+');'; 
+    OsdWindowManager._osdWindows[monitorIndex]._hbox.style = sty;
+
   }
 }
 
-function unstyle() {
+function unCustom() {
   for (
     let monitorIndex = 0;
     monitorIndex < OsdWindowManager._osdWindows.length;
     monitorIndex++
   ) {
     OsdWindowManager._osdWindows[monitorIndex]._hbox.remove_style_class_name(
-      "osd-transparency"
+      "osd-style"
     );
+    OsdWindowManager._osdWindows[monitorIndex]._hbox.style = '';
+
+    OsdWindowManager._osdWindows[monitorIndex]._hbox.translation_x = 0;
+    OsdWindowManager._osdWindows[monitorIndex]._hbox.translation_y = 0;
+    OsdWindowManager._osdWindows[monitorIndex]._icon.icon_size = _size[monitorIndex];
+
   }
 }
 
@@ -63,22 +72,28 @@ function enable() {
     "org.gnome.shell.extensions.custom-osd"
   );
 
-  style();
-  _id = Main.layoutManager.connect("monitors-changed", this.style.bind(this));
-
   injections["show"] = injectToFunction(
     OsdWindow.OsdWindow.prototype,
     "show",
     function () {
+
       let monitor = Main.layoutManager.monitors[this._monitorIndex];
       let h_percent = _settings.get_int("horizontal");
       let v_percent = _settings.get_int("vertical");
       let osd_size = _settings.get_int("size");
       let hide_delay = _settings.get_int("delay");
-      imports.ui.osdWindow.HIDE_TIMEOUT = hide_delay;
-
-      let transparency = _settings.get_boolean("transparency");  
-      transparency ? style() : unstyle();
+      OsdWindow.HIDE_TIMEOUT = hide_delay;
+      
+      let color = _settings.get_strv("color");
+      let red = parseFloat(color[0]);
+      red = parseInt(red*255);
+      let green = parseFloat(color[1]);
+      green = parseInt(green*255);
+      let blue = parseFloat(color[2]);
+      blue = parseInt(blue*255);
+      let alpha = _settings.get_int("alpha");
+      alpha = parseFloat(alpha/100.0);
+      style(red, green, blue, alpha);
 
       this._hbox.translation_x = (h_percent * monitor.width) / 100;
       this._hbox.translation_y = (v_percent * monitor.height) / 100;
@@ -94,18 +109,8 @@ function enable() {
 
 function disable() {
 
-  unstyle();
-  Main.layoutManager.disconnect(_id);
-  
-  let arrayOSD = Main.osdWindowManager._osdWindows;
-  for (let i = 0; i < arrayOSD.length; i++) {
-    // arrayOSD[i]._relayout();
-    arrayOSD[i]._hbox.translation_x = 0;
-    arrayOSD[i]._hbox.translation_y = 0;
-    arrayOSD[i]._icon.icon_size = _size[i];
-  }
-
-  imports.ui.osdWindow.HIDE_TIMEOUT = 1500;
+  unCustom();
+  OsdWindow.HIDE_TIMEOUT = 1500;
   
   removeInjection(OsdWindow.OsdWindow.prototype, injections, "show");
   

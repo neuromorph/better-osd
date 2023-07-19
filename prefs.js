@@ -1,5 +1,6 @@
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
 
 const Gettext = imports.gettext.domain("custom-osd");
 const _ = Gettext.gettext;
@@ -22,9 +23,12 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
   class CustomOSDSettingsWidget extends Gtk.Grid {
     _init(params) {
       super._init(params);
-      this.margin = 30;
-      this.spacing = 25;
-      this.fill = true;
+      this.margin_top = 12;
+      this.margin_bottom = this.margin_top;
+      this.margin_start = 48;
+      this.margin_end = this.margin_start;
+      this.row_spacing = 6;
+      this.column_spacing = this.row_spacing;
       this.orientation = Gtk.Orientation.VERTICAL;
 
       this._settings = ExtensionUtils.getSettings(
@@ -73,7 +77,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.horizontalPercentage.set_range(-60, 60);
       this.horizontalPercentage.set_value(0);
       this.horizontalPercentage.set_value(this._settings.get_int("horizontal"));
-      this.horizontalPercentage.set_increments(1, 2);
+      this.horizontalPercentage.set_increments(1, 5);
 
       this.horizontalPercentage.connect(
         "value-changed",
@@ -102,7 +106,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.verticalPercentage.set_range(-110, 110);
       this.verticalPercentage.set_value(70);
       this.verticalPercentage.set_value(this._settings.get_int("vertical"));
-      this.verticalPercentage.set_increments(1, 2);
+      this.verticalPercentage.set_increments(1, 5);
 
       this.verticalPercentage.connect(
         "value-changed",
@@ -131,7 +135,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.sizePercentage.set_range(0, 100);
       this.sizePercentage.set_value(10);
       this.sizePercentage.set_value(this._settings.get_int("size"));
-      this.sizePercentage.set_increments(1, 2);
+      this.sizePercentage.set_increments(1, 5);
 
       this.sizePercentage.connect(
         "value-changed",
@@ -159,9 +163,9 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.hideDelay = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.hideDelay.set_sensitive(true);
       this.hideDelay.set_range(0, 5000);
-      this.hideDelay.set_value(1500);
+      this.hideDelay.set_value(1000);
       this.hideDelay.set_value(this._settings.get_int("delay"));
-      this.hideDelay.set_increments(1, 2);
+      this.hideDelay.set_increments(10, 50);
 
       this.hideDelay.connect(
         "value-changed",
@@ -183,38 +187,83 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       //-------------------------------------------------------
 
       rowNo += 2
-      let labelTransparency = _("Transparency:");
+      let labelColor = _("Color :");
 
-      this.switchTransparency = new Gtk.Switch({halign: Gtk.Align.END});
-      this.switchTransparency.set_active(this._settings.get_boolean("transparency"));
+      this.colorBtn = new Gtk.ColorButton({halign: Gtk.Align.END});
+      let colorArray = this._settings.get_strv('color');
+  		let rgba = new Gdk.RGBA();
+      rgba.red = parseFloat(colorArray[0]);
+      rgba.green = parseFloat(colorArray[1]);
+      rgba.blue = parseFloat(colorArray[2]);
+      rgba.alpha = 1.0;
+      this.colorBtn.set_rgba(rgba);
 
-      this.switchTransparency.connect(
-        "state-set",
-        function (w) {
-          var value = w.get_active();
-          this._settings.set_boolean("transparency", value);
-        }.bind(this)
-      );
+      this.colorBtn.connect('color-set', (widget) => {
+        rgba = widget.get_rgba();
+        this._settings.set_strv('color', [
+          rgba.red.toString(),
+          rgba.green.toString(),
+          rgba.blue.toString()
+        ]);
+      });
 
-      this.transpLabel = new Gtk.Label({
-        label: labelTransparency,
+
+      this.colorLabel = new Gtk.Label({
+        label: labelColor,
         use_markup: true,
         halign: Gtk.Align.START,
       });
 
-      this.attach(this.transpLabel,   1, rowNo, 1, 1);
-	    this.attach(this.switchTransparency, 2, rowNo, 1, 1);
 
+      this.attach(this.colorLabel, 1, rowNo, 1, 1);
+      this.attach(this.colorBtn, 2, rowNo, 1, 1);
 
-      rowNo += 3
-      const noteImage = new Gtk.Picture({
-        vexpand: true,
-        hexpand: true,
-        halign: Gtk.Align.FILL,
-        valign: Gtk.Align.FILL
+      //-------------------------------------------------------
+
+      rowNo += 2
+      let labelAlpha = _("Transparency (Opacity) :");
+
+      this.alpha = new Gtk.SpinButton({halign: Gtk.Align.END});
+      this.alpha.set_sensitive(true);
+      this.alpha.set_range(0, 100);
+      this.alpha.set_value(75);
+      this.alpha.set_value(this._settings.get_int("alpha"));
+      this.alpha.set_increments(5, 10);
+
+      this.alpha.connect(
+        "value-changed",
+        function (w) {
+          var value = w.get_value_as_int();
+          this._settings.set_int("alpha", value);
+        }.bind(this)
+      );
+
+      this.alphaLabel = new Gtk.Label({
+        label: labelAlpha,
+        use_markup: true,
+        halign: Gtk.Align.START,
       });
-      noteImage.set_filename(Me.path + "/media/customOSD_note.png");
-      this.attach(noteImage, 1, rowNo, 2, 10);
+
+      this.attach(this.alphaLabel, 1, rowNo, 1, 1);
+	    this.attach(this.alpha, 2, rowNo, 1, 1);
+
+      //-------------------------------------------------------
+
+      rowNo+=2
+      this.noteLabel = new Gtk.Label({
+        label: `<b>Note:</b> 
+        <span allow_breaks='true'>Type/edit the values and hit tab key to update. 
+        OR simply click the - + buttons.
+        PgUp/PgDn keyboard keys will move values faster.
+        Visit  <a href='${Me.metadata.url}'>Custom OSD</a>  page for more options. </span>`,
+        use_markup: true,
+        halign: Gtk.Align.START,
+        wrap: true,
+        width_chars: 40,
+        margin_top: this.margin_top
+      });
+
+      this.attach(this.noteLabel, 1, rowNo, 2, 1);
 
     }
   }

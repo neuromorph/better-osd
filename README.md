@@ -22,45 +22,43 @@ the _Extension Manager_ app.
 git clone https://github.com/neuromorph/custom-osd.git \
 	~/.local/share/gnome-shell/extensions/custom-osd@neuromorph
 ```
-OR download the release zip file and unzip at location: ~/.local/share/gnome-shell/extensions/
+OR download the release zip file (may not be latest) and unzip at location: ~/.local/share/gnome-shell/extensions/
 
-You may need to restart the gnome shell environnment
+You may need to restart the gnome shell environnment (for manual install):
 
 - logout and login again (Do this if using Wayland) _or_
 - `alt+f2` then type `r` and `enter` 
 
-## Color, Transparency, Padding etc.
-<b> Note</b>: You will find a "spreadsheet.css" file at -  
-~/.local/share/gnome-shell/extensions/custom-osd@neuromorph  
-You can edit this file to manage these style parameters.  
+## Settings: 
+Use the settings panel of the extension for Position, Size, Delay-time, Color and Transparency.  
+
+## Optional Styling: Shadow, Padding etc.
+For optional styling of Shadow, Padding etc. you will need to edit "spreadsheet.css" file at -  
+~/.local/share/gnome-shell/extensions/custom-osd@neuromorph/  
+  
 
 Example code:
 ```
-.osd-transparency {
-    background-color: rgba(30,40,50,0.5);
+.osd-style {
     padding-top: 5px;
     padding-bottom: 5px;
     box-shadow: none;
 }
-// background r,g,b for color and 'a' value for transparency 
 ```
 
 
 ## What's new
-
+- Settings updated for Color and Transparency
 - Metadata updated for Gnome 44
 
 
-## TBD
-
-- customize color/transparency from settings
 
 ## Screenshots
 
-![Screenshot](img/Screenshot.png)
+![Screenshot](media/Screenshot.png)
 
 
 
 ## Acknowledgements
 
-This version is modified from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME after GNOME 41+. This version ports the old extension to new GNOME mods with some additional customizations.
+This version is modified from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. This version ports the old extension to new GNOME mods and adds additional customizations through settings.

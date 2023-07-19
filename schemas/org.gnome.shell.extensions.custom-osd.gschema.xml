@@ -21,10 +21,15 @@
       <summary>Hide delay (ms)</summary>
       <description>How long the OSD will be displayed.</description>
     </key>
-		<key type="b" name="transparency">
-			<default>false</default>
-			<summary>Transparency toggle</summary>
-			<description>Toggle OSD transparency to on/off.</description>
-		</key>
+    <key type="as" name="color">
+      <default>['1.0', '1.0', '1.0']</default>
+      <summary>Color (RGB)</summary>
+      <description>Color of OSD.</description>
+    </key>
+    <key type="i" name="alpha">
+      <default>75</default>
+      <summary>Transparency (alpha)</summary>
+      <description>Transparency of OSD.</description>
+    </key>
   </schema>
 </schemalist>

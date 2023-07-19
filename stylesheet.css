@@ -1,3 +1,10 @@
-.osd-transparency {
-    background-color: rgba(255,255,255,0.60);
+/* 
+    You may use this style class to add more optional styling to OSD. 
+    The extension will apply it to OSD elements. 
+    For Color and Transparency, please use the settings panel of Custom-OSD.
+*/
+.osd-style {
+    /* padding-top: 1px;
+    padding-bottom: 1px;
+    box-shadow: none; */
 }
