@@ -2,7 +2,7 @@
 # Custom OSD (GNOME 4X Extension)  
 
 
-A GNOME Shell extension allowing the user to set the position, size, color, transparency and delay of the OSD popup.
+A GNOME Shell extension allowing the user to set the position, orientation, size, color, shadow, transparency and delay of the OSD pop-ups. Fully transform the OSD pop-ups to match your theme and liking!
 
 
 ## Installation
@@ -30,10 +30,19 @@ You may need to restart the gnome shell environnment (for manual install):
 - `alt+f2` then type `r` and `enter` 
 
 ## Settings: 
-Use the settings panel of the extension for Position, Size, Delay-time, Color and Transparency.  
+Use the settings panel of the extension for most common customizations:
+* Position on Screen 
+* Vertical/Horizontal Orientation
+* Size 
+* Hide-Delay time
+* Color and Background
+* Shadow On-Off
+* Transparency
+
+
 
 ## Optional Styling: Shadow, Padding etc.
-For optional styling of Shadow, Padding etc. you will need to edit "spreadsheet.css" file at -  
+For optional styling of Custom-Shadow, Padding etc. you will need to edit "spreadsheet.css" file at -  
 ~/.local/share/gnome-shell/extensions/custom-osd@neuromorph/  
   
 
@@ -42,14 +51,17 @@ Example code:
 .osd-style {
     padding-top: 5px;
     padding-bottom: 5px;
-    box-shadow: none;
+    box-shadow: 1px 1px 5px grey;
 }
 ```
 
 
 ## What's new
+- Improved efficiency and compatibility
+- Added support for Color+BG Color, Shadow and Orientation
 - Settings updated for Color and Transparency
 - Metadata updated for Gnome 44
+- Ported for GNOME 42 + some fixes
 
 
 
@@ -61,4 +73,4 @@ Example code:
 
 ## Acknowledgements
 
-This version is modified from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. This version ports the old extension to new GNOME mods and adds additional customizations through settings.
+This version is modified from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. Custom-OSD started with porting the old extension to new GNOME mods but ended up updating most of the code for refinements/bug-fix and new features.

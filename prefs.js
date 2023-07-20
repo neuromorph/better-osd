@@ -23,7 +23,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
   class CustomOSDSettingsWidget extends Gtk.Grid {
     _init(params) {
       super._init(params);
-      this.margin_top = 12;
+      this.margin_top = 10;
       this.margin_bottom = this.margin_top;
       this.margin_start = 48;
       this.margin_end = this.margin_start;
@@ -50,7 +50,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.version_label = new Gtk.Label({
         use_markup: true,
         label: '<span size="small">'+_('Version:')
-      + ' ' + Me.metadata.version + '</span>',
+      + ' ' + Me.metadata.version + '  |  @neuromorph</span>',
         hexpand: true,
         halign: Gtk.Align.CENTER,
       });
@@ -132,7 +132,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       this.sizePercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.sizePercentage.set_sensitive(true);
-      this.sizePercentage.set_range(0, 100);
+      this.sizePercentage.set_range(1, 100);
       this.sizePercentage.set_value(10);
       this.sizePercentage.set_value(this._settings.get_int("size"));
       this.sizePercentage.set_increments(1, 5);
@@ -221,7 +221,40 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       //-------------------------------------------------------
 
       rowNo += 2
-      let labelAlpha = _("Transparency (Opacity) :");
+
+      this.bgcolorBtn = new Gtk.ColorButton({halign: Gtk.Align.END});
+      let bgcolorArray = this._settings.get_strv('bgcolor');
+  		let bgrgba = new Gdk.RGBA();
+      bgrgba.red = parseFloat(bgcolorArray[0]);
+      bgrgba.green = parseFloat(bgcolorArray[1]);
+      bgrgba.blue = parseFloat(bgcolorArray[2]);
+      bgrgba.alpha = 1.0;
+      this.bgcolorBtn.set_rgba(bgrgba);
+
+      this.bgcolorBtn.connect('color-set', (widget) => {
+        bgrgba = widget.get_rgba();
+        this._settings.set_strv('bgcolor', [
+          bgrgba.red.toString(),
+          bgrgba.green.toString(),
+          bgrgba.blue.toString()
+        ]);
+      });
+
+
+      this.bgcolorLabel = new Gtk.Label({
+        label: "Background Color :",
+        use_markup: true,
+        halign: Gtk.Align.START,
+      });
+
+
+      this.attach(this.bgcolorLabel, 1, rowNo, 1, 1);
+      this.attach(this.bgcolorBtn, 2, rowNo, 1, 1);
+
+      //-------------------------------------------------------
+
+      rowNo += 2
+      let labelAlpha = _("Transparency (Opacity %) :");
 
       this.alpha = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.alpha.set_sensitive(true);
@@ -249,21 +282,72 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       //-------------------------------------------------------
 
+      rowNo += 2
+      let labelShadow = _("Box Shadow :");
+
+      this.shadow = new Gtk.Switch({halign: Gtk.Align.END});
+      this.shadow.set_active(this._settings.get_boolean("shadow"));
+
+      this.shadow.connect(
+        "state-set",
+        function (w) {
+          var value = w.get_active();
+          this._settings.set_boolean("shadow", value);
+        }.bind(this)
+      );
+
+      this.shadowLabel = new Gtk.Label({
+        label: labelShadow,
+        use_markup: true,
+        halign: Gtk.Align.START,
+      });
+
+      this.attach(this.shadowLabel, 1, rowNo, 1, 1);
+	    this.attach(this.shadow, 2, rowNo, 1, 1);
+
+
+      //-------------------------------------------------------
+
+      rowNo += 2
+    
+      this.rotate = new Gtk.Switch({halign: Gtk.Align.END});
+      this.rotate.set_active(this._settings.get_boolean("rotate"));
+
+      this.rotate.connect(
+        "state-set",
+        function (w) {
+          var value = w.get_active();
+          this._settings.set_boolean("rotate", value);
+        }.bind(this)
+      );
+
+      this.rotateLabel = new Gtk.Label({
+        label: "Vertical Orientation :",
+        use_markup: true,
+        halign: Gtk.Align.START,
+      });
+
+      this.attach(this.rotateLabel, 1, rowNo, 1, 1);
+	    this.attach(this.rotate, 2, rowNo, 1, 1);
+
+      //-------------------------------------------------------
+
       rowNo+=2
       this.noteLabel = new Gtk.Label({
         label: `<b>Note:</b> 
-        <span allow_breaks='true'>Type/edit the values and hit tab key to update. 
-        OR simply click the - + buttons.
-        PgUp/PgDn keyboard keys will move values faster.
-        Visit  <a href='${Me.metadata.url}'>Custom OSD</a>  page for more options. </span>`,
+        <span allow_breaks='true'>* Type/edit the values and hit tab key to update. 
+        * OR simply click the - + buttons.
+        * PgUp/PgDn keyboard keys will move values faster.
+        * Visit  <a href='${Me.metadata.url}'>Custom OSD</a>  page for more options. </span>`,
         use_markup: true,
         halign: Gtk.Align.START,
         wrap: true,
         width_chars: 40,
-        margin_top: this.margin_top
+        margin_top: this.margin_top,
+        margin_bottom: this.margin_bottom
       });
 
-      this.attach(this.noteLabel, 1, rowNo, 2, 1);
+      this.attach(this.noteLabel, 1, rowNo, 2, 10);
 
     }
   }

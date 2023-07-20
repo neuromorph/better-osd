@@ -9,10 +9,10 @@
     <key type="i" name="vertical">
       <default>0</default>
       <summary>Vertical shifting (%)</summary>
-      <description>The percentage of the screen height (from the center of the screen) at which the OSD will be displayed.</description>
+      <description>The percentage of the screen height (from the bottom of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="i" name="size">
-      <default>15</default>
+      <default>10</default>
       <summary>OSD size (screen %)</summary>
       <description>Relative OSD size.</description>
     </key>
@@ -22,14 +22,29 @@
       <description>How long the OSD will be displayed.</description>
     </key>
     <key type="as" name="color">
-      <default>['1.0', '1.0', '1.0']</default>
+      <default>['0', '0', '0']</default>
       <summary>Color (RGB)</summary>
       <description>Color of OSD.</description>
+    </key>
+    <key type="as" name="bgcolor">
+      <default>['1.0', '1.0', '1.0']</default>
+      <summary>BG Color (RGB)</summary>
+      <description>Background Color of OSD.</description>
     </key>
     <key type="i" name="alpha">
       <default>75</default>
       <summary>Transparency (alpha)</summary>
       <description>Transparency of OSD.</description>
+    </key>
+    <key type="b" name="shadow">
+      <default>false</default>
+      <summary>Box Shadow</summary>
+      <description>Box Shadow of OSD.</description>
+    </key>
+    <key type="b" name="rotate">
+      <default>false</default>
+      <summary>Vertical</summary>
+      <description>Vertical orientation of OSD.</description>
     </key>
   </schema>
 </schemalist>
