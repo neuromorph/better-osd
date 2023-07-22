@@ -2,7 +2,7 @@
 # Custom OSD (GNOME 4X Extension)  
 
 
-A GNOME Shell extension allowing the user to set the position, orientation, size, color, shadow, transparency and delay of the OSD pop-ups. Fully transform the OSD pop-ups to match your theme and liking!
+A GNOME Shell extension allowing the user to set the position, orientation, size, color, shadow, transparency and delay of the OSD pop-ups. It can also display % level value for OSDs with levels like Volume/Brightness etc. You can choose to display OSD on Primary/ External or both monitors. In summary, fully transform the OSD pop-ups to match your theme and liking!
 
 
 ## Installation
@@ -29,22 +29,25 @@ You may need to restart the gnome shell environnment (for manual install):
 - logout and login again (Do this if using Wayland) _or_
 - `alt+f2` then type `r` and `enter` 
 
-## Settings: 
+## Settings
 Use the settings panel of the extension for most common customizations:
 * Position on Screen 
 * Vertical/Horizontal Orientation
 * Size 
 * Hide-Delay time
 * Color and Background
-* Shadow On-Off
+* Box Shadow On/Off
+* Box Border On/Off
 * Transparency
+* Numeric % for levels
+* Monitor to show OSD on
 
 
 
-## Optional Styling: Shadow, Padding etc.
-For optional styling of Custom-Shadow, Padding etc. you will need to edit "spreadsheet.css" file at -  
+## Optional Advanced Styling
+For optional styling of advanced css options or things like Padding that is not in settings, you will need to edit "spreadsheet.css" file at -  
 ~/.local/share/gnome-shell/extensions/custom-osd@neuromorph/  
-  
+ This allows for some esoteric tinkering for the ones so inclined. 
 
 Example code:
 ```
@@ -56,8 +59,9 @@ Example code:
 ```
 
 
-## What's new
+## What's New (recent first)
 - Improved efficiency and compatibility
+- Added support for Numeric level %, Monitors to display OSD and Box Border
 - Added support for Color+BG Color, Shadow and Orientation
 - Settings updated for Color and Transparency
 - Metadata updated for Gnome 44
@@ -73,4 +77,4 @@ Example code:
 
 ## Acknowledgements
 
-This version is modified from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. Custom-OSD started with porting the old extension to new GNOME mods but ended up updating most of the code for refinements/bug-fix and new features.
+This extension started from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. Custom-OSD began with porting the old extension to new GNOME mods but soon ended up  changing the entire code for refinements/bug-fix/refactor and many new features.

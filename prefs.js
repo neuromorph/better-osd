@@ -23,7 +23,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
   class CustomOSDSettingsWidget extends Gtk.Grid {
     _init(params) {
       super._init(params);
-      this.margin_top = 10;
+      this.margin_top = 15;
       this.margin_bottom = this.margin_top;
       this.margin_start = 48;
       this.margin_end = this.margin_start;
@@ -39,8 +39,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       this.title_label = new Gtk.Label({
         use_markup: true,
-        label: '<span size="large" weight="heavy">'
-      +_('Custom OSD')+'</span>',
+        label: `<span size="large" weight="heavy" color="#08D8D8">Custom OSD</span>`,
         hexpand: true,
         halign: Gtk.Align.CENTER
       });
@@ -49,8 +48,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 2
       this.version_label = new Gtk.Label({
         use_markup: true,
-        label: '<span size="small">'+_('Version:')
-      + ' ' + Me.metadata.version + '  |  @neuromorph</span>',
+        label: `<span size="small">${_('Version:')} ${Me.metadata.version}  |  © neuromorph</span>`,
         hexpand: true,
         halign: Gtk.Align.CENTER,
       });
@@ -59,8 +57,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 1
       this.link_label = new Gtk.Label({
         use_markup: true,
-        label: '<span size="small"><a href="'+Me.metadata.url+'">'
-      + Me.metadata.url + '</a></span>',
+        label: `<span size="small"><a href="${Me.metadata.url}">${Me.metadata.url}</a></span>`,
         hexpand: true,
         halign: Gtk.Align.CENTER,
         margin_bottom: this.margin_bottom
@@ -74,8 +71,9 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       this.horizontalPercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.horizontalPercentage.set_sensitive(true);
-      this.horizontalPercentage.set_range(-60, 60);
+      this.horizontalPercentage.set_range(-150, 150);
       this.horizontalPercentage.set_value(0);
+      this.horizontalPercentage.width_chars = 4;
       this.horizontalPercentage.set_value(this._settings.get_int("horizontal"));
       this.horizontalPercentage.set_increments(1, 5);
 
@@ -103,8 +101,9 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       this.verticalPercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.verticalPercentage.set_sensitive(true);
-      this.verticalPercentage.set_range(-110, 110);
+      this.verticalPercentage.set_range(-200, 50);
       this.verticalPercentage.set_value(70);
+      this.verticalPercentage.width_chars = 4;
       this.verticalPercentage.set_value(this._settings.get_int("vertical"));
       this.verticalPercentage.set_increments(1, 5);
 
@@ -133,7 +132,8 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.sizePercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.sizePercentage.set_sensitive(true);
       this.sizePercentage.set_range(1, 100);
-      this.sizePercentage.set_value(10);
+      this.sizePercentage.set_value(15);
+      this.sizePercentage.width_chars = 4;
       this.sizePercentage.set_value(this._settings.get_int("size"));
       this.sizePercentage.set_increments(1, 5);
 
@@ -164,6 +164,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.hideDelay.set_sensitive(true);
       this.hideDelay.set_range(0, 5000);
       this.hideDelay.set_value(1000);
+      this.hideDelay.width_chars = 4;
       this.hideDelay.set_value(this._settings.get_int("delay"));
       this.hideDelay.set_increments(10, 50);
 
@@ -260,6 +261,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.alpha.set_sensitive(true);
       this.alpha.set_range(0, 100);
       this.alpha.set_value(75);
+      this.alpha.width_chars = 4;
       this.alpha.set_value(this._settings.get_int("alpha"));
       this.alpha.set_increments(5, 10);
 
@@ -305,6 +307,29 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.attach(this.shadowLabel, 1, rowNo, 1, 1);
 	    this.attach(this.shadow, 2, rowNo, 1, 1);
 
+      //-------------------------------------------------------
+
+      rowNo += 2
+
+      this.border = new Gtk.Switch({halign: Gtk.Align.END});
+      this.border.set_active(this._settings.get_boolean("border"));
+
+      this.border.connect(
+        "state-set",
+        function (w) {
+          var value = w.get_active();
+          this._settings.set_boolean("border", value);
+        }.bind(this)
+      );
+
+      this.borderLabel = new Gtk.Label({
+        label: "Box Border :",
+        use_markup: true,
+        halign: Gtk.Align.START,
+      });
+
+      this.attach(this.borderLabel, 1, rowNo, 1, 1);
+	    this.attach(this.border, 2, rowNo, 1, 1);
 
       //-------------------------------------------------------
 
@@ -332,19 +357,71 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       //-------------------------------------------------------
 
+      rowNo += 2
+    
+      this.level = new Gtk.Switch({halign: Gtk.Align.END});
+      this.level.set_active(this._settings.get_boolean("label"));
+
+      this.level.connect(
+        "state-set",
+        function (w) {
+          var value = w.get_active();
+          this._settings.set_boolean("label", value);
+        }.bind(this)
+      );
+
+      this.levelLabel = new Gtk.Label({
+        label: "Numeric Level (%):",
+        use_markup: true,
+        halign: Gtk.Align.START,
+      });
+
+      this.attach(this.levelLabel, 1, rowNo, 1, 1);
+	    this.attach(this.level, 2, rowNo, 1, 1);
+
+      //-------------------------------------------------------
+
+      rowNo += 2
+
+      this.monitors = new Gtk.ComboBoxText({halign: Gtk.Align.END});
+      this.monitors.set_tooltip_text("Choose monitor to show OSD on.");
+      this.monitors.append("all", _("All"));
+      this.monitors.append("primary", _("Primary"));
+      this.monitors.append("external", _("External"));
+      this.monitors.set_active_id(this._settings.get_string("monitors"));
+
+      this.monitors.connect(
+        "changed",
+        function (w) {
+          var value = w.get_active_id();
+          this._settings.set_string("monitors", value);
+        }.bind(this)
+      );
+
+      this.monitorsLabel = new Gtk.Label({
+        label: "Monitor(s) :",
+        use_markup: true,
+        halign: Gtk.Align.START,
+      });
+
+      this.attach(this.monitorsLabel,   1, rowNo, 1, 1);
+      this.attach(this.monitors, 2, rowNo, 1, 1);
+
+      //-------------------------------------------------------
+
       rowNo+=2
       this.noteLabel = new Gtk.Label({
-        label: `<b>Note:</b> 
-        <span allow_breaks='true'>* Type/edit the values and hit tab key to update. 
-        * OR simply click the - + buttons.
-        * PgUp/PgDn keyboard keys will move values faster.
-        * Visit  <a href='${Me.metadata.url}'>Custom OSD</a>  page for more options. </span>`,
+        label: `<span allow_breaks="true" size="small" underline="none"><b>Note:</b>
+        • Type/edit the values and hit tab key to update. 
+        • OR simply click the - + buttons.
+        • PgUp/PgDn keyboard keys will move values faster.
+        • Visit  <a href="${Me.metadata.url}">Custom OSD</a>  page for more options. </span>`,
         use_markup: true,
+        hexpand: true,
         halign: Gtk.Align.START,
         wrap: true,
         width_chars: 40,
-        margin_top: this.margin_top,
-        margin_bottom: this.margin_bottom
+        margin_top: 20,
       });
 
       this.attach(this.noteLabel, 1, rowNo, 2, 10);
@@ -355,6 +432,13 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
 
 function buildPrefsWidget() {
-  return new CustomOSDSettingsWidget();
+  let prefWidget =  new CustomOSDSettingsWidget();
+  prefWidget.connect("realize", ()=>{
+    const window = prefWidget.get_root();
+    window.set_title(_("Custom On-Screen-Display (OSD)"));
+    window.default_height = 800;
+    window.default_width = 550;
+  });
+  return prefWidget;
 }
 

@@ -12,7 +12,7 @@
       <description>The percentage of the screen height (from the bottom of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="i" name="size">
-      <default>10</default>
+      <default>15</default>
       <summary>OSD size (screen %)</summary>
       <description>Relative OSD size.</description>
     </key>
@@ -41,10 +41,25 @@
       <summary>Box Shadow</summary>
       <description>Box Shadow of OSD.</description>
     </key>
+    <key type="b" name="border">
+      <default>false</default>
+      <summary>Box Border</summary>
+      <description>Box Border of OSD.</description>
+    </key>
     <key type="b" name="rotate">
       <default>false</default>
       <summary>Vertical</summary>
       <description>Vertical orientation of OSD.</description>
+    </key>
+    <key type="b" name="label">
+      <default>false</default>
+      <summary>Numeric Level</summary>
+      <description>Numeric level % along with level bar.</description>
+    </key>
+    <key type="s" name="monitors">
+      <default>"all"</default>
+      <summary>Monitors for OSD</summary>
+      <description>Monitors to show OSD display on.</description>
     </key>
   </schema>
 </schemalist>
