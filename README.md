@@ -30,7 +30,9 @@ You may need to restart the gnome shell environnment (for manual install):
 - `alt+f2` then type `r` and `enter` 
 
 ## Settings
-Use the settings panel of the extension for most common customizations:
+Use the settings panel of the extension for most common customizations:  
+
+![Position](media/ScreenPosition.png)
 * Position on Screen 
 * Vertical/Horizontal Orientation
 * Size 
@@ -39,6 +41,7 @@ Use the settings panel of the extension for most common customizations:
 * Box Shadow On/Off
 * Box Border On/Off
 * Transparency
+* Shape Pill/Rectangle
 * Numeric % for levels
 * Monitor to show OSD on
 
@@ -60,6 +63,7 @@ Example code:
 
 
 ## What's New (recent first)
+- Improved positioning logic to snap fit
 - Improved efficiency and compatibility
 - Added support for Numeric level %, Monitors to display OSD and Box Border
 - Added support for Color+BG Color, Shadow and Orientation

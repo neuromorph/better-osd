@@ -23,7 +23,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
   class CustomOSDSettingsWidget extends Gtk.Grid {
     _init(params) {
       super._init(params);
-      this.margin_top = 15;
+      this.margin_top = 12;
       this.margin_bottom = this.margin_top;
       this.margin_start = 48;
       this.margin_end = this.margin_start;
@@ -64,30 +64,43 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       });
       this.attach(this.link_label, 1, rowNo, 2, 1);
 
+      //-------------------------------------------------------
       
+      rowNo += 2
+      this.separator2 = new Gtk.Separator({
+        orientation: Gtk.Orientation.HORIZONTAL,
+        hexpand: true,
+        margin_bottom: this.margin_top/2,
+      });
+      this.attach(this.separator2, 1, rowNo, 2, 1);
+
+      //-------------------------------------------------------
+
       rowNo += 4
       this.insert_row(rowNo);
-      let labelHorizontalPercentage = _("Horizontal Shift (%) :");
 
       this.horizontalPercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.horizontalPercentage.set_sensitive(true);
-      this.horizontalPercentage.set_range(-150, 150);
-      this.horizontalPercentage.set_value(0);
+      this.horizontalPercentage.set_range(-50.0, 50.0);
+      this.horizontalPercentage.set_value(0.0);
+      this.horizontalPercentage.set_digits(1);
       this.horizontalPercentage.width_chars = 4;
-      this.horizontalPercentage.set_value(this._settings.get_int("horizontal"));
-      this.horizontalPercentage.set_increments(1, 5);
+      this.horizontalPercentage.set_value(this._settings.get_double("horizontal"));
+      this.horizontalPercentage.set_increments(0.2, 1);
+      this.horizontalPercentage.set_tooltip_text("Left Edge: -50 ↞↠ +50 :Right Edge");
 
       this.horizontalPercentage.connect(
         "value-changed",
         function (w) {
-          var value = w.get_value_as_int();
-          this._settings.set_int("horizontal", value);
+          var value = w.get_value();
+          this._settings.set_double("horizontal", value);
         }.bind(this)
       );
 
       this.horizontalLabel = new Gtk.Label({
-        label: labelHorizontalPercentage,
         use_markup: true,
+        label: `Horizontal Position (%) :`,
+        hexpand: true,
         halign: Gtk.Align.START,
       });
 
@@ -97,27 +110,29 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       //-------------------------------------------------------
 
       rowNo += 2
-      let labelVerticalPercentage = _("Vertical Shift (%) :");
 
       this.verticalPercentage = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.verticalPercentage.set_sensitive(true);
-      this.verticalPercentage.set_range(-200, 50);
-      this.verticalPercentage.set_value(70);
+      this.verticalPercentage.set_range(-50.0, 50.0);
+      this.verticalPercentage.set_value(0.0);
+      this.verticalPercentage.set_digits(1);
       this.verticalPercentage.width_chars = 4;
-      this.verticalPercentage.set_value(this._settings.get_int("vertical"));
-      this.verticalPercentage.set_increments(1, 5);
+      this.verticalPercentage.set_value(this._settings.get_double("vertical"));
+      this.verticalPercentage.set_increments(0.2, 1);
+      this.verticalPercentage.set_tooltip_text("Top Edge: -50 ↞↠ +50 :Bottom Edge");
 
       this.verticalPercentage.connect(
         "value-changed",
         function (w) {
-          var value = w.get_value_as_int();
-          this._settings.set_int("vertical", value);
+          var value = w.get_value();
+          this._settings.set_double("vertical", value);
         }.bind(this)
       );
 
       this.verticalLabel = new Gtk.Label({
-        label: labelVerticalPercentage,
         use_markup: true,
+        label: `Vertical Position (%) :`,
+        hexpand: true,
         halign: Gtk.Align.START,
       });
 
@@ -154,39 +169,45 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.attach(this.sizeLabel,   1, rowNo, 1, 1);
 	    this.attach(this.sizePercentage, 2, rowNo, 1, 1);
 
-
       //-------------------------------------------------------
 
       rowNo += 2
-      let labelDelay = _("Hide Delay (ms) :");
+    
+      this.rotate = new Gtk.Switch({halign: Gtk.Align.END});
+      this.rotate.set_active(this._settings.get_boolean("rotate"));
 
-      this.hideDelay = new Gtk.SpinButton({halign: Gtk.Align.END});
-      this.hideDelay.set_sensitive(true);
-      this.hideDelay.set_range(0, 5000);
-      this.hideDelay.set_value(1000);
-      this.hideDelay.width_chars = 4;
-      this.hideDelay.set_value(this._settings.get_int("delay"));
-      this.hideDelay.set_increments(10, 50);
-
-      this.hideDelay.connect(
-        "value-changed",
+      this.rotate.connect(
+        "state-set",
         function (w) {
-          var value = w.get_value_as_int();
-          this._settings.set_int("delay", value);
+          var value = w.get_active();
+          this._settings.set_boolean("rotate", value);
         }.bind(this)
       );
 
-      this.hideLabel = new Gtk.Label({
-        label: labelDelay,
+      this.rotateLabel = new Gtk.Label({
+        label: "Vertical Orientation :",
         use_markup: true,
         halign: Gtk.Align.START,
       });
 
-      this.attach(this.hideLabel,   1, rowNo, 1, 1);
-	    this.attach(this.hideDelay, 2, rowNo, 1, 1);
+      this.attach(this.rotateLabel, 1, rowNo, 1, 1);
+	    this.attach(this.rotate, 2, rowNo, 1, 1);
+
 
       //-------------------------------------------------------
 
+      rowNo += 2
+      this.separator2 = new Gtk.Separator({
+        orientation: Gtk.Orientation.HORIZONTAL,
+        hexpand: true,
+        margin_top: this.margin_top/2,
+        margin_bottom: this.margin_top/2,
+      });
+      this.attach(this.separator2, 1, rowNo, 2, 1);
+
+      //-------------------------------------------------------
+
+      
       rowNo += 2
       let labelColor = _("Color :");
 
@@ -264,6 +285,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.alpha.width_chars = 4;
       this.alpha.set_value(this._settings.get_int("alpha"));
       this.alpha.set_increments(5, 10);
+      this.alpha.set_tooltip_text("Transparent: 0 ↞↠ 100 :Opaque");
 
       this.alpha.connect(
         "value-changed",
@@ -289,6 +311,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       this.shadow = new Gtk.Switch({halign: Gtk.Align.END});
       this.shadow.set_active(this._settings.get_boolean("shadow"));
+      this.shadow.set_tooltip_text("Turn Off for flat look");
 
       this.shadow.connect(
         "state-set",
@@ -334,27 +357,76 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       //-------------------------------------------------------
 
       rowNo += 2
-    
-      this.rotate = new Gtk.Switch({halign: Gtk.Align.END});
-      this.rotate.set_active(this._settings.get_boolean("rotate"));
 
-      this.rotate.connect(
-        "state-set",
+      this.bradius = new Gtk.SpinButton({halign: Gtk.Align.END});
+      this.bradius.set_sensitive(true);
+      this.bradius.set_range(0, 100);
+      this.bradius.set_value(75);
+      this.bradius.width_chars = 4;
+      this.bradius.set_value(this._settings.get_int("bradius"));
+      this.bradius.set_increments(5, 10);
+      this.bradius.set_tooltip_text("Rectangle: 0 ↞↠ 100 :Pill");
+
+      this.bradius.connect(
+        "value-changed",
         function (w) {
-          var value = w.get_active();
-          this._settings.set_boolean("rotate", value);
+          var value = w.get_value_as_int();
+          this._settings.set_int("bradius", value);
+        }.bind(this)
+      );
+      this.bradiusLabel = new Gtk.Label({
+        use_markup: true,
+        label: `Pill Shape (%) :`,
+        hexpand: true,
+        halign: Gtk.Align.START,
+      });
+
+      this.attach(this.bradiusLabel, 1, rowNo, 1, 1);
+	    this.attach(this.bradius, 2, rowNo, 1, 1);
+
+
+      //-------------------------------------------------------
+
+      rowNo += 2
+      this.separator2 = new Gtk.Separator({
+        orientation: Gtk.Orientation.HORIZONTAL,
+        hexpand: true,
+        margin_top: this.margin_top/2,
+        margin_bottom: this.margin_top/2,
+        // visible: true,
+      });
+      this.attach(this.separator2, 1, rowNo, 2, 1);
+
+      //-------------------------------------------------------
+
+      rowNo += 2
+      let labelDelay = _("Hide Delay (ms) :");
+
+      this.hideDelay = new Gtk.SpinButton({halign: Gtk.Align.END});
+      this.hideDelay.set_sensitive(true);
+      this.hideDelay.set_range(0, 5000);
+      this.hideDelay.set_value(1000);
+      this.hideDelay.width_chars = 4;
+      this.hideDelay.set_value(this._settings.get_int("delay"));
+      this.hideDelay.set_increments(10, 50);
+
+      this.hideDelay.connect(
+        "value-changed",
+        function (w) {
+          var value = w.get_value_as_int();
+          this._settings.set_int("delay", value);
         }.bind(this)
       );
 
-      this.rotateLabel = new Gtk.Label({
-        label: "Vertical Orientation :",
+      this.hideLabel = new Gtk.Label({
+        label: labelDelay,
         use_markup: true,
         halign: Gtk.Align.START,
       });
 
-      this.attach(this.rotateLabel, 1, rowNo, 1, 1);
-	    this.attach(this.rotate, 2, rowNo, 1, 1);
-
+      this.attach(this.hideLabel,   1, rowNo, 1, 1);
+	    this.attach(this.hideDelay, 2, rowNo, 1, 1);
+      
       //-------------------------------------------------------
 
       rowNo += 2
@@ -384,7 +456,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 2
 
       this.monitors = new Gtk.ComboBoxText({halign: Gtk.Align.END});
-      this.monitors.set_tooltip_text("Choose monitor to show OSD on.");
+      this.monitors.set_tooltip_text("Choose monitor to show OSD on");
       this.monitors.append("all", _("All"));
       this.monitors.append("primary", _("Primary"));
       this.monitors.append("external", _("External"));
@@ -409,19 +481,28 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       //-------------------------------------------------------
 
+      rowNo += 2
+      this.separator2 = new Gtk.Separator({
+        orientation: Gtk.Orientation.HORIZONTAL,
+        hexpand: true,
+        margin_top: this.margin_top/2,
+      });
+      this.attach(this.separator2, 1, rowNo, 2, 1);
+
+      //-------------------------------------------------------
+
       rowNo+=2
       this.noteLabel = new Gtk.Label({
-        label: `<span allow_breaks="true" size="small" underline="none"><b>Note:</b>
-        • Type/edit the values and hit tab key to update. 
-        • OR simply click the - + buttons.
-        • PgUp/PgDn keyboard keys will move values faster.
+        label: `<span allow_breaks="true" size="small" underline="none">
+        • Type/edit the values and hit tab/enter key to update. 
+        • OR simply click the - + buttons or PgUp/PgDn keyboard keys.
+        • Position is (0,0) at screen-center. Range is -50 to +50.
         • Visit  <a href="${Me.metadata.url}">Custom OSD</a>  page for more options. </span>`,
         use_markup: true,
         hexpand: true,
         halign: Gtk.Align.START,
         wrap: true,
         width_chars: 40,
-        margin_top: 20,
       });
 
       this.attach(this.noteLabel, 1, rowNo, 2, 10);
@@ -436,7 +517,7 @@ function buildPrefsWidget() {
   prefWidget.connect("realize", ()=>{
     const window = prefWidget.get_root();
     window.set_title(_("Custom On-Screen-Display (OSD)"));
-    window.default_height = 800;
+    window.default_height = 850;
     window.default_width = 550;
   });
   return prefWidget;

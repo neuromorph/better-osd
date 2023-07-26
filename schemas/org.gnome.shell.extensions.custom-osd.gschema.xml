@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="custom-osd">
   <schema id="org.gnome.shell.extensions.custom-osd" path="/org/gnome/shell/extensions/custom-osd/">
-    <key type="i" name="horizontal">
-      <default>0</default>
-      <summary>Horizontal shifting (%)</summary>
-      <description>The percentage of the screen width (from the center of the screen) at which the OSD will be displayed.</description>
+    <key type="d" name="horizontal">
+      <default>50.0</default>
+      <summary>Horizontal Position (%)</summary>
+      <description>The percentage of the screen width (from the left of the screen) at which the OSD will be displayed.</description>
     </key>
-    <key type="i" name="vertical">
-      <default>0</default>
-      <summary>Vertical shifting (%)</summary>
-      <description>The percentage of the screen height (from the bottom of the screen) at which the OSD will be displayed.</description>
+    <key type="d" name="vertical">
+      <default>80.0</default>
+      <summary>Vertical Position (%)</summary>
+      <description>The percentage of the screen height (from the top of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="i" name="size">
-      <default>15</default>
+      <default>14</default>
       <summary>OSD size (screen %)</summary>
       <description>Relative OSD size.</description>
     </key>
@@ -45,6 +45,11 @@
       <default>false</default>
       <summary>Box Border</summary>
       <description>Box Border of OSD.</description>
+    </key>
+    <key type="i" name="bradius">
+      <default>100</default>
+      <summary>Pill Shape</summary>
+      <description>Convert between rectangle and pill shapes.</description>
     </key>
     <key type="b" name="rotate">
       <default>false</default>
