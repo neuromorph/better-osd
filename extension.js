@@ -33,18 +33,18 @@ class CustomOSDExtension {
     let osdW = OsdWindowManager._osdWindows[monitorIndex];
     let ll = osdW._hbox.find_child_by_name('levLabel');
   
-    let sty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgb(${red},${green},${blue}); border-radius: ${bradius}px;`; 
+    let sty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgb(${red},${green},${blue}); border-radius: ${bradius/100}px; margin-bottom: 0px;`; 
     if (!shadow) sty += ' box-shadow: none;';
-    if (border) sty += ` border-color: rgb(${red},${green},${blue});`;
+    if (border) sty += ` border-color: rgba(${red},${green},${blue},0.6); border-width: ${parseInt(2 + osd_size*0.08)}px;`;
       
     osdW._hbox.add_style_class_name(
       "osd-style"
     );
     osdW._hbox.style = sty;
   
-    osdW._label.style = ` font-size: ${12 + osd_size*0.5}px;`;
-    if (ll != null) ll.style = ` font-size: ${12 + osd_size*0.75}px; font-weight: bold; min-width: ${20 + osd_size}px;`;
-    osdW._level.style = `-barlevel-active-background-color: rgb(${red},${green},${blue}); background-color: rgba(${red},${green},${blue},0.1);`;
+    osdW._label.style = ` font-size: ${14 + parseInt(osd_size*0.5)}px;  color: rgba(${red},${green},${blue},0.9);`;
+    if (ll != null) ll.style = ` font-size: ${14 + parseInt(osd_size*0.7)}px; font-weight: bold; min-width: ${parseInt(30 + osd_size*1.25)}px;`;
+    osdW._level.style = ` -barlevel-active-background-color: rgb(${red},${green},${blue}); -barlevel-background-color: rgba(${red},${green},${blue},0.1); `;
   
     if (rotate){
       osdW._hbox.set_pivot_point(0.5,0.5);
@@ -148,7 +148,7 @@ class CustomOSDExtension {
         const alpha = _settings.get_int("alpha");
         const shadow = _settings.get_boolean("shadow");
         const border = _settings.get_boolean("border");
-        let bradius = _settings.get_int("bradius");
+        const bradius = _settings.get_int("bradius");
         const rotate = _settings.get_boolean("rotate");
         const l_label = _settings.get_boolean("label");
   
@@ -198,22 +198,15 @@ class CustomOSDExtension {
         this.y_align = Clutter.ActorAlign.CENTER;
 
         let hbxW = this._hbox.width;
-        let hbxH = this._hbox.get_preferred_height(this._hbox.width)[0]; 
-        hbxH = hbxH/2.0;
-        bradius = bradius*hbxH/100.0;
+        let hbxH = this._hbox.height;
         
-        custOSD.customOSD(color, bgcolor, alpha, shadow, border, rotate, osd_size, bradius, this._monitorIndex);
+        custOSD.customOSD(color, bgcolor, alpha, shadow, border, rotate, osd_size, bradius*hbxH/2.0, this._monitorIndex);
 
         if (rotate){ 
           let o_hbxH = hbxH;        
           hbxH = hbxW;
           hbxW = o_hbxH;
         }
-
-        // let mtop = this._hbox.margin_top;
-        let mbot = this._hbox.margin_bottom;
-        if (v_percent<0) hbxH += mbot;
-        if (v_percent>0) hbxH -= mbot;
 
         let transX = h_percent * (monitor.width - hbxW)/100.0;
         this._hbox.translation_x = transX;
