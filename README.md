@@ -2,7 +2,7 @@
 # Custom OSD (GNOME 4X Extension)  
 
 
-A GNOME Shell extension allowing the user to set the position, orientation, size, color, shadow, transparency and delay of the OSD pop-ups. It can also display % level value for OSDs with levels like Volume/Brightness etc. You can choose to display OSD on Primary/ External or both monitors. In summary, fully transform the OSD pop-ups to match your theme and liking!
+A GNOME Shell extension allowing the user to set the position, orientation, size, color, shadow, transparency and delay of the OSD pop-ups. It can also display % level value for OSDs with levels like Volume/Brightness etc. You can choose to display the OSD on Primary/ External or both the monitors and select what components to show. In summary, fully transform the OSD pop-ups to match your theme and liking!
 
 
 ## Installation
@@ -44,6 +44,7 @@ Use the settings panel of the extension for most common customizations:
 * Shape Pill/Rectangle
 * Numeric % for levels
 * Monitor to show OSD on
+* Select what to show: Icon, Text, Level Bar, Numeric %
 
 
 
@@ -63,6 +64,7 @@ Example code:
 
 
 ## What's New (recent first)
+- Select any combinations of OSD components to display. New test-OSD for instant feedback when changing settings. 
 - Improved positioning logic to snap fit
 - Improved efficiency and compatibility
 - Added support for Numeric level %, Monitors to display OSD and Box Border
@@ -81,4 +83,4 @@ Example code:
 
 ## Acknowledgements
 
-This extension started from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). The original extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. Custom-OSD began with porting the old extension to new GNOME mods but soon ended up  changing the entire code for refinements/bug-fix/refactor and many new features.
+This extension started from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). That extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. Custom-OSD began with porting the old extension to new GNOME mods but soon ended up rewriting the entire code for refinements/bug-fix/refactor and many new features.

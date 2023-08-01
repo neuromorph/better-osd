@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="custom-osd">
   <schema id="org.gnome.shell.extensions.custom-osd" path="/org/gnome/shell/extensions/custom-osd/">
+    <key type="b" name="icon">
+      <default>true</default>
+      <summary>Icon</summary>
+      <description>OSD Icon.</description>
+    </key>
+    <key type="b" name="label">
+      <default>true</default>
+      <summary>Label</summary>
+      <description>OSD Label.</description>
+    </key>
+    <key type="b" name="level">
+      <default>true</default>
+      <summary>Level Bar</summary>
+      <description>Level Bar.</description>
+    </key>
+    <key type="b" name="numeric">
+      <default>true</default>
+      <summary>Numeric Level</summary>
+      <description>Numeric level % along with level bar.</description>
+    </key>
     <key type="d" name="horizontal">
       <default>50.0</default>
       <summary>Horizontal Position (%)</summary>
-      <description>The percentage of the screen width (from the left of the screen) at which the OSD will be displayed.</description>
+      <description>The percentage of the screen width (from the center of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="d" name="vertical">
       <default>80.0</default>
       <summary>Vertical Position (%)</summary>
-      <description>The percentage of the screen height (from the top of the screen) at which the OSD will be displayed.</description>
+      <description>The percentage of the screen height (from the center of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="i" name="size">
       <default>14</default>
@@ -55,11 +75,6 @@
       <default>false</default>
       <summary>Vertical</summary>
       <description>Vertical orientation of OSD.</description>
-    </key>
-    <key type="b" name="label">
-      <default>false</default>
-      <summary>Numeric Level</summary>
-      <description>Numeric level % along with level bar.</description>
     </key>
     <key type="s" name="monitors">
       <default>"all"</default>
