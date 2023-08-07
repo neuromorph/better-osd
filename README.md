@@ -41,7 +41,7 @@ Use the settings panel of the extension for most common customizations:
 * Box Shadow On/Off
 * Box Border On/Off
 * Transparency
-* Shape Pill/Rectangle
+* Shape Shift: Pill/Rectangle/Other (interpolation)
 * Numeric % for levels
 * Monitor to show OSD on
 * Select what to show: Icon, Text, Level Bar, Numeric %
@@ -56,20 +56,21 @@ For optional styling of advanced css options or things like Padding that is not 
 Example code:
 ```
 .osd-style {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    font-family: Josefin Sans;
     box-shadow: 1px 1px 5px grey;
 }
 ```
 
 
 ## What's New (recent first)
-- Select any combinations of OSD components to display. New test-OSD for instant feedback when changing settings. 
-- Improved positioning logic to snap fit
+- Some refactor, button to reset settings to default, foreground trasparency option integrated in color, shape shift, fix defaults.
+- Select any combinations of OSD components to display. New test-OSD for instant feedback when changing settings. Refactor to preset OSDs with customization and minimize runtime adaptation.
+- Improved positioning logic to snap fit edges
 - Improved efficiency and compatibility
 - Added support for Numeric level %, Monitors to display OSD and Box Border
 - Added support for Color+BG Color, Shadow and Orientation
-- Settings updated for Color and Transparency
+- Settings updated to include Color and Transparency options
+- Upload initial version to Gnome extensions store
 - Metadata updated for Gnome 44
 - Ported for GNOME 42 + some fixes
 
@@ -83,4 +84,6 @@ Example code:
 
 ## Acknowledgements
 
-This extension started from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/). That extension is obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. Custom-OSD began with porting the old extension to new GNOME mods but soon ended up rewriting the entire code for refinements/bug-fix/refactor and many new features.
+- This extension started from [Better OSD](https://extensions.gnome.org/extension/1345/better-osd/) and its Gnome 40 [update](https://extensions.gnome.org/extension/4231/better-osd-gnome-40/). Better OSD became obsolete and forked versions also do not support new OSD modifications in GNOME shell after GNOME 41+. Custom-OSD began with porting the old extension to new GNOME mods so I could continue to use it locally. Eventually, I decided to put it out in case it is helpful to others as well. It soon found many users and many new feature requests as well, so I ended up rewriting the entire code for refinements/bug-fix/refactor and many new features. Nevertheless, Better OSD served as the inspiration and starter code and was an OSD lifesaver back in the days, many thanks to them!
+- Also thanks to users who appreciated the project, raised issues and requested new features here and on Gnome Extensions website. In particualr, [RedBearAK](https://github.com/RedBearAK) thoroughly reviewed the extension revisions and suggested [many ideas](https://github.com/neuromorph/custom-osd/issues/3) (most have been incorporated). Much appreciated!
+

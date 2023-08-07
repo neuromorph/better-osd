@@ -22,37 +22,37 @@
       <description>Numeric level % along with level bar.</description>
     </key>
     <key type="d" name="horizontal">
-      <default>50.0</default>
+      <default>0.0</default>
       <summary>Horizontal Position (%)</summary>
       <description>The percentage of the screen width (from the center of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="d" name="vertical">
-      <default>80.0</default>
+      <default>0.0</default>
       <summary>Vertical Position (%)</summary>
       <description>The percentage of the screen height (from the center of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="i" name="size">
-      <default>14</default>
+      <default>15</default>
       <summary>OSD size (screen %)</summary>
       <description>Relative OSD size.</description>
     </key>
     <key type="i" name="delay">
-      <default>1000</default>
+      <default>1500</default>
       <summary>Hide delay (ms)</summary>
       <description>How long the OSD will be displayed.</description>
     </key>
     <key type="as" name="color">
-      <default>['0', '0', '0']</default>
-      <summary>Color (RGB)</summary>
+      <default>['0.04', '0.84', '0.88', '1.0']</default>
+      <summary>Color (RGBA)</summary>
       <description>Color of OSD.</description>
     </key>
     <key type="as" name="bgcolor">
-      <default>['1.0', '1.0', '1.0']</default>
+      <default>['0.44', '0.42', '0.42']</default>
       <summary>BG Color (RGB)</summary>
       <description>Background Color of OSD.</description>
     </key>
     <key type="i" name="alpha">
-      <default>75</default>
+      <default>15</default>
       <summary>Transparency (alpha)</summary>
       <description>Transparency of OSD.</description>
     </key>
@@ -62,7 +62,7 @@
       <description>Box Shadow of OSD.</description>
     </key>
     <key type="b" name="border">
-      <default>false</default>
+      <default>true</default>
       <summary>Box Border</summary>
       <description>Box Border of OSD.</description>
     </key>

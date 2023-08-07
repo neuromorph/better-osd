@@ -2,11 +2,12 @@
     You may use this style class to add more advanced styling to OSD. 
     The extension will apply it to OSD elements. 
     For most common options like Color, Background, Transparency, Orientation etc. please use the settings panel of Custom-OSD.
+
+    Some examples are given below. You can uncomment them to see the effect.
 */
 .osd-style {
     /* 
-    padding-top: 1px;
-    padding-bottom: 1px;
     box-shadow: 1px 1px 5px grey; 
-    */   
+    font-family: Josefin Sans;
+    */    
 }

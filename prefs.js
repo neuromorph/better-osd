@@ -8,6 +8,7 @@ const _ = Gettext.gettext;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
+
 //-----------------------------------------------
 
 function init() {
@@ -25,7 +26,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       super._init(params);
       this.margin_top = 12;
       this.margin_bottom = this.margin_top;
-      this.margin_start = 25;
+      this.margin_start = 20;
       this.margin_end = this.margin_start;
       this.row_spacing = 6;
       this.column_spacing = 20;
@@ -79,7 +80,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 2;
     
       this.icon = new Gtk.CheckButton({label: "Icon", halign: Gtk.Align.CENTER});
-      this.icon.set_active(this._settings.get_boolean("icon"));
+      this.icon.set_tooltip_text("Show icon in OSD");
       this.icon.connect(
         "toggled",
         function (w) {
@@ -90,7 +91,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 	    this.attach(this.icon, 1, rowNo, 1, 1);
 
       this.label = new Gtk.CheckButton({label: "Label", halign: Gtk.Align.CENTER});
-      this.label.set_active(this._settings.get_boolean("label"));
+      this.label.set_tooltip_text("Show label in OSD when applicable");
       this.label.connect(
         "toggled",
         function (w) {
@@ -101,7 +102,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 	    this.attach(this.label, 2, rowNo, 1, 1);
 
       this.level = new Gtk.CheckButton({label: "Level Bar", halign: Gtk.Align.CENTER});
-      this.level.set_active(this._settings.get_boolean("level"));
+      this.level.set_tooltip_text("Show level bar in OSD when applicable");
       this.level.connect(
         "toggled",
         function (w) {
@@ -112,7 +113,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 	    this.attach(this.level, 4, rowNo, 1, 1);
 
       this.numeric = new Gtk.CheckButton({label: "Numeric %", halign: Gtk.Align.START});
-      this.numeric.set_active(this._settings.get_boolean("numeric"));
+      this.numeric.set_tooltip_text("Show numeric value in OSD when applicable");
       this.numeric.connect(
         "toggled",
         function (w) {
@@ -146,9 +147,8 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.horizontalPercentage.set_value(0.0);
       this.horizontalPercentage.set_digits(1);
       this.horizontalPercentage.width_chars = 4;
-      this.horizontalPercentage.set_value(this._settings.get_double("horizontal"));
       this.horizontalPercentage.set_increments(0.2, 1);
-      this.horizontalPercentage.set_tooltip_text("Left Edge: -50 ↞↠ +50 :Right Edge");
+      this.horizontalPercentage.set_tooltip_text("Left Edge: -50  ↞↠  +50 :Right Edge");
 
       this.horizontalPercentage.connect(
         "value-changed",
@@ -178,9 +178,8 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.verticalPercentage.set_value(0.0);
       this.verticalPercentage.set_digits(1);
       this.verticalPercentage.width_chars = 4;
-      this.verticalPercentage.set_value(this._settings.get_double("vertical"));
       this.verticalPercentage.set_increments(0.2, 1);
-      this.verticalPercentage.set_tooltip_text("Top Edge: -50 ↞↠ +50 :Bottom Edge");
+      this.verticalPercentage.set_tooltip_text("Top Edge: -50  ↞↠  +50 :Bottom Edge");
 
       this.verticalPercentage.connect(
         "value-changed",
@@ -210,8 +209,8 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.sizePercentage.set_range(1, 100);
       this.sizePercentage.set_value(15);
       this.sizePercentage.width_chars = 4;
-      this.sizePercentage.set_value(this._settings.get_int("size"));
       this.sizePercentage.set_increments(1, 5);
+      this.sizePercentage.set_tooltip_text("Size relative to monitor height");
 
       this.sizePercentage.connect(
         "value-changed",
@@ -235,7 +234,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 2
     
       this.rotate = new Gtk.Switch({halign: Gtk.Align.END});
-      this.rotate.set_active(this._settings.get_boolean("rotate"));
+      this.rotate.set_tooltip_text("Show OSD vertically");
 
       this.rotate.connect(
         "state-set",
@@ -262,10 +261,10 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.hideDelay = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.hideDelay.set_sensitive(true);
       this.hideDelay.set_range(0, 5000);
-      this.hideDelay.set_value(1000);
+      this.hideDelay.set_value(1500);
       this.hideDelay.width_chars = 4;
-      this.hideDelay.set_value(this._settings.get_int("delay"));
       this.hideDelay.set_increments(10, 50);
+      this.hideDelay.set_tooltip_text("Delay before OSD disappears (ms)");
 
       this.hideDelay.connect(
         "value-changed",
@@ -293,7 +292,6 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.monitors.append("all", _("All"));
       this.monitors.append("primary", _("Primary"));
       this.monitors.append("external", _("External"));
-      this.monitors.set_active_id(this._settings.get_string("monitors"));
 
       this.monitors.connect(
         "changed",
@@ -318,21 +316,16 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 2
       let labelColor = _("Color :");
 
-      this.colorBtn = new Gtk.ColorButton({halign: Gtk.Align.END});
-      let colorArray = this._settings.get_strv('color');
-  		let rgba = new Gdk.RGBA();
-      rgba.red = parseFloat(colorArray[0]);
-      rgba.green = parseFloat(colorArray[1]);
-      rgba.blue = parseFloat(colorArray[2]);
-      rgba.alpha = 1.0;
-      this.colorBtn.set_rgba(rgba);
+      this.colorBtn = new Gtk.ColorButton({use_alpha: true, halign: Gtk.Align.END});
+      this.colorBtn.set_tooltip_text("Foreground color of OSD");
 
       this.colorBtn.connect('color-set', (widget) => {
-        rgba = widget.get_rgba();
+        let rgba = widget.get_rgba();
         this._settings.set_strv('color', [
           rgba.red.toString(),
           rgba.green.toString(),
-          rgba.blue.toString()
+          rgba.blue.toString(),
+          rgba.alpha.toString()
         ]);
       });
 
@@ -350,16 +343,10 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 2
 
       this.bgcolorBtn = new Gtk.ColorButton({halign: Gtk.Align.END});
-      let bgcolorArray = this._settings.get_strv('bgcolor');
-  		let bgrgba = new Gdk.RGBA();
-      bgrgba.red = parseFloat(bgcolorArray[0]);
-      bgrgba.green = parseFloat(bgcolorArray[1]);
-      bgrgba.blue = parseFloat(bgcolorArray[2]);
-      bgrgba.alpha = 1.0;
-      this.bgcolorBtn.set_rgba(bgrgba);
+      this.bgcolorBtn.set_tooltip_text("Background color of OSD");
 
       this.bgcolorBtn.connect('color-set', (widget) => {
-        bgrgba = widget.get_rgba();
+        let bgrgba = widget.get_rgba();
         this._settings.set_strv('bgcolor', [
           bgrgba.red.toString(),
           bgrgba.green.toString(),
@@ -384,9 +371,8 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.alpha = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.alpha.set_sensitive(true);
       this.alpha.set_range(0, 100);
-      this.alpha.set_value(75);
+      this.alpha.set_value(15);
       this.alpha.width_chars = 4;
-      this.alpha.set_value(this._settings.get_int("alpha"));
       this.alpha.set_increments(5, 10);
       this.alpha.set_tooltip_text("Transparent: 0 ↞↠ 100 :Opaque");
 
@@ -413,8 +399,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       let labelShadow = _("Box Shadow :");
 
       this.shadow = new Gtk.Switch({halign: Gtk.Align.END});
-      this.shadow.set_active(this._settings.get_boolean("shadow"));
-      this.shadow.set_tooltip_text("Turn Off for flat look");
+      this.shadow.set_tooltip_text("Effective on lighter background. Turn Off for transparent or flat look");
 
       this.shadow.connect(
         "state-set",
@@ -438,7 +423,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo += 2
 
       this.border = new Gtk.Switch({halign: Gtk.Align.END, valign: Gtk.Align.CENTER});
-      this.border.set_active(this._settings.get_boolean("border"));
+      this.border.set_tooltip_text("Box border around OSD");
 
       this.border.connect(
         "state-set",
@@ -463,12 +448,11 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       this.bradius = new Gtk.SpinButton({halign: Gtk.Align.END});
       this.bradius.set_sensitive(true);
-      this.bradius.set_range(0, 100);
-      this.bradius.set_value(75);
+      this.bradius.set_range(-100, 200);
+      this.bradius.set_value(100);
       this.bradius.width_chars = 4;
-      this.bradius.set_value(this._settings.get_int("bradius"));
       this.bradius.set_increments(5, 10);
-      this.bradius.set_tooltip_text("Rectangle: 0 ↞↠ 100 :Pill");
+      this.bradius.set_tooltip_text("☯:-100  ↞  Rectangle:0  ↞↠  100:Pill  ↠  200:☯"); 
 
       this.bradius.connect(
         "value-changed",
@@ -479,7 +463,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       );
       this.bradiusLabel = new Gtk.Label({
         use_markup: true,
-        label: `Pill Shape (%) :`,
+        label: `Shape Shift :`,
         hexpand: true,
         halign: Gtk.Align.START,
       });
@@ -509,10 +493,39 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       });
       this.attach(this.separatorV, 3, rowTop, 1, 16);
 
+
       //-------------------------------------------------------
 
+      rowNo+=2
+      this.msgLabel = new Gtk.Label({
+        label: '',
+        use_markup: true,
+        halign: Gtk.Align.END,
+      });
+      this._settings.connect(`changed`, () => {this.msgLabel.label = '';});
 
-      rowNo+=3
+      this.resetLabel = new Gtk.Label({
+        label: `<span size="small">RESET</span>`,
+        use_markup: true,
+        halign: Gtk.Align.CENTER,
+      });
+      this.reset = new Gtk.Button({icon_name: 'edit-undo-rtl-symbolic', hexpand: false, vexpand: false, halign: Gtk.Align.END, valign: Gtk.Align.CENTER}); 
+      this.reset.get_style_context().add_class('destructive-action');
+      this.reset.get_style_context().add_class('circular');
+      this.reset.set_tooltip_text("Reset all settings to extension defaults");
+      this.reset.connect('clicked', () => {
+        let keys = this._settings.list_keys();
+        keys.forEach(k => { this._settings.reset(k); });
+        this._setPrefValues();
+        this.msgLabel.label = `<span line_height="1.5pt" size="medium" bgcolor="#F9D18B99">Settings have been reset to default values!</span>`;
+      });
+      this.attach(this.msgLabel, 1, rowNo, 4, 1);
+      this.attach(this.resetLabel, 5, rowNo, 1, 1);
+      this.attach(this.reset, 5, rowNo, 1, 1);
+
+
+      //-------------------------------------------------------
+
       this.noteImage = new Gtk.Picture({
         vexpand: true,
         hexpand: true,
@@ -523,17 +536,21 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.noteImage.set_filename(Me.path + "/media/Position.png");
       this.attach(this.noteImage, 1, rowNo, 1, 5);
 
+      //-------------------------------------------------------
 
+      rowNo+=1
       this.noteLabel = new Gtk.Label({
         label: `<span size="small" underline="none">
         • Type/edit the values and hit tab/enter key to update. 
         • OR simply click the - + buttons or PgUp / PgDn keyboard keys.
+        • Hover over the values/buttons for more info (tooltips).
         • Position is (0,0) at screen-center. Range is -50 to +50. See pic.
 
         
                     Visit for more details: <a href="${Me.metadata.url}"><b>Custom OSD</b></a></span>`,
         use_markup: true,
         halign: Gtk.Align.START,
+        valign: Gtk.Align.START,
         width_chars: 35,
       });
 
@@ -541,6 +558,46 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       //-------------------------------------------------------
 
+
+      this._setPrefValues();
+
+    }
+
+    _setPrefValues(){
+
+      this.icon.set_active(this._settings.get_boolean("icon"));
+      this.label.set_active(this._settings.get_boolean("label"));
+      this.level.set_active(this._settings.get_boolean("level"));
+      this.numeric.set_active(this._settings.get_boolean("numeric"));
+    
+      this.horizontalPercentage.set_value(this._settings.get_double("horizontal"));
+      this.verticalPercentage.set_value(this._settings.get_double("vertical"));
+      this.sizePercentage.set_value(this._settings.get_int("size"));
+      this.rotate.set_active(this._settings.get_boolean("rotate"));
+      this.hideDelay.set_value(this._settings.get_int("delay"));
+      this.monitors.set_active_id(this._settings.get_string("monitors"));
+    
+      let colorArray = this._settings.get_strv('color');
+      let rgba = new Gdk.RGBA();
+      rgba.red = parseFloat(colorArray[0]);
+      rgba.green = parseFloat(colorArray[1]);
+      rgba.blue = parseFloat(colorArray[2]);
+      rgba.alpha = parseFloat(colorArray[3]);
+      this.colorBtn.set_rgba(rgba);
+    
+      let bgcolorArray = this._settings.get_strv('bgcolor');
+      let bgrgba = new Gdk.RGBA();
+      bgrgba.red = parseFloat(bgcolorArray[0]);
+      bgrgba.green = parseFloat(bgcolorArray[1]);
+      bgrgba.blue = parseFloat(bgcolorArray[2]);
+      bgrgba.alpha = 1.0;
+      this.bgcolorBtn.set_rgba(bgrgba);
+    
+      this.alpha.set_value(this._settings.get_int("alpha"));
+      this.shadow.set_active(this._settings.get_boolean("shadow"));
+      this.border.set_active(this._settings.get_boolean("border"));
+      this.bradius.set_value(this._settings.get_int("bradius"));
+    
     }
   }
 );
@@ -552,7 +609,7 @@ function buildPrefsWidget() {
   prefWidget.connect("realize", ()=>{
     const window = prefWidget.get_root();
     window.set_title(_("Custom OSD (On-Screen-Display)"));
-    window.default_height = 725;
+    window.default_height = 775;
     window.default_width = 675;
   });
 

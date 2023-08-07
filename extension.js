@@ -39,6 +39,39 @@ class CustomOSDExtension {
     else object[name] = injection[name];
   }
 
+  _createLevLabel(osdW){
+      osdW._levLabel = new St.Label({
+        name: 'levLabel',
+        x_align: Clutter.ActorAlign.CENTER,
+        y_align: Clutter.ActorAlign.CENTER,
+      });
+      osdW._level.bind_property_full(
+        'value',
+        osdW._levLabel,
+        'text',
+        GObject.BindingFlags.SYNC_CREATE,
+        (__, v) => [true, (v * 100).toFixed()],
+        null
+      );
+      osdW._hbox.insert_child_above(osdW._levLabel, osdW._vbox);
+  }
+
+  _setOSDOrientation(osdW, rotate){
+    if (rotate){
+      osdW._hbox.set_pivot_point(0.5,0.5);
+      osdW._hbox.rotation_angle_z = -90.0;
+      
+      osdW._levLabel.set_pivot_point(0.5,0.5);  
+      osdW._levLabel.rotation_angle_z = 90.0;
+    }
+    else {
+      osdW._hbox.set_pivot_point(0.5,0.5);
+      osdW._hbox.rotation_angle_z = 0;
+  
+      osdW._levLabel.set_pivot_point(0.5,0.5);
+      osdW._levLabel.rotation_angle_z = 0.0;
+    }
+  }
 
   _syncSettings(settingChanged){
 
@@ -47,7 +80,7 @@ class CustomOSDExtension {
     const hide_delay = this._settings.get_int("delay");
     const color = this._settings.get_strv("color");
     const bgcolor = this._settings.get_strv("bgcolor");
-    const salpha = this._settings.get_int("alpha");
+    const alphaPct = this._settings.get_int("alpha");
     const shadow = this._settings.get_boolean("shadow");
     const border = this._settings.get_boolean("border");
     const rotate = this._settings.get_boolean("rotate");
@@ -55,12 +88,13 @@ class CustomOSDExtension {
     const red = parseInt(parseFloat(color[0]) * 255);
     const green = parseInt(parseFloat(color[1]) * 255);
     const blue = parseInt(parseFloat(color[2]) * 255);
+    const falpha = parseFloat(color[3]);
     
     const bgred = parseInt(parseFloat(bgcolor[0]) * 255);
     const bggreen = parseInt(parseFloat(bgcolor[1]) * 255);
     const bgblue = parseInt(parseFloat(bgcolor[2]) * 255);
   
-    const alpha = parseFloat(salpha/100.0);
+    const alpha = parseFloat(alphaPct/100.0);
   
     OsdWindow.HIDE_TIMEOUT = hide_delay;
 
@@ -72,54 +106,29 @@ class CustomOSDExtension {
 
       let osdW = OsdWindowManager._osdWindows[monitorIndex];
 
-      if(!osdW._levLabel){
-        osdW._levLabel = new St.Label({
-          name: 'levLabel',
-          x_align: Clutter.ActorAlign.CENTER,
-          y_align: Clutter.ActorAlign.CENTER,
-        });
-        osdW._level.bind_property_full(
-          'value',
-          osdW._levLabel,
-          'text',
-          GObject.BindingFlags.SYNC_CREATE,
-          (__, v) => [true, (v * 100).toFixed()],
-          null
-        );
-        osdW._hbox.insert_child_above(osdW._levLabel, osdW._vbox);
-      }
+      if(!osdW._levLabel) this._createLevLabel(osdW);
 
-      if (rotate){
-        osdW._hbox.set_pivot_point(0.5,0.5);
-        osdW._hbox.rotation_angle_z = -90.0;
-        
-        osdW._levLabel.set_pivot_point(0.5,0.5);  
-        osdW._levLabel.rotation_angle_z = 90.0;
-      }
-      else {
-        osdW._hbox.set_pivot_point(0.5,0.5);
-        osdW._hbox.rotation_angle_z = 0;
-    
-        osdW._levLabel.set_pivot_point(0.5,0.5);
-        osdW._levLabel.rotation_angle_z = 0.0;
-      }
-
+      this._setOSDOrientation(osdW, rotate);
+      
       let monitor = Main.layoutManager.monitors[monitorIndex];
       osdW._icon.icon_size = 20 + (osd_size/100 * monitor.height/10); 
-
+      osdW._icon.y_align = Clutter.ActorAlign.CENTER;
+      
       osdW._hbox.add_style_class_name(
         "osd-style"
       );
 
-      let hboxSty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgb(${red},${green},${blue}); margin: 0px;`; 
+      let pad = parseInt(5 + osd_size*0.3);
+      let hboxSty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); padding: ${pad}px ${0.5*pad}px ${pad}px ${pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
-      if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},0.6); border-width: ${parseInt(3 + osd_size*0.08)}px;`;
-      
+      if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.65*falpha}); border-width: ${parseInt(3 + osd_size*0.08)}px;`;      
       osdW._hbox.style = hboxSty;
 
-      osdW._label.style = ` font-size: ${14 + osd_size*0.5}px;  font-weight: normal; color: rgba(${red},${green},${blue},0.9); `; 
-      osdW._level.style = ` min-width: ${40 + osdW._icon.icon_size*2.5}px; -barlevel-active-background-color: rgb(${red},${green},${blue}); -barlevel-background-color: rgba(${red},${green},${blue},0.1); `;
-      osdW._levLabel.style = ` font-size: ${15 + osd_size*0.6}px; font-weight: bold; min-width: ${30 + osd_size*2.0}px; `; 
+      // osdW._label.x_align = Clutter.ActorAlign.CENTER;
+      osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.8*falpha}); `; 
+      osdW._level.style = ` height: ${parseInt(3 + osd_size*0.08)}px; -barlevel-height: ${parseInt(3 + osd_size*0.08)}px; min-width: ${30 + osdW._icon.icon_size*2.5}px; 
+      -barlevel-active-background-color: rgba(${red},${green},${blue},${falpha}); -barlevel-background-color: rgba(${red},${green},${blue},0.15); `; 
+      osdW._levLabel.style = ` font-size: ${15 + osd_size*0.6}px; font-weight: bold; min-width: ${30 + osd_size*1.55}px; `; 
 
       osdW.y_align = Clutter.ActorAlign.CENTER;
 
@@ -213,9 +222,21 @@ class CustomOSDExtension {
         const v_percent = custOSD._settings.get_double("vertical");
         const bradius = custOSD._settings.get_int("bradius");
         const rotate = custOSD._settings.get_boolean("rotate");       
+ 
+        let br1, br2;
+        if(bradius < 0){
+          br1 = 0;
+          br2 = -bradius;
+        }else if(bradius > 100){
+          br1 = 100;
+          br2 = 200 - bradius;
+        }else{  
+          br1 = bradius;
+          br2 = bradius;
+        }
 
-        let hbxH = this._hbox.height; 
-        this._hbox.style += ` border-radius: ${bradius*hbxH/2/100}px;`;
+        let hbxH = this._hbox.height;
+        this._hbox.style += ` border-radius: ${br1*hbxH/1.5/100}px ${br2*hbxH/1.5/100}px;`;
 
         let hbxW = this._hbox.width; 
 
