@@ -49,8 +49,9 @@ Use the settings panel of the extension for most common customizations:
 
 
 ## Optional Advanced Styling
-For optional styling of advanced css options or things like Padding that is not in settings, you will need to edit "spreadsheet.css" file at -  
+For optional styling of advanced css options or things like fonts or custom box-shadow effect that is not in settings, you will need to edit "spreadsheet.css" file at -  
 ~/.local/share/gnome-shell/extensions/custom-osd@neuromorph/  
+ After editing the file, you need to lock the screen and unlock again for the changes to take effect. Alternately, you can disable and enable the extension.  
  This allows for some esoteric tinkering for the ones so inclined. 
 
 Example code:
@@ -78,7 +79,7 @@ Example code:
 
 ## Screenshots
 
-![Screenshot](media/Screenshot.png)
+![Screenshot](media/CustomOSDScreens.png)
 
 
 

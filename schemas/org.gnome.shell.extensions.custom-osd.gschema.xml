@@ -52,7 +52,7 @@
       <description>Background Color of OSD.</description>
     </key>
     <key type="i" name="alpha">
-      <default>15</default>
+      <default>50</default>
       <summary>Transparency (alpha)</summary>
       <description>Transparency of OSD.</description>
     </key>

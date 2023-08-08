@@ -119,13 +119,13 @@ class CustomOSDExtension {
       );
 
       let pad = parseInt(5 + osd_size*0.3);
-      let hboxSty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); padding: ${pad}px ${0.5*pad}px ${pad}px ${pad}px; margin: 0px;`;
+      let hboxSty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
       if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.65*falpha}); border-width: ${parseInt(3 + osd_size*0.08)}px;`;      
       osdW._hbox.style = hboxSty;
 
       // osdW._label.x_align = Clutter.ActorAlign.CENTER;
-      osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.8*falpha}); `; 
+      osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.85*falpha}); `; 
       osdW._level.style = ` height: ${parseInt(3 + osd_size*0.08)}px; -barlevel-height: ${parseInt(3 + osd_size*0.08)}px; min-width: ${30 + osdW._icon.icon_size*2.5}px; 
       -barlevel-active-background-color: rgba(${red},${green},${blue},${falpha}); -barlevel-background-color: rgba(${red},${green},${blue},0.15); `; 
       osdW._levLabel.style = ` font-size: ${15 + osd_size*0.6}px; font-weight: bold; min-width: ${30 + osd_size*1.55}px; `; 
