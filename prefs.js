@@ -312,6 +312,31 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
 
       //-------------------------------------------------------
 
+      rowNo += 2
+      this.clockLabel = new Gtk.Label({
+        label: _("Clock OSD (hotkey) :"),
+        use_markup: true,
+        halign: Gtk.Align.START,
+      });
+      
+      let clockkey = this._settings.get_strv('clock-osd');
+      this.clockEntry = new Gtk.Entry({
+        halign: Gtk.Align.END,
+        text: clockkey[0],
+      });
+      this.clockEntry.set_tooltip_text("<Alt> <Ctrl> <Super> A B C ... 0 1 2 ...");
+
+      // connect to event (after editing entry and pressing enter)
+      this.clockEntry.connect('activate', () => {
+        let key = this.clockEntry.get_text();
+        this._settings.set_strv('clock-osd', [key]);
+      });
+
+      this.attach(this.clockLabel, 1, rowNo, 1, 1);
+      this.attach(this.clockEntry, 2, rowNo, 1, 1);
+
+      //-------------------------------------------------------
+
       rowNo = rowReset;
       rowNo += 2
       let labelColor = _("Color :");
@@ -374,7 +399,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.alpha.set_value(15);
       this.alpha.width_chars = 4;
       this.alpha.set_increments(5, 10);
-      this.alpha.set_tooltip_text("Transparent: 0 ↞↠ 100 :Opaque");
+      this.alpha.set_tooltip_text("Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud");
 
       this.alpha.connect(
         "value-changed",
@@ -475,6 +500,53 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       //-------------------------------------------------------
 
       rowNo += 2
+
+      this.fontLabel = new Gtk.Label({
+        use_markup: true,
+        label: `Font :`,
+        hexpand: true,
+        halign: Gtk.Align.START,
+      });
+
+      this.fontBtn = new Gtk.FontButton({
+        halign: Gtk.Align.END,
+        valign: Gtk.Align.CENTER,
+        use_font: true,
+      });
+      let font = this._settings.get_string('font');
+      if (font == ""){
+        let defaultFont = this.fontBtn.get_font();
+        this._settings.set_string('default-font', defaultFont);
+      }
+      this.fontBtn.set_tooltip_text("Font for OSD text");
+
+      this.fontBtn.connect('font-set', (widget) => {
+        let font = widget.get_font();
+        this._settings.set_string('font', font);
+      });
+
+      this.resetFont = new Gtk.Button({icon_name: 'edit-undo-rtl-symbolic', valign: Gtk.Align.CENTER, halign: Gtk.Align.END}); 
+      this.resetFont.get_style_context().add_class('circular');
+      this.resetFont.set_tooltip_text("Reset to default font");
+      this.resetFont.connect('clicked', () => {
+        this._settings.reset('font');
+        this.fontBtn.set_font(this._settings.get_string('default-font'));
+      });
+
+      this.fontBox = new Gtk.Box({
+        orientation: Gtk.Orientation.HORIZONTAL,
+        spacing: 6,
+        valign: Gtk.Align.CENTER,
+      });
+      this.fontBox.prepend(this.fontLabel);
+      this.fontBox.append(this.fontBtn);
+      this.fontBox.append(this.resetFont);
+
+      this.attach(this.fontBox, 4, rowNo, 2, 1);
+      
+      //-------------------------------------------------------
+
+      rowNo += 2
       this.separator = new Gtk.Separator({
         orientation: Gtk.Orientation.HORIZONTAL,
         hexpand: true,
@@ -491,41 +563,24 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
         margin_top: this.margin_top*2,
         margin_bottom: this.margin_top*2,
       });
-      this.attach(this.separatorV, 3, rowTop, 1, 16);
+      this.attach(this.separatorV, 3, rowTop, 1, 19);
 
 
       //-------------------------------------------------------
 
       rowNo+=2
-      this.msgLabel = new Gtk.Label({
-        label: '',
-        use_markup: true,
-        halign: Gtk.Align.END,
-      });
-      this._settings.connect(`changed`, () => {this.msgLabel.label = '';});
 
-      this.resetLabel = new Gtk.Label({
-        label: `<span size="small">RESET</span>`,
-        use_markup: true,
-        halign: Gtk.Align.CENTER,
-      });
-      this.reset = new Gtk.Button({icon_name: 'edit-undo-rtl-symbolic', hexpand: false, vexpand: false, halign: Gtk.Align.END, valign: Gtk.Align.CENTER}); 
+      this.reset = new Gtk.Button({icon_name: 'edit-undo-rtl-symbolic', halign: Gtk.Align.END, valign: Gtk.Align.CENTER}); 
       this.reset.get_style_context().add_class('destructive-action');
       this.reset.get_style_context().add_class('circular');
       this.reset.set_tooltip_text("Reset all settings to extension defaults");
-      this.reset.connect('clicked', () => {
-        let keys = this._settings.list_keys();
-        keys.forEach(k => { this._settings.reset(k); });
-        this._setPrefValues();
-        this.msgLabel.label = `<span line_height="1.5pt" size="medium" bgcolor="#F9D18B99">Settings have been reset to default values!</span>`;
-      });
-      this.attach(this.msgLabel, 1, rowNo, 4, 1);
-      this.attach(this.resetLabel, 5, rowNo, 1, 1);
-      this.attach(this.reset, 5, rowNo, 1, 1);
+      this.reset.connect('clicked', () => {this._resetSettingsDialog();});
 
+      this.attach(this.reset, 5, rowNo, 1, 1);
 
       //-------------------------------------------------------
 
+      // rowNo+=2
       this.noteImage = new Gtk.Picture({
         vexpand: true,
         hexpand: true,
@@ -541,7 +596,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       rowNo+=1
       this.noteLabel = new Gtk.Label({
         label: `<span size="small" underline="none">
-        • Type/edit the values and hit tab/enter key to update. 
+        • Type/edit the values and hit enter key to update. 
         • OR simply click the - + buttons or PgUp / PgDn keyboard keys.
         • Hover over the values/buttons for more info (tooltips).
         • Position is (0,0) at screen-center. Range is -50 to +50. See pic.
@@ -554,7 +609,7 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
         width_chars: 35,
       });
 
-      this.attach(this.noteLabel, 2, rowNo, 4, 1);
+      this.attach(this.noteLabel, 2, rowNo, 4, 4);
 
       //-------------------------------------------------------
 
@@ -562,6 +617,33 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this._setPrefValues();
 
     }
+
+    _resetSettingsDialog() {
+      let dialog = new Gtk.MessageDialog({
+        modal: true,
+        text: _("Reset Settings?"),
+        secondary_text: _("All settings will be reset to extension default values."),
+        transient_for: this.get_root(),
+      });
+      // add buttons to dialog as 'Reset' and 'Cancel' with 'Cancel' as default
+      dialog.add_button(_("Reset"), Gtk.ResponseType.YES);
+      dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL);
+      dialog.set_default_response(Gtk.ResponseType.CANCEL);
+      
+      // Connect the dialog to the callback function
+      dialog.connect("response", (dialog, responseId) => {
+        if (responseId == Gtk.ResponseType.YES) {
+          let keys = this._settings.list_keys();
+          keys.forEach(k => { this._settings.reset(k); });
+          this._setPrefValues();
+        }
+        dialog.destroy();
+      });
+
+      dialog.show();
+
+    }
+
 
     _setPrefValues(){
 
@@ -597,7 +679,12 @@ const CustomOSDSettingsWidget = new GObject.registerClass(
       this.shadow.set_active(this._settings.get_boolean("shadow"));
       this.border.set_active(this._settings.get_boolean("border"));
       this.bradius.set_value(this._settings.get_int("bradius"));
-    
+      let font = this._settings.get_string('font');
+      if (font == ""){
+        font = this._settings.get_string('default-font');
+      }
+      this.fontBtn.set_font(font);
+          
     }
   }
 );
@@ -609,8 +696,8 @@ function buildPrefsWidget() {
   prefWidget.connect("realize", ()=>{
     const window = prefWidget.get_root();
     window.set_title(_("Custom OSD (On-Screen-Display)"));
-    window.default_height = 775;
-    window.default_width = 675;
+    window.default_height = 800;
+    window.default_width = 700;
   });
 
   return prefWidget;

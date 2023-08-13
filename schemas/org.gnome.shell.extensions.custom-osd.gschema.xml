@@ -42,17 +42,17 @@
       <description>How long the OSD will be displayed.</description>
     </key>
     <key type="as" name="color">
-      <default>['0.04', '0.84', '0.88', '1.0']</default>
+      <default>['1.0', '1.0', '1.0', '1.0']</default>
       <summary>Color (RGBA)</summary>
       <description>Color of OSD.</description>
     </key>
     <key type="as" name="bgcolor">
-      <default>['0.44', '0.42', '0.42']</default>
+      <default>['0.0', '0.73', '0.73']</default>
       <summary>BG Color (RGB)</summary>
       <description>Background Color of OSD.</description>
     </key>
     <key type="i" name="alpha">
-      <default>50</default>
+      <default>90</default>
       <summary>Transparency (alpha)</summary>
       <description>Transparency of OSD.</description>
     </key>
@@ -80,6 +80,20 @@
       <default>"all"</default>
       <summary>Monitors for OSD</summary>
       <description>Monitors to show OSD display on.</description>
+    </key>
+    <key type="as" name="clock-osd">
+      <default><![CDATA[['<Super>T']]]></default>
+      <summary>Hotkey to show date-time-osd.</summary>
+    </key>
+    <key type="s" name="font">
+      <default>""</default>
+      <summary>Font</summary>
+      <description>Font of OSD.</description>
+    </key>
+    <key type="s" name="default-font">
+      <default>""</default>
+      <summary>Default Font</summary>
+      <description>Default Font of OSD.</description>
     </key>
   </schema>
 </schemalist>

@@ -1,13 +1,15 @@
 const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const GObject = imports.gi.GObject;
-const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const Main = imports.ui.main;
 const OsdWindow = imports.ui.osdWindow;
 const OsdWindowManager = Main.osdWindowManager;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
+const Meta = imports.gi.Meta;
+const Shell = imports.gi.Shell;
+const Pango = imports.gi.Pango;
 
 const COSD_SCHEMA = "org.gnome.shell.extensions.custom-osd";
 
@@ -17,6 +19,7 @@ class CustomOSDExtension {
     this._settings = null;
     this._injections = [];
     this._custOSDIcon = null;
+    this._timeOSDIcon = null;
     this._restoreIconSize = null;
     this._restoreHideTimeout = 1500;
   }
@@ -39,6 +42,30 @@ class CustomOSDExtension {
     else object[name] = injection[name];
   }
 
+
+  _getDateTime() {
+    let date = new Date();
+    let dayname = date.toLocaleString("en-us", { weekday: "short" });
+    // let month = date.toLocaleString("en-us", { month: "short" });
+    let day = date.getDate();
+    // let year = date.getFullYear();
+    let strDate = `${dayname} ${day}`;
+
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let strTime = hours + ":" + minutes + " " + ampm;
+    
+    return " " + strDate + "   " + strTime + " ";
+  }
+
+  _showClockOSD() {
+    OsdWindowManager.show(-1, this._timeOSDIcon, this._getDateTime());
+  }
+  
   _createLevLabel(osdW){
       osdW._levLabel = new St.Label({
         name: 'levLabel',
@@ -84,6 +111,7 @@ class CustomOSDExtension {
     const shadow = this._settings.get_boolean("shadow");
     const border = this._settings.get_boolean("border");
     const rotate = this._settings.get_boolean("rotate");
+    const font = this._settings.get_string("font");
 
     const red = parseInt(parseFloat(color[0]) * 255);
     const green = parseInt(parseFloat(color[1]) * 255);
@@ -119,16 +147,32 @@ class CustomOSDExtension {
       );
 
       let pad = parseInt(5 + osd_size*0.3);
-      let hboxSty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
+      let thickness = parseInt(3 + osd_size*0.08);
+      let hboxSty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
+                    padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
-      if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.65*falpha}); border-width: ${parseInt(3 + osd_size*0.08)}px;`;      
-      osdW._hbox.style = hboxSty;
+      if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.65*falpha}); border-width: ${thickness}px;`;   
 
       // osdW._label.x_align = Clutter.ActorAlign.CENTER;
-      osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.85*falpha}); `; 
-      osdW._level.style = ` height: ${parseInt(3 + osd_size*0.08)}px; -barlevel-height: ${parseInt(3 + osd_size*0.08)}px; min-width: ${30 + osdW._icon.icon_size*2.5}px; 
+      osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.9*falpha}); `; 
+      osdW._level.style = ` height: ${thickness}px; -barlevel-height: ${thickness}px; min-width: ${30 + osdW._icon.icon_size*2.5}px; 
       -barlevel-active-background-color: rgba(${red},${green},${blue},${falpha}); -barlevel-background-color: rgba(${red},${green},${blue},0.15); `; 
-      osdW._levLabel.style = ` font-size: ${15 + osd_size*0.6}px; font-weight: bold; min-width: ${30 + osd_size*1.55}px; `; 
+      osdW._levLabel.style = ` font-size: ${15 + osd_size*0.6}px; font-weight: bold; min-width: ${30 + osd_size*1.65}px; `; 
+
+      if (font != ""){
+        let fontDesc = Pango.font_description_from_string(font); 
+        let fontFamily = fontDesc.get_family();
+        let fontSize = fontDesc.get_size() / Pango.SCALE;
+        let fontWeight;
+        try{
+          fontWeight = fontDesc.get_weight();
+        }catch(e){
+          fontWeight = Math.round(fontWeight/100)*100;
+        }
+        hboxSty += ` font-family: ${fontFamily}; `;
+        osdW._label.style += ` font-size: ${fontSize}px; font-weight: ${fontWeight}; `; 
+      }
+      osdW._hbox.style = hboxSty;
 
       osdW.y_align = Clutter.ActorAlign.CENTER;
 
@@ -179,11 +223,20 @@ class CustomOSDExtension {
     
     let custOSD = this;
     this._custOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-color-symbolic');
+    this._timeOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-system-time-symbolic');
 
     this._settings = ExtensionUtils.getSettings(this._schema);
     this._settings.connect(`changed`, () => this._syncSettings(true));
     Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._syncSettings(false);
+
+    Main.wm.addKeybinding(
+      "clock-osd",
+      this._settings,
+      Meta.KeyBindingFlags.NONE,
+      Shell.ActionMode.NORMAL,
+      this._showClockOSD.bind(this)
+    );
 
     this._restoreIconSize = OsdWindowManager._osdWindows[0]._icon.icon_size;
     this._restoreHideTimeout = OsdWindow.HIDE_TIMEOUT;
@@ -260,9 +313,12 @@ class CustomOSDExtension {
 
   disable() {
 
+    Main.wm.removeKeybinding("clock-osd");
+
     this._unCustomOSD();
     this._settings = null;
     this._custOSDIcon = null;
+    this._timeOSDIcon = null;
     
     OsdWindow.HIDE_TIMEOUT = this._restoreHideTimeout;
 

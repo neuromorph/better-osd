@@ -44,14 +44,15 @@ Use the settings panel of the extension for most common customizations:
 * Shape Shift: Pill/Rectangle/Other (interpolation)
 * Numeric % for levels
 * Monitor to show OSD on
+* Set Font of OSD text
 * Select what to show: Icon, Text, Level Bar, Numeric %
 
 
 
 ## Optional Advanced Styling
-For optional styling of advanced css options or things like fonts or custom box-shadow effect that is not in settings, you will need to edit "spreadsheet.css" file at -  
+For optional styling of advanced css options or things like custom box-shadow effect that is not in settings, you will need to edit "spreadsheet.css" file at -  
 ~/.local/share/gnome-shell/extensions/custom-osd@neuromorph/  
- After editing the file, you need to lock the screen and unlock again for the changes to take effect. Alternately, you can disable and enable the extension.  
+ After editing the file, you need to disable and enable the extension for the changes to take effect. Alternately, you can lock the screen and unlock again.  
  This allows for some esoteric tinkering for the ones so inclined. 
 
 Example code:
@@ -64,6 +65,7 @@ Example code:
 
 
 ## What's New (recent first)
+- New clock OSD to show current date/time and option to set OSD font in settings
 - Some refactor, button to reset settings to default, foreground trasparency option integrated in color, shape shift, fix defaults.
 - Select any combinations of OSD components to display. New test-OSD for instant feedback when changing settings. Refactor to preset OSDs with customization and minimize runtime adaptation.
 - Improved positioning logic to snap fit edges
@@ -71,7 +73,7 @@ Example code:
 - Added support for Numeric level %, Monitors to display OSD and Box Border
 - Added support for Color+BG Color, Shadow and Orientation
 - Settings updated to include Color and Transparency options
-- Upload initial version to Gnome extensions store
+- Cleanup and upload initial version to Gnome extensions store
 - Metadata updated for Gnome 44
 - Ported for GNOME 42 + some fixes
 
