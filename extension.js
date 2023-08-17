@@ -2,6 +2,7 @@ const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
+const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
 const OsdWindow = imports.ui.osdWindow;
 const OsdWindowManager = Main.osdWindowManager;
@@ -11,11 +12,13 @@ const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 const Pango = imports.gi.Pango;
 
-const COSD_SCHEMA = "org.gnome.shell.extensions.custom-osd";
+const {gettext: _,} = ExtensionUtils;
+
+// const COSD_SCHEMA = "org.gnome.shell.extensions.custom-osd";
 
 class CustomOSDExtension {
   constructor() {
-    this._schema = COSD_SCHEMA;
+    // this._schema = COSD_SCHEMA;
     this._settings = null;
     this._injections = [];
     this._custOSDIcon = null;
@@ -23,7 +26,6 @@ class CustomOSDExtension {
     this._restoreIconSize = null;
     this._restoreHideTimeout = 1500;
   }
-
 
   _injectToFunction(parent, name, func) {
     let origin = parent[name];
@@ -36,12 +38,10 @@ class CustomOSDExtension {
     return origin;
   }
 
-
   _removeInjection(object, injection, name) {
     if (injection[name] === undefined) delete object[name];
     else object[name] = injection[name];
   }
-
 
   _getDateTime() {
     let date = new Date();
@@ -62,8 +62,9 @@ class CustomOSDExtension {
     return " " + strDate + "   " + strTime + " ";
   }
 
-  _showClockOSD() {
-    OsdWindowManager.show(-1, this._timeOSDIcon, this._getDateTime());
+  _showOSD(osd) {
+    if (osd == "Test OSD") OsdWindowManager.show(-1, this._custOSDIcon, "Custom OSD", 1.0, 1.0);
+    if (osd == "Clock OSD") OsdWindowManager.show(-1, this._timeOSDIcon, this._getDateTime());
   }
   
   _createLevLabel(osdW){
@@ -103,11 +104,11 @@ class CustomOSDExtension {
   _syncSettings(settingChanged){
 
     const icon = this._settings.get_boolean("icon");
-    const osd_size = this._settings.get_int("size");
-    const hide_delay = this._settings.get_int("delay");
+    const osd_size = this._settings.get_double("size");
+    const hide_delay = this._settings.get_double("delay");
     const color = this._settings.get_strv("color");
     const bgcolor = this._settings.get_strv("bgcolor");
-    const alphaPct = this._settings.get_int("alpha");
+    const alphaPct = this._settings.get_double("alpha");
     const shadow = this._settings.get_boolean("shadow");
     const border = this._settings.get_boolean("border");
     const rotate = this._settings.get_boolean("rotate");
@@ -170,7 +171,7 @@ class CustomOSDExtension {
           fontWeight = Math.round(fontWeight/100)*100;
         }
         hboxSty += ` font-family: ${fontFamily}; `;
-        osdW._label.style += ` font-size: ${fontSize}px; font-weight: ${fontWeight}; `; 
+        osdW._label.style += ` font-size: ${fontSize + osd_size*0.3}px; font-weight: ${fontWeight}; `; 
       }
       osdW._hbox.style = hboxSty;
 
@@ -180,7 +181,7 @@ class CustomOSDExtension {
 
     }
 
-    if(settingChanged) OsdWindowManager.show(-1, this._custOSDIcon, "Custom OSD", 1.0, 1.0);
+    if(settingChanged) this._showOSD('Test OSD');
 
   }
 
@@ -222,10 +223,16 @@ class CustomOSDExtension {
   enable() {
     
     let custOSD = this;
+
+    // this._resources = Gio.Resource.load(Me.path + '/resources/custom-osd.gresource');
+    // Gio.resources_register(this._resources);
+    // const gtkTheme = Gtk.IconTheme.get_default();
+    // gtkTheme.add_resource_path(Me.path + '/media');
+
     this._custOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-color-symbolic');
     this._timeOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-system-time-symbolic');
 
-    this._settings = ExtensionUtils.getSettings(this._schema);
+    this._settings = ExtensionUtils.getSettings(); //this._schema
     this._settings.connect(`changed`, () => this._syncSettings(true));
     Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._syncSettings(false);
@@ -235,7 +242,7 @@ class CustomOSDExtension {
       this._settings,
       Meta.KeyBindingFlags.NONE,
       Shell.ActionMode.NORMAL,
-      this._showClockOSD.bind(this)
+      this._showOSD.bind(this, 'Clock OSD')
     );
 
     this._restoreIconSize = OsdWindowManager._osdWindows[0]._icon.icon_size;
@@ -273,7 +280,7 @@ class CustomOSDExtension {
 
         const h_percent = custOSD._settings.get_double("horizontal");
         const v_percent = custOSD._settings.get_double("vertical");
-        const bradius = custOSD._settings.get_int("bradius");
+        const bradius = custOSD._settings.get_double("bradius");
         const rotate = custOSD._settings.get_boolean("rotate");       
  
         let br1, br2;

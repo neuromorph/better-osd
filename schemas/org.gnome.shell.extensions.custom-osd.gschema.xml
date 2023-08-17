@@ -31,13 +31,13 @@
       <summary>Vertical Position (%)</summary>
       <description>The percentage of the screen height (from the center of the screen) at which the OSD will be displayed.</description>
     </key>
-    <key type="i" name="size">
-      <default>15</default>
+    <key type="d" name="size">
+      <default>15.0</default>
       <summary>OSD size (screen %)</summary>
       <description>Relative OSD size.</description>
     </key>
-    <key type="i" name="delay">
-      <default>1500</default>
+    <key type="d" name="delay">
+      <default>1500.0</default>
       <summary>Hide delay (ms)</summary>
       <description>How long the OSD will be displayed.</description>
     </key>
@@ -47,12 +47,12 @@
       <description>Color of OSD.</description>
     </key>
     <key type="as" name="bgcolor">
-      <default>['0.0', '0.73', '0.73']</default>
+      <default>['0.0', '0.73', '0.73', '1.0']</default>
       <summary>BG Color (RGB)</summary>
       <description>Background Color of OSD.</description>
     </key>
-    <key type="i" name="alpha">
-      <default>90</default>
+    <key type="d" name="alpha">
+      <default>90.0</default>
       <summary>Transparency (alpha)</summary>
       <description>Transparency of OSD.</description>
     </key>
@@ -66,8 +66,8 @@
       <summary>Box Border</summary>
       <description>Box Border of OSD.</description>
     </key>
-    <key type="i" name="bradius">
-      <default>100</default>
+    <key type="d" name="bradius">
+      <default>100.0</default>
       <summary>Pill Shape</summary>
       <description>Convert between rectangle and pill shapes.</description>
     </key>
@@ -82,7 +82,7 @@
       <description>Monitors to show OSD display on.</description>
     </key>
     <key type="as" name="clock-osd">
-      <default><![CDATA[['<Super>T']]]></default>
+      <default><![CDATA[['']]]></default>
       <summary>Hotkey to show date-time-osd.</summary>
     </key>
     <key type="s" name="font">
