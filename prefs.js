@@ -1,4 +1,3 @@
-const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
 const Adw = imports.gi.Adw;
@@ -9,6 +8,7 @@ const _ = Gettext.gettext;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
+const Widgets = Me.imports.prefWidgets;
 
 //-----------------------------------------------
 
@@ -18,10 +18,9 @@ function init() {
 
 //-----------------------------------------------
 
-
 function fillPreferencesWindow(window) {
 
-  window.set_title(_("Custom OSD (On-Screen-Display)"));
+  // window.set_title(_("Custom OSD (On-Screen-Display)"));
   window.default_height = 850;
   window.default_width = 700;
   // window.search_enabled = true;
@@ -31,21 +30,21 @@ function fillPreferencesWindow(window) {
 
   const settingsPage = new Adw.PreferencesPage({
       name: 'settings',
-      title: 'Settings',
+      title: _('Settings'),
       icon_name: 'preferences-system-symbolic',
   });
   window.add(settingsPage);
 
   const helpPage = new Adw.PreferencesPage({
     name: 'help',
-    title: 'Help',
+    title: _('Help'),
     icon_name: 'help-symbolic',
   });
   window.add(helpPage);
 
   const aboutPage = new Adw.PreferencesPage({
       name: 'about',
-      title: 'About',
+      title: _('About'),
       icon_name: 'preferences-color-symbolic',
   });
   window.add(aboutPage);
@@ -74,15 +73,15 @@ function _fillHelpPage(window, helpPage){
   const titleLabel = _getTitleLabel();
   helpGroup.add(titleLabel);
 
+  const overviewText = `<span size="medium">
+  <b>${_(`OSD What?`)}</b>
+  ${_(`OSDs are On-Screen-Display pop ups that show up for volume, brightness etc.`)} 
+  ${_(`This extension allows you to fully customize these pop ups, whether built-in`)} 
+  ${_(`or those created by extensions like Caffeine, Lock Keys etc.`)}</span>`;
   const overviewLabel = new Gtk.Label({
     use_markup: true,
     wrap_mode: Gtk.WrapMode.WORD,
-    label: `<span size="medium" underline="none" allow_breaks="true">
-    <b>OSD What?</b> 
-    OSDs are On-Screen-Display pop ups that show up for volume, brightness etc. 
-    This extension allows you to fully customize these pop ups whether built-in 
-    or those created by extensions like Caffeine, Lock Keys etc. 
-    </span>`,
+    label: overviewText,
     width_chars: 35,
   });
   helpGroup.add(overviewLabel);
@@ -90,23 +89,25 @@ function _fillHelpPage(window, helpPage){
   const positionImage = new Gtk.Image({
     file: Me.path + "/media/Position.png",
     pixel_size: 200,
+    margin_top: 5,
   });
 
   const notesRow = new Adw.ExpanderRow({
-    title: `<span size="medium" weight="heavy">Brief Notes</span>`,
+    title: `<span size="medium"><b>` + _(`Brief Notes`) + `</b></span>`,
     expanded: true,
   });
+  const notesText = `<span size="medium" underline="none">
+  • ${_(`Type/edit the values and hit enter key to update OR`)}
+  • ${_(`Simply click the - + buttons or PgUp / PgDn keyboard keys.`)}
+  • ${_(`Hover over the values/buttons for more info (tooltips).`)}
+  • ${_(`Position is (0,0) at screen-center. Range is -50 to +50 as shown above.`)}
+  • ${_(`Custom-color panel of Color button has foreground transparency slider.`)}
+  • ${_(`Further styling effects are possible by editing the extension's stylesheet.`)}
+  • ${_(`Visit home page for more details`)}: <a href="${Me.metadata.url}"><b>${_('Custom OSD')}</b></a>
+  </span>`;
   const notesLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span size="medium" underline="none">
-    • Type/edit the values and hit enter key to update OR
-    • Simply click the - + buttons or PgUp / PgDn keyboard keys.
-    • Hover over the values/buttons for more info (tooltips).
-    • Position is (0,0) at screen-center. Range is -50 to +50 as shown above.
-    • Custom-color panel of Color button has foreground transparency slider.
-    • Further styling effects are possible by editing the extension's stylesheet.
-    • Visit home page for more details: <a href="${Me.metadata.url}"><b>Custom OSD</b></a>
-    </span>`,
+    label: _(notesText),
     width_chars: 35,
   });
   notesRow.add_row(notesLabel);
@@ -114,7 +115,7 @@ function _fillHelpPage(window, helpPage){
   const helpBox = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
     spacing: 5,
-    margin_top: 5,
+    margin_top: 10,
     margin_bottom: 5,
   });
   helpBox.append(positionImage);
@@ -128,7 +129,7 @@ function _fillHelpPage(window, helpPage){
 function _getTitleLabel(){
   return new Gtk.Label({
     use_markup: true,
-    label: `<span size="x-large" weight="heavy" color="#07D8E3">Custom OSD</span>`,
+    label: `<span size="x-large" weight="heavy" color="#07D8E3">` + _(`Custom OSD`) + `</span>`,
     halign: Gtk.Align.CENTER
   });
 }
@@ -160,14 +161,14 @@ function _fillAboutPage(window, aboutPage){
 
   const versionLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span size="small">${_('Version:')} ${Me.metadata.version}  |  © neuromorph</span>`,
+    label: `<span size="small">${_('Version')}: ${Me.metadata.version}  |  ${_('© neuromorph')}</span>`,
     margin_bottom: 10,
   });
   infoBox.append(versionLabel);
 
   const aboutText = new Gtk.Label({
     use_markup: true,
-    label: `Turn annoying OSDs into Awesome OSDs 😎 !`,
+    label: _(`Turn annoying OSDs into Awesome OSDs 😎 !`),
     width_chars: 35,
   });
   infoBox.append(aboutText);
@@ -178,7 +179,7 @@ function _fillAboutPage(window, aboutPage){
   aboutPage.add(rowGroup);
 
   const homeRow = new Adw.ActionRow({
-    title: 'Custom OSD Home',
+    title: _('Custom OSD Home'),
   });
   const homeBtn = new Gtk.Button({icon_name: 'external-link-symbolic', valign: Gtk.Align.CENTER,});
   homeRow.add_suffix(homeBtn);
@@ -190,7 +191,7 @@ function _fillAboutPage(window, aboutPage){
   rowGroup.add(homeRow);
 
   const issueRow = new Adw.ActionRow({
-    title: 'Report an issue',
+    title: _('Report an issue'),
   });
   const issuesBtn = new Gtk.Button({icon_name: 'external-link-symbolic', valign: Gtk.Align.CENTER,});
   issueRow.add_suffix(issuesBtn);
@@ -203,12 +204,12 @@ function _fillAboutPage(window, aboutPage){
   rowGroup.add(issueRow);
 
   const translateRow = new Adw.ActionRow({
-    title: 'Contribute (translation)',
+    title: _('Contribute (translation)'),
   });
   const translateBtn = new Gtk.Button({icon_name: 'external-link-symbolic', valign: Gtk.Align.CENTER,});
   translateRow.add_suffix(translateBtn);
   // translateRow.set_activatable_widget(translateBtn);
-  let translateLink = "neuromorph/custom-osd";
+  let translateLink = "https://github.com/neuromorph/custom-osd#translations";
   translateBtn.connect('clicked', () => {
     Gtk.show_uri(window, translateLink, Gdk.CURRENT_TIME);
   });
@@ -216,21 +217,22 @@ function _fillAboutPage(window, aboutPage){
   rowGroup.add(translateRow);
 
   const acknowledgeRow = new Adw.ExpanderRow({
-    title: `Acknowledgements`,
+    title: _(`Acknowledgements`),
     expanded: false,
   });
-  const acknowledgeText = new Gtk.Label({
+  const acknowledgeText = `<span size="medium" underline="none">
+  • ${_(`Inspired by and initiated from Better OSD 🙏.`)}
+  • ${_(`Users: Thank you for your appreciation and valuable feedback!`)}
+  • ${_(`Contributors: Translations are welcome and greatly appreciated!`)}
+  • ${_(`Supporters: Highly thankful to you for choosing to support this work 🙏.`)}
+  • ${_(`Image: Color scheme icons created by <a href="https://www.flaticon.com/free-icons/color-scheme" title="color scheme icons">flatart_icons - Flaticon</a>`)}
+  </span>`;
+  const acknowledgeLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span size="medium" underline="none">
-    • Inspired by and initiated from Better OSD 🙏.
-    • Users: Thank you for your appreciation and valuable feedback!
-    • Contributors: Translations are welcome and greatly appreciated!
-    • Supporters: Highly thankful to you for choosing to support this work 🙏.
-    • Image: Color scheme icons created by <a href="https://www.flaticon.com/free-icons/color-scheme" title="color scheme icons">flatart_icons - Flaticon</a>
-    </span>`,
+    label: acknowledgeText,
     width_chars: 35,
   });
-  acknowledgeRow.add_row(acknowledgeText);
+  acknowledgeRow.add_row(acknowledgeLabel);
   rowGroup.add(acknowledgeRow);
 
   const supportGroup = new Adw.PreferencesGroup();
@@ -253,7 +255,7 @@ function _fillAboutPage(window, aboutPage){
     child: coffeeImage,
     uri: "https://www.buymeacoffee.com/neuromorph",
     margin_end: 200,
-    tooltip_text: "Buy me a coffee ☕",
+    tooltip_text: _("Buy me a coffee ☕"),
     valign: Gtk.Align.CENTER, 
   });
   supportBox.prepend(coffeeBtn);
@@ -264,9 +266,8 @@ function _fillAboutPage(window, aboutPage){
   });
   const twtterBtn = new Gtk.LinkButton({
     child: twitterImage,
-    uri: `https://twitter.com/intent/tweet?text=Checkout%20Gnome%20Shell%20Extension%20Custom%20OSD
-          %3A%20%20https%3A%2F%2Fextensions.gnome.org%2Fextension%2F6142%2Fcustom-osd`,
-    tooltip_text: "Share on Twitter",
+    uri: `https://twitter.com/intent/tweet?text=Checkout%20Gnome%20Shell%20Extension%20Custom%20OSD%3A%20%20https%3A%2F%2Fextensions.gnome.org%2Fextension%2F6142%2Fcustom-osd`,
+    tooltip_text: _("Share on Twitter"),
     valign: Gtk.Align.CENTER,
   });
   supportBox.append(twtterBtn);
@@ -277,9 +278,8 @@ function _fillAboutPage(window, aboutPage){
   });
   const redditBtn = new Gtk.LinkButton({
     child: redditImage,
-    uri: `https://reddit.com/submit?url=https%3A%2F%2Fextensions.gnome.org%2Fextension%2F6142%2F
-          custom-osd&title=Custom%20OSD%20Gnome%20Shell%20Extension`,
-    tooltip_text: "Share on Reddit",
+    uri: `https://reddit.com/submit?url=https%3A%2F%2Fextensions.gnome.org%2Fextension%2F6142%2Fcustom-osd&title=Custom%20OSD%20Gnome%20Shell%20Extension`,
+    tooltip_text: _("Share on Reddit"),
     valign: Gtk.Align.CENTER,
   });
   supportBox.append(redditBtn);
@@ -292,8 +292,8 @@ function _fillAboutPage(window, aboutPage){
   const gnuLabel = new Gtk.Label({
     use_markup: true,
     label: `<span size="small" underline="none">
-    This program comes with absolutely no warranty.
-    See the <a href="https://gnu.org/licenses/gpl-3.0.html">GNU General Public License, version 3</a> for details.
+    ${_(`This program comes with absolutely no warranty.`)}
+    ${_(`See the <a href="https://gnu.org/licenses/gpl-3.0.html">GNU General Public License, version 3</a> for details.`)}
     </span>`,
     halign: Gtk.Align.CENTER,
     justify: Gtk.Justification.CENTER,
@@ -352,90 +352,90 @@ function _fillSettingsPage(window, settingsPage){
   titleGroup.add(titleLabel);
 
   const geometryExpander = new Adw.ExpanderRow({
-    title: `<span size="medium" weight="heavy">Geometry</span>`,
+    title: `<span size="medium" weight="heavy">` + _(`Geometry`) + `</span>`,
     expanded: false,
   });
   geometryGroup.add(geometryExpander);
 
   const styleExpander = new Adw.ExpanderRow({
-    title: `<span size="medium" weight="heavy">Style</span>`,
+    title: `<span size="medium" weight="heavy">` + _(`Style`) + `</span>`,
     expanded: false,
   });
   styleGroup.add(styleExpander);
 
   const beyondExpander = new Adw.ExpanderRow({
-    title: `<span size="medium" weight="heavy">Beyond</span>`,
+    title: `<span size="medium" weight="heavy">` + _(`Beyond`) + `</span>`,
     expanded: false,
   });
   beyondGroup.add(beyondExpander);
 
   // Settings Page: Geometry
-  const hPositionRow = _createSpinBtnRow(window, 'horizontal');
+  const hPositionRow = Widgets._createSpinBtnRow(window, 'horizontal');
   geometryExpander.add_row(hPositionRow);
 
-  const vPositionRow = _createSpinBtnRow(window, 'vertical');
+  const vPositionRow = Widgets._createSpinBtnRow(window, 'vertical');
   geometryExpander.add_row(vPositionRow);
 
-  const sizeRow = _createSpinBtnRow(window, 'size');
+  const sizeRow = Widgets._createSpinBtnRow(window, 'size');
   geometryExpander.add_row(sizeRow);
 
-  const rotateRow = _createSwitchRow(window, 'rotate');
+  const rotateRow = Widgets._createSwitchRow(window, 'rotate');
   geometryExpander.add_row(rotateRow);
 
-  const bradiusRow = _createSpinBtnRow(window, 'bradius');
+  const bradiusRow = Widgets._createSpinBtnRow(window, 'bradius');
   geometryExpander.add_row(bradiusRow);
 
   // Settings Page: Style
-  const colorRow = _createColorRow(window, 'color');
+  const colorRow = Widgets._createColorRow(window, 'color');
   styleExpander.add_row(colorRow);
 
-  const bgcolorRow = _createColorRow(window, 'bgcolor');
+  const bgcolorRow = Widgets._createColorRow(window, 'bgcolor');
   styleExpander.add_row(bgcolorRow);
 
-  const alphaRow = _createSpinBtnRow(window, 'alpha');
+  const alphaRow = Widgets._createSpinBtnRow(window, 'alpha');
   styleExpander.add_row(alphaRow);
 
-  const shadowRow = _createSwitchRow(window, 'shadow');
+  const shadowRow = Widgets._createSwitchRow(window, 'shadow');
   styleExpander.add_row(shadowRow);
 
-  const borderRow = _createSwitchRow(window, 'border');
+  const borderRow = Widgets._createSwitchRow(window, 'border');
   styleExpander.add_row(borderRow);
 
-  const fontRow = _createFontRow(window, 'font');
+  const fontRow = Widgets._createFontRow(window, 'font');
   styleExpander.add_row(fontRow);
 
   // Settings Page: Beyond
-  const delayRow = _createSpinBtnRow(window, 'delay');
+  const delayRow = Widgets._createSpinBtnRow(window, 'delay');
   beyondExpander.add_row(delayRow);
 
-  const monitorsRow = _createMonitorsRow(window, 'monitors');
+  const monitorsRow = Widgets._createMonitorsRow(window, 'monitors');
   beyondExpander.add_row(monitorsRow);
 
-  const clockRow = _createClockRow(window, 'clock-osd');
+  const clockRow = Widgets._createClockRow(window, 'clock-osd');
   beyondExpander.add_row(clockRow);
   
   const componentsRow = new Adw.ActionRow({
-    title: 'OSD Components',
+    title: _('OSD Components'),
   });
-  const iconBtn = _createToggleBtn(window, 'icon');
+  const iconBtn = Widgets._createToggleBtn(window, 'icon');
   componentsRow.add_suffix(iconBtn);
   // componentsRow.set_activatable_widget(iconBtn);
-  const labelBtn = _createToggleBtn(window, 'label');
+  const labelBtn = Widgets._createToggleBtn(window, 'label');
   componentsRow.add_suffix(labelBtn);
   // componentsRow.set_activatable_widget(labelBtn);
-  const levelBtn = _createToggleBtn(window, 'level');
+  const levelBtn = Widgets._createToggleBtn(window, 'level');
   componentsRow.add_suffix(levelBtn);
   // componentsRow.set_activatable_widget(levelBtn);
-  const numericBtn = _createToggleBtn(window, 'numeric');
+  const numericBtn = Widgets._createToggleBtn(window, 'numeric');
   componentsRow.add_suffix(numericBtn);
   // componentsRow.set_activatable_widget(numericBtn);
   beyondExpander.add_row(componentsRow);
 
   // Settings Page: Reset
   const resetSettingsBtn = new Gtk.Button({
-    label: "Reset",
+    label: _("Reset"),
     margin_top: 25,
-    tooltip_text: "Reset all settings to extension defaults",
+    tooltip_text: _("Reset all settings to extension defaults"),
     halign: Gtk.Align.END
   });
   resetSettingsBtn.get_style_context().add_class('destructive-action');
@@ -444,356 +444,6 @@ function _fillSettingsPage(window, settingsPage){
   });
   beyondGroup.add(resetSettingsBtn);
 
-}
-
-//-----------------------------------------------
-
-function _createClockRow(window, buttonKey){
-  let settingsActivables = window._activableWidgets['settings'];
-
-  const clockRow = new Adw.ActionRow({
-    title: 'Clock OSD (hotkey)',
-  });
-  // const clockEntry = new Adw.EntryRow({
-  //   tooltip_text: "<Alt> <Ctrl> <Super> A B C ... 0 1 2 ...",
-  // });
-  let clockkey = window._settings.get_strv('clock-osd');
-  const clockEntry = new Gtk.Entry({
-    text: clockkey[0],
-    width_chars: 10,
-    tooltip_text: "Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 1 2 ...",
-    valign: Gtk.Align.CENTER,
-  })
-  clockEntry.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, 'preferences-system-time-symbolic');
-  clockEntry.set_icon_activatable(Gtk.EntryIconPosition.SECONDARY, true);
-  clockEntry.set_icon_sensitive(Gtk.EntryIconPosition.SECONDARY, true);
-  ['activate', 'icon-press'].forEach(signal => {
-    clockEntry.connect(signal, (w) => {
-      let key = w.get_text();
-      window._settings.set_strv(buttonKey, [key]);
-    });
-  });
-  settingsActivables.push({[buttonKey]:clockEntry});
-  clockRow.add_suffix(clockEntry);
-  clockRow.set_activatable_widget(clockEntry);
-
-  return clockRow;
-}
-
-//-----------------------------------------------
-
-function _createMonitorsRow(window, buttonKey){
-  let settingsActivables = window._activableWidgets['settings'];
-
-  const monitorsRow = new Adw.ActionRow({
-    title: 'Monitors',
-  });
-  const monitorsCombo = new Gtk.ComboBoxText({
-    tooltip_text: "Choose monitor to show OSD on",
-    valign: Gtk.Align.CENTER,
-  });
-  monitorsCombo.append("all", _("All"));
-  monitorsCombo.append("primary", _("Primary"));
-  monitorsCombo.append("external", _("External"));
-  monitorsCombo.connect(
-    "changed",
-    function (w) {
-      var value = w.get_active_id();
-      window._settings.set_string(buttonKey, value);
-    }
-  );
-  settingsActivables.push({[buttonKey]:monitorsCombo});
-  monitorsRow.add_suffix(monitorsCombo);
-  monitorsRow.set_activatable_widget(monitorsCombo);
-
-  return monitorsRow;
-}
-
-//-----------------------------------------------
-
-function _createFontRow(window, buttonKey){
-  let settingsActivables = window._activableWidgets['settings'];
-  const fontRow = new Adw.ActionRow({
-    title: 'Font',
-  });
-  // const fontBtn = new Gtk.FontDialogButton({
-  //   use_font: true,
-  //   tooltip_text: "Font for OSD text",
-  //   valign: Gtk.Align.CENTER,
-  // });
-  const fontBtn = new Gtk.FontButton({
-    use_font: true,
-    tooltip_text: "Font for OSD text",
-    valign: Gtk.Align.CENTER,
-  });
-  let font = window._settings.get_string('font');
-  if (font == ""){
-    let defaultFont = fontBtn.get_font();
-    window._settings.set_string('default-font', defaultFont);
-  }
-  fontBtn.connect(
-    "font-set",
-    function (w) {
-      var value = w.get_font();
-      window._settings.set_string(buttonKey, value);
-    }
-  );
-  settingsActivables.push({[buttonKey]:fontBtn});
-  fontRow.add_suffix(fontBtn);
-  fontRow.set_activatable_widget(fontBtn);
-
-  const resetFontBtn = new Gtk.Button({
-    icon_name: 'reload-symbolic',
-    width_request: 10,
-    tooltip_text: "Reset to default font",
-    valign: Gtk.Align.CENTER, 
-    halign: Gtk.Align.END
-  }); 
-  resetFontBtn.get_style_context().add_class('circular');
-  resetFontBtn.connect('clicked', () => {
-    window._settings.reset('font');
-    let fontBtn = window._activableWidgets['settings'].find(x => x['font'])['font'];
-    fontBtn.set_font(window._settings.get_string('default-font'));
-  });
-  fontRow.add_suffix(resetFontBtn);
-  
-  return fontRow;
-}
-
-//-----------------------------------------------
-
-function _createToggleBtn(window, buttonKey){
-  let label, tooltip_text;
-  let settingsActivables = window._activableWidgets['settings'];
-
-  switch (buttonKey) {
-    case 'icon':
-      label = 'Icon';
-      tooltip_text = "Show icon in OSD";
-      break;
-    case 'label':
-      label = 'Label';
-      tooltip_text = "Show label in OSD when applicable";
-      break;
-    case 'level':
-      label = 'Level';
-      tooltip_text = "Show level in OSD when applicable";
-      break;
-    case 'numeric':
-      label = 'Numeric';
-      tooltip_text = "Show numeric value in OSD when applicable";
-      break;
-    default:
-      break;
-  }
-
-  const toggleBtn = new Gtk.ToggleButton({
-    label: label,
-    sensitive: true,
-    tooltip_text: tooltip_text,
-    valign: Gtk.Align.CENTER,
-  });
-  toggleBtn.connect(
-    "toggled",
-    function (w) {
-        var value = w.get_active();
-        window._settings.set_boolean(buttonKey, value);
-    }.bind(this)
-  );
-  settingsActivables.push({[buttonKey]: toggleBtn});
-
-  return toggleBtn;
-}
-
-//-----------------------------------------------
-
-function _createColorRow(window, buttonKey){
-  let settingsActivables = window._activableWidgets['settings'];
-  let title, tooltip_text;
-  
-  switch (buttonKey) {
-    case 'color':
-      title = 'Color';
-      tooltip_text = "Foreground color of OSD";
-      use_alpha = true;
-      break;
-    case 'bgcolor':
-      title = 'Background Color';
-      tooltip_text = "Background color of OSD";
-      use_alpha = false;
-      break;
-    default:
-      break;
-  }
-
-  const row = new Adw.ActionRow({
-    title: title,
-  });
-  // const colorDialog = new Gtk.ColorDialog({
-  //   with_alpha: use_alpha,
-  //   title: title,
-  // })
-  // const colorBtn = new Gtk.ColorDialogButton(colorDialog, {
-  //   tooltip_text: tooltip_text,
-  //   valign: Gtk.Align.CENTER,});
-  const colorBtn = new Gtk.ColorButton({
-    use_alpha: use_alpha,
-    tooltip_text: tooltip_text,
-    valign: Gtk.Align.CENTER,
-  });
-  colorBtn.connect(
-    "color-set",
-    function (w) {
-      var rgba = w.get_rgba();
-      window._settings.set_strv(buttonKey, [
-        rgba.red.toString(),
-        rgba.green.toString(),
-        rgba.blue.toString(),
-        rgba.alpha.toString()
-      ]);
-    }
-  );
-  settingsActivables.push({[buttonKey]: colorBtn});
-  row.add_suffix(colorBtn);
-  row.set_activatable_widget(colorBtn);
-
-  return row;
-}
-
-//-----------------------------------------------
-
-function _createSwitchRow(window, buttonKey){
-  let title, tooltip_text;
-  let settingsActivables = window._activableWidgets['settings'];
-  switch (buttonKey) {
-    case 'rotate':
-      title = 'Vertical Orientation';
-      tooltip_text = "Show OSD vertically";
-      break;
-    case 'shadow':
-      title = 'Box Shadow';
-      tooltip_text = "Effective on lighter background. Turn Off for transparent or flat look";
-      break;
-    case 'border':
-      title = 'Box Border';
-      tooltip_text = "Box border around OSD";
-      break;
-    default:
-      break;
-  }
-
-  const row = new Adw.ActionRow({
-    title: title,
-  });
-  const switchBtn = new Gtk.Switch({
-    sensitive: true,
-    tooltip_text: tooltip_text,
-    valign: Gtk.Align.CENTER,
-  });
-  switchBtn.connect(
-      "state-set",
-      function (w) {
-          var value = w.get_active();
-          window._settings.set_boolean(buttonKey, value);
-      }.bind(this)
-  );
-  settingsActivables.push({[buttonKey]: switchBtn});
-  row.add_suffix(switchBtn);
-  row.set_activatable_widget(switchBtn);
-
-  return row;
-}
-
-//-----------------------------------------------
-
-function _createSpinBtnRow(window, buttonKey){
-
-  let title, lower, upper, step_increment, page_increment, tooltip_text;
-  let settingsActivables = window._activableWidgets['settings'];
-
-  switch (buttonKey) {
-    case 'horizontal':
-      title = 'Horizontal Position (%)';
-      lower = -50.0;
-      upper = 50.0;
-      step_increment = 0.2;
-      page_increment = 1.0;
-      tooltip_text = "Left Edge: -50  ↞↠  +50 :Right Edge";
-      break;
-    case 'vertical':
-      title = 'Vertical Position (%)';
-      lower = -50.0;
-      upper = 50.0;
-      step_increment = 0.2;
-      page_increment = 1.0;
-      tooltip_text = "Top Edge: -50  ↞↠  +50 :Bottom Edge";
-      break;
-    case 'size':
-      title = 'Size (%)';
-      lower = 1;
-      upper = 100;
-      step_increment = 1;
-      page_increment = 5;
-      tooltip_text = "Size relative to monitor height";
-      break;
-    case 'alpha':
-      title = 'Transparency (Opacity %)';
-      lower = 0;
-      upper = 100;
-      step_increment = 5;
-      page_increment = 10;
-      tooltip_text = "Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud";
-      break;
-    case 'bradius':
-      title = 'Shape Shift';
-      lower = -100;
-      upper = 200;
-      step_increment = 5;
-      page_increment = 10;
-      tooltip_text = "☯:-100  ↞  Rectangle:0  ↞↠  100:Pill  ↠  200:☯";
-      break;
-    case 'delay':
-      title = 'Hide Delay (ms)';
-      lower = 0;
-      upper = 5000;
-      step_increment = 10;
-      page_increment = 50;
-      tooltip_text = "Delay before OSD disappears (ms)";
-      break;
-    default:
-      break;
-  }
-
-  const row = new Adw.ActionRow({
-    title: title,
-  });
-  const spinAdjustment = new Gtk.Adjustment({
-    lower: lower,
-    upper: upper,
-    step_increment: step_increment,
-    page_increment: page_increment,
-    page_size: 0,
-  });
-  const spinBtn = new Gtk.SpinButton({
-      adjustment: spinAdjustment,
-      sensitive: true,
-      digits: 1,
-      width_chars: 5,
-      tooltip_text: tooltip_text,
-      valign: Gtk.Align.CENTER,
-  });
-  spinBtn.connect(
-      "value-changed",
-      function (w) {
-          var value = w.get_value();
-          window._settings.set_double(buttonKey, value);
-      }.bind(this)
-  );
-  settingsActivables.push({[buttonKey]: spinBtn});
-  row.add_suffix(spinBtn);
-  row.set_activatable_widget(spinBtn);
-
-  return row;
 }
 
 //-----------------------------------------------

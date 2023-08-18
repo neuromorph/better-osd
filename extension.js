@@ -53,7 +53,7 @@ class CustomOSDExtension {
 
     let hours = date.getHours();
     let minutes = date.getMinutes();
-    let ampm = hours >= 12 ? "PM" : "AM";
+    let ampm = hours >= 12 ? pgettext('evening time',"PM") : pgettext('morning time',"AM");
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? "0" + minutes : minutes;
@@ -63,7 +63,7 @@ class CustomOSDExtension {
   }
 
   _showOSD(osd) {
-    if (osd == "Test OSD") OsdWindowManager.show(-1, this._custOSDIcon, "Custom OSD", 1.0, 1.0);
+    if (osd == "Test OSD") OsdWindowManager.show(-1, this._custOSDIcon, _("Custom OSD"), 1.0, 1.0);
     if (osd == "Clock OSD") OsdWindowManager.show(-1, this._timeOSDIcon, this._getDateTime());
   }
   

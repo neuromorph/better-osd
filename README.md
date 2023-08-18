@@ -5,7 +5,7 @@
 A GNOME Shell extension allowing the user to set the position, orientation, size, color, shadow, transparency and delay of the OSD pop-ups. It can also display % level value for OSDs with levels like Volume/Brightness etc. You can choose to display the OSD on Primary/ External or both the monitors and select what components to show. In summary, fully transform the OSD pop-ups to match your theme and liking!  
 
 
-![Screenshot](media/CustomOSDScreens.png)  
+![Screenshot](media/CustomOSDs.png)  
 
 
 ## Installation
@@ -35,7 +35,6 @@ You may need to restart the gnome shell environnment (for manual install):
 ## Settings
 Use the settings panel of the extension for most common customizations:  
 
-![Position](media/ScreenPosition.png)
 * Position on Screen 
 * Vertical/Horizontal Orientation
 * Size 
@@ -48,8 +47,26 @@ Use the settings panel of the extension for most common customizations:
 * Numeric % for levels
 * Monitor to show OSD on
 * Set Font of OSD text
+* Clock OSD to show current date/time
 * Select what to show: Icon, Text, Level Bar, Numeric %
 
+## Notes and Tips
+
+**OSD What?**  
+OSDs are On-Screen-Display pop ups that show up for volume, brightness etc. This extension allows you to  customize these pop ups, whether built-in or those created by extensions like Caffeine, Lock Keys etc. 
+
+![Position](media/ScreenPosition.png)  
+- Type/edit the values and hit enter key to update OR
+- Simply click the - + buttons or PgUp / PgDn keyboard keys.
+- Hover over the values/buttons for more info (tooltips).
+- Position is (0,0) at screen-center. Range is -50 to +50 as shown above.
+- Transparency setting applies to background transparency.
+- Custom-color panel of Color button has foreground transparency slider
+- Box Shadow is ON by default in Gnome. It is a shade of gray by default and will be visible if the OSD is relatively opaque and it appears on some lighter background. If your prefer more transparent and/or flat OSD then turn the shadow off.
+- Icon is the only mandatory element for any OSD and thus, some of the OSDs may not have one or more of the other components (like label, level, numeric value). This is decided by the app that sends the OSD request (eg. Volume/Brightness app or Lock Keys). Out of the available components, this extension allows to choose what to show and hide.
+- Vertical orientation may sometimes show a glitch in text rendering, please change the size of OSD by a bit to fix this.
+- Font settting also provides an option to change font size (without changing other OSD components). Note that, a large font size will also push the OSD size. Also, if you icrease/decrease size of OSD through settings, it will try to proportionally increase/decrease the font size as well.
+- Further styling effects are possible by editing the extension's stylesheet (instructions below).
 
 
 ## Optional Advanced Styling
@@ -66,8 +83,17 @@ Example code:
 }
 ```
 
+## Translations
+
+[Gettext](https://www.gnu.org/software/gettext/) is a localization framework for writing multi-lingual applications that is also used by GNOME Shell extensions.  
+This extension provides a [template file](po/custom-osd@neuromorph.pot) (.pot) that contains a list of all the translatable strings in this project. Translators can use this template to create a (.po) translation file (e.g. fr.po for French).
+
+Translators can use tools like [Gtranslator](https://flathub.org/apps/details/org.gnome.Gtranslator) or [POEdit](https://flathub.org/apps/details/net.poedit.Poedit) or any other online tools to work with the .pot files and create a .po for your language. 
+
+The translation files go in the 'po' directory. Please submit a pull request when ready. Thanks in advance!
 
 ## What's New (recent first)
+- Preferences moved to Adwaita ui, code updated to prepare for translations
 - New clock OSD to show current date/time and option to set OSD font in settings
 - Some refactor, button to reset settings to default, foreground trasparency option integrated in color, shape shift, fix defaults.
 - Select any combinations of OSD components to display. New test-OSD for instant feedback when changing settings. Refactor to preset OSDs with customization and minimize runtime adaptation.
@@ -84,7 +110,7 @@ Example code:
 
 ## Screenshots
 
-![Screenshot](media/CustomOSDScreens.png)
+![Screenshot](media/Screenshot.png)
 
 
 

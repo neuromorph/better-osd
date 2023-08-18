@@ -1,0 +1,367 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-18 11:09+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: extension.js:56
+msgctxt "evening time"
+msgid "PM"
+msgstr ""
+
+#: extension.js:56
+msgctxt "morning time"
+msgid "AM"
+msgstr ""
+
+#: extension.js:66 prefs.js:106 prefs.js:132
+msgid "Custom OSD"
+msgstr ""
+
+#: prefs.js:34
+msgid "Settings"
+msgstr ""
+
+#: prefs.js:41
+msgid "Help"
+msgstr ""
+
+#: prefs.js:48
+msgid "About"
+msgstr ""
+
+#: prefs.js:78
+msgid "OSD What?"
+msgstr ""
+
+#: prefs.js:79
+msgid ""
+"OSDs are On-Screen-Display pop ups that show up for volume, brightness etc."
+msgstr ""
+
+#: prefs.js:80
+msgid ""
+"This extension allows you to fully customize these pop ups, whether built-in"
+msgstr ""
+
+#: prefs.js:81
+msgid "or those created by extensions like Caffeine, Lock Keys etc."
+msgstr ""
+
+#: prefs.js:96
+msgid "Brief Notes"
+msgstr ""
+
+#: prefs.js:100
+msgid "Type/edit the values and hit enter key to update OR"
+msgstr ""
+
+#: prefs.js:101
+msgid "Simply click the - + buttons or PgUp / PgDn keyboard keys."
+msgstr ""
+
+#: prefs.js:102
+msgid "Hover over the values/buttons for more info (tooltips)."
+msgstr ""
+
+#: prefs.js:103
+msgid "Position is (0,0) at screen-center. Range is -50 to +50 as shown above."
+msgstr ""
+
+#: prefs.js:104
+msgid "Custom-color panel of Color button has foreground transparency slider."
+msgstr ""
+
+#: prefs.js:105
+msgid ""
+"Further styling effects are possible by editing the extension's stylesheet."
+msgstr ""
+
+#: prefs.js:106
+msgid "Visit home page for more details"
+msgstr ""
+
+#: prefs.js:164
+msgid "Version"
+msgstr ""
+
+#: prefs.js:164
+msgid "© neuromorph"
+msgstr ""
+
+#: prefs.js:171
+msgid "Turn annoying OSDs into Awesome OSDs 😎 !"
+msgstr ""
+
+#: prefs.js:182
+msgid "Custom OSD Home"
+msgstr ""
+
+#: prefs.js:194
+msgid "Report an issue"
+msgstr ""
+
+#: prefs.js:207
+msgid "Contribute (translation)"
+msgstr ""
+
+#: prefs.js:220
+msgid "Acknowledgements"
+msgstr ""
+
+#: prefs.js:224
+msgid "Inspired by and initiated from Better OSD 🙏."
+msgstr ""
+
+#: prefs.js:225
+msgid "Users: Thank you for your appreciation and valuable feedback!"
+msgstr ""
+
+#: prefs.js:226
+msgid "Contributors: Translations are welcome and greatly appreciated!"
+msgstr ""
+
+#: prefs.js:227
+msgid ""
+"Supporters: Highly thankful to you for choosing to support this work 🙏."
+msgstr ""
+
+#: prefs.js:228
+msgid ""
+"Image: Color scheme icons created by <a href=\"https://www.flaticon.com/free-"
+"icons/color-scheme\" title=\"color scheme icons\">flatart_icons - Flaticon</"
+"a>"
+msgstr ""
+
+#: prefs.js:258
+msgid "Buy me a coffee ☕"
+msgstr ""
+
+#: prefs.js:271
+msgid "Share on Twitter"
+msgstr ""
+
+#: prefs.js:284
+msgid "Share on Reddit"
+msgstr ""
+
+#: prefs.js:297
+msgid "This program comes with absolutely no warranty."
+msgstr ""
+
+#: prefs.js:298
+msgid ""
+"See the <a href=\"https://gnu.org/licenses/gpl-3.0.html\">GNU General Public "
+"License, version 3</a> for details."
+msgstr ""
+
+#: prefs.js:314
+msgid "Reset Settings?"
+msgstr ""
+
+#: prefs.js:315
+msgid "All settings will be reset to extension default values."
+msgstr ""
+
+#: prefs.js:319 prefs.js:438
+msgid "Reset"
+msgstr ""
+
+#: prefs.js:320
+msgid "Cancel"
+msgstr ""
+
+#: prefs.js:357
+msgid "Geometry"
+msgstr ""
+
+#: prefs.js:363
+msgid "Style"
+msgstr ""
+
+#: prefs.js:369
+msgid "Beyond"
+msgstr ""
+
+#: prefs.js:420
+msgid "OSD Components"
+msgstr ""
+
+#: prefs.js:440
+msgid "Reset all settings to extension defaults"
+msgstr ""
+
+#: prefs.js:457
+msgid "Clock OSD (hotkey)"
+msgstr ""
+
+#: prefs.js:466
+msgid ""
+"Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 "
+"1 2 ..."
+msgstr ""
+
+#: prefs.js:491
+msgid "Monitors"
+msgstr ""
+
+#: prefs.js:494
+msgid "Choose monitor to show OSD on"
+msgstr ""
+
+#: prefs.js:497
+msgid "All"
+msgstr ""
+
+#: prefs.js:498
+msgid "Primary"
+msgstr ""
+
+#: prefs.js:499
+msgid "External"
+msgstr ""
+
+#: prefs.js:519
+msgid "Font"
+msgstr ""
+
+#: prefs.js:528
+msgid "Font for OSD text"
+msgstr ""
+
+#: prefs.js:550
+msgid "Reset to default font"
+msgstr ""
+
+#: prefs.js:573
+msgid "Icon"
+msgstr ""
+
+#: prefs.js:574
+msgid "Show icon in OSD"
+msgstr ""
+
+#: prefs.js:577
+msgid "Label"
+msgstr ""
+
+#: prefs.js:578
+msgid "Show label in OSD when applicable"
+msgstr ""
+
+#: prefs.js:581
+msgid "Level"
+msgstr ""
+
+#: prefs.js:582
+msgid "Show level in OSD when applicable"
+msgstr ""
+
+#: prefs.js:585
+msgid "Numeric"
+msgstr ""
+
+#: prefs.js:586
+msgid "Show numeric value in OSD when applicable"
+msgstr ""
+
+#: prefs.js:618
+msgid "Color"
+msgstr ""
+
+#: prefs.js:619
+msgid "Foreground color of OSD"
+msgstr ""
+
+#: prefs.js:623
+msgid "Background Color"
+msgstr ""
+
+#: prefs.js:624
+msgid "Background color of OSD"
+msgstr ""
+
+#: prefs.js:672
+msgid "Vertical Orientation"
+msgstr ""
+
+#: prefs.js:673
+msgid "Show OSD vertically"
+msgstr ""
+
+#: prefs.js:676
+msgid "Box Shadow"
+msgstr ""
+
+#: prefs.js:677
+msgid "Effective on lighter background. Turn Off for transparent or flat look"
+msgstr ""
+
+#: prefs.js:680
+msgid "Box Border"
+msgstr ""
+
+#: prefs.js:681
+msgid "Box border around OSD"
+msgstr ""
+
+#: prefs.js:718
+msgid "Horizontal Position (%)"
+msgstr ""
+
+#: prefs.js:723
+msgid "Left Edge: -50  ↞↠  +50 :Right Edge"
+msgstr ""
+
+#: prefs.js:726
+msgid "Vertical Position (%)"
+msgstr ""
+
+#: prefs.js:731
+msgid "Top Edge: -50  ↞↠  +50 :Bottom Edge"
+msgstr ""
+
+#: prefs.js:734
+msgid "Size (%)"
+msgstr ""
+
+#: prefs.js:739
+msgid "Size relative to monitor height"
+msgstr ""
+
+#: prefs.js:742
+msgid "Transparency (Opacity %)"
+msgstr ""
+
+#: prefs.js:747
+msgid "Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud"
+msgstr ""
+
+#: prefs.js:750
+msgid "Shape Shift"
+msgstr ""
+
+#: prefs.js:755
+msgid "☯:-100  ↞  Rectangle:0  ↞↠  100:Pill  ↠  200:☯"
+msgstr ""
+
+#: prefs.js:758
+msgid "Hide Delay (ms)"
+msgstr ""
+
+#: prefs.js:763
+msgid "Delay before OSD disappears (ms)"
+msgstr ""
