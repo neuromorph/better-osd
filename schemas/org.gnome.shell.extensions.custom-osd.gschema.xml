@@ -51,6 +51,21 @@
       <summary>BG Color (RGB)</summary>
       <description>Background Color of OSD.</description>
     </key>
+    <key type="as" name="bgcolor2">
+      <default>['0.75', '0.40', '0.95', '1.0']</default>
+      <summary>Gradient end color (RGB)</summary>
+      <description>Gradient end color of OSD background.</description>
+    </key>
+    <key type="s" name="gradient-direction">
+      <default>"horizontal"</default>
+      <summary>Gradient direction</summary>
+      <description>Gradient direction of OSD background.</description>
+    </key>
+    <key type="s" name="bg-effect">
+      <default>"none"</default>
+      <summary>Background Effect</summary>
+      <description>Background Effect of OSD.</description>
+    </key>
     <key type="d" name="alpha">
       <default>90.0</default>
       <summary>Transparency (alpha)</summary>
@@ -94,6 +109,56 @@
       <default>""</default>
       <summary>Default Font</summary>
       <description>Default Font of OSD.</description>
+    </key>
+    <key type="a{sb}" name="osd-all">
+      <default>{'icon-all': true, 'label-all': true, 'level-all': true, 'numeric-all': true}</default>
+      <summary>OSD All</summary>
+      <description>OSD All.</description>
+    </key>
+    <key type="a{sb}" name="osd-nolabel">
+      <default>{'icon-nolabel': true, 'level-nolabel': true, 'numeric-nolabel': true}</default>
+      <summary>OSD No Label</summary>
+      <description>OSD No Label.</description>
+    </key>
+    <key type="a{sb}" name="osd-nolevel">
+      <default>{'icon-nolevel': true, 'label-nolevel': true}</default>
+      <summary>OSD No Level</summary>
+      <description>OSD No Level.</description>
+    </key>
+    <key type="s" name="current-profile">
+      <default>"Default"</default>
+      <summary>Default Profile</summary>
+      <description>Default Profile.</description>
+    </key>
+    <key type="a{sv}" name="profiles">
+      <default><![CDATA[
+        {
+          'Default': <{
+            'horizontal': <0.0>,
+            'vertical': <0.0>,
+            'size': <15.0>,
+            'rotate': <false>,
+            'bradius': <100.0>,
+            'color': <['1.0', '1.0', '1.0', '1.0']>,
+            'bgcolor': <['0.0', '0.73', '0.73', '1.0']>,
+            'bgcolor2': <['0.75', '0.40', '0.95', '1.0']>,
+            'gradient-direction': <'horizontal'>,
+            'bg-effect': <'none'>,
+            'alpha': <90.0>,
+            'shadow': <false>,
+            'border': <true>,
+            'font': <''>,
+            'delay': <1500.0>,
+            'monitors': <'all'>,
+            'clock-osd': <['']>,
+            'osd-all': <{'icon': true, 'label': true, 'level': true, 'numeric': true}>,
+            'osd-nolabel': <{'icon': true, 'level': true, 'numeric': true}>,
+            'osd-nolevel': <{'icon': true, 'label': true}>      
+          }>
+        }
+      ]]></default>
+      <summary>Profiles</summary>
+      <description>Profiles.</description>
     </key>
   </schema>
 </schemalist>

@@ -1,12 +1,12 @@
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
 const Adw = imports.gi.Adw;
-
-const Gettext = imports.gettext.domain("custom-osd");
-const _ = Gettext.gettext;
+const GLib = imports.gi.GLib;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
+
+const {gettext: _, pgettext} = ExtensionUtils;
 
 const Widgets = Me.imports.prefWidgets;
 
@@ -61,6 +61,35 @@ function fillPreferencesWindow(window) {
   // Set widget values from settings
   _setWidgetsValues(window);
 
+  window.connect('unrealize', () => {
+    _setDefaultProfile(window);
+  });
+
+}
+
+function _setDefaultProfile(window){
+  let keys = window._settings.list_keys();
+  let profile = {};
+  let nonProfileKeys = ['default-font', 'profiles', 'current-profile', 'icon', 'label', 'level', 'numeric'];
+  keys.forEach(k => { 
+    if (!nonProfileKeys.includes(k)) {
+      let value = window._settings.get_value(k);
+      profile[k] = value;
+    }
+  });
+  let profiles = window._settings.get_value('profiles').recursiveUnpack();
+  profiles['Default'] = new GLib.Variant('a{sv}', profile);
+  window._settings.set_value('profiles', new GLib.Variant('a{sv}', profiles));
+}
+
+//-----------------------------------------------
+
+function _getTitleLabel(){
+  return new Gtk.Label({
+    use_markup: true,
+    label: `<span size="x-large" weight="heavy" color="#07D8E3">` + _(`Custom OSD`) + `</span>`,
+    halign: Gtk.Align.CENTER
+  });
 }
 
 //-----------------------------------------------
@@ -102,6 +131,7 @@ function _fillHelpPage(window, helpPage){
   • ${_(`Hover over the values/buttons for more info (tooltips).`)}
   • ${_(`Position is (0,0) at screen-center. Range is -50 to +50 as shown above.`)}
   • ${_(`Custom-color panel of Color button has foreground transparency slider.`)}
+  • ${_(`Background effects are currently experimental.`)}
   • ${_(`Further styling effects are possible by editing the extension's stylesheet.`)}
   • ${_(`Visit home page for more details`)}: <a href="${Me.metadata.url}"><b>${_('Custom OSD')}</b></a>
   </span>`;
@@ -122,16 +152,6 @@ function _fillHelpPage(window, helpPage){
   helpBox.append(notesRow);
   helpGroup.add(helpBox);
 
-}
-
-//-----------------------------------------------
-
-function _getTitleLabel(){
-  return new Gtk.Label({
-    use_markup: true,
-    label: `<span size="x-large" weight="heavy" color="#07D8E3">` + _(`Custom OSD`) + `</span>`,
-    halign: Gtk.Align.CENTER
-  });
 }
 
 //-----------------------------------------------
@@ -392,6 +412,13 @@ function _fillSettingsPage(window, settingsPage){
   const bgcolorRow = Widgets._createColorRow(window, 'bgcolor');
   styleExpander.add_row(bgcolorRow);
 
+  const gradientBgColorRow = Widgets._createColorRow(window, 'bgcolor2');
+  const gradientDirectionRow = Widgets._createComboBoxRow(window, 'gradient-direction');
+  const bgEffectRow = Widgets._createComboBoxRow(window, 'bg-effect', gradientBgColorRow, gradientDirectionRow);
+  styleExpander.add_row(bgEffectRow);
+  styleExpander.add_row(gradientBgColorRow);
+  styleExpander.add_row(gradientDirectionRow);
+
   const alphaRow = Widgets._createSpinBtnRow(window, 'alpha');
   styleExpander.add_row(alphaRow);
 
@@ -408,27 +435,13 @@ function _fillSettingsPage(window, settingsPage){
   const delayRow = Widgets._createSpinBtnRow(window, 'delay');
   beyondExpander.add_row(delayRow);
 
-  const monitorsRow = Widgets._createMonitorsRow(window, 'monitors');
+  const monitorsRow = Widgets._createComboBoxRow(window, 'monitors');
   beyondExpander.add_row(monitorsRow);
 
   const clockRow = Widgets._createClockRow(window, 'clock-osd');
   beyondExpander.add_row(clockRow);
   
-  const componentsRow = new Adw.ActionRow({
-    title: _('OSD Components'),
-  });
-  const iconBtn = Widgets._createToggleBtn(window, 'icon');
-  componentsRow.add_suffix(iconBtn);
-  // componentsRow.set_activatable_widget(iconBtn);
-  const labelBtn = Widgets._createToggleBtn(window, 'label');
-  componentsRow.add_suffix(labelBtn);
-  // componentsRow.set_activatable_widget(labelBtn);
-  const levelBtn = Widgets._createToggleBtn(window, 'level');
-  componentsRow.add_suffix(levelBtn);
-  // componentsRow.set_activatable_widget(levelBtn);
-  const numericBtn = Widgets._createToggleBtn(window, 'numeric');
-  componentsRow.add_suffix(numericBtn);
-  // componentsRow.set_activatable_widget(numericBtn);
+  const componentsRow = Widgets._createComponentsRow(window);
   beyondExpander.add_row(componentsRow);
 
   // Settings Page: Reset
@@ -456,13 +469,13 @@ function _setWidgetsValues(window){
     let widget = activable[key];
 
     switch (key) {
-      case 'icon': case 'label': case 'level': case 'numeric': case 'rotate': case 'shadow': case 'border':
+      case 'icon': case 'label': case 'level': case 'numeric': case 'rotate': case 'shadow': case 'border': 
         widget.set_active(window._settings.get_boolean(key));
         break;
       case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay':
         widget.set_value(window._settings.get_double(key));
         break;
-      case 'color': case 'bgcolor':
+      case 'color': case 'bgcolor': case 'bgcolor2':
         let colorArray = window._settings.get_strv(key);
         let rgba = new Gdk.RGBA();
         rgba.red = parseFloat(colorArray[0]);
@@ -471,7 +484,7 @@ function _setWidgetsValues(window){
         rgba.alpha = key == 'color'? parseFloat(colorArray[3]): 1.0;
         widget.set_rgba(rgba);
         break;
-      case 'monitors':
+      case 'monitors': case 'bg-effect': case 'gradient-direction':
         widget.set_active_id(window._settings.get_string(key));
         break;
       case 'font':
@@ -484,6 +497,18 @@ function _setWidgetsValues(window){
       case 'clock-osd':
         let clockkey = window._settings.get_strv(key);
         widget.set_text(clockkey[0]);
+        break;
+      case 'icon-all': case 'label-all': case 'level-all': case 'numeric-all':
+        let osdAllDict = window._settings.get_value('osd-all').deep_unpack();
+        widget.set_active(osdAllDict[key]);
+        break;
+      case 'icon-nolabel': case 'level-nolabel': case 'numeric-nolabel':
+        let osdNoLabelDict = window._settings.get_value('osd-nolabel').deep_unpack();
+        widget.set_active(osdNoLabelDict[key]);
+        break;
+      case 'icon-nolevel': case 'label-nolevel':
+        let osdNoLevelDict = window._settings.get_value('osd-nolevel').deep_unpack();
+        widget.set_active(osdNoLevelDict[key]);
         break;
       default:
         break;

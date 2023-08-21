@@ -1,8 +1,59 @@
 const Gtk = imports.gi.Gtk;
 const Adw = imports.gi.Adw;
+const GLib = imports.gi.GLib;
 
-const Gettext = imports.gettext.domain("custom-osd");
-const _ = Gettext.gettext;
+const ExtensionUtils = imports.misc.extensionUtils;
+const {gettext: _, pgettext} = ExtensionUtils;
+
+
+function _createComponentsRow(window){
+  const componentsExpander = new Adw.ExpanderRow({
+    title: _(`OSD Components : Icon | Label | Level | Numeric%`),
+    expanded: false,
+    tooltip_text: _("Select components to show for each OSD-type below"),
+  });
+
+  const componentsRow1 = new Adw.ActionRow({
+    title: _('OSDs with All Components'),
+    tooltip_text: _("OSDs like Volume"),
+  });
+  const iconBtn1 = _createToggleBtn(window, 'icon-all', 'osd-all');
+  componentsRow1.add_suffix(iconBtn1);
+  const labelBtn1 = _createToggleBtn(window, 'label-all', 'osd-all');
+  componentsRow1.add_suffix(labelBtn1);
+  const levelBtn1 = _createToggleBtn(window, 'level-all', 'osd-all');
+  componentsRow1.add_suffix(levelBtn1);
+  const numericBtn1 = _createToggleBtn(window, 'numeric-all', 'osd-all');
+  componentsRow1.add_suffix(numericBtn1);
+  componentsExpander.add_row(componentsRow1);
+
+  const componentsRow2 = new Adw.ActionRow({
+    title: _('OSDs with No Label'),
+    tooltip_text: _("OSDs like Brightness"),
+  });
+  const iconBtn2 = _createToggleBtn(window, 'icon-nolabel', 'osd-nolabel');
+  componentsRow2.add_suffix(iconBtn2);
+  const levelBtn2 = _createToggleBtn(window, 'level-nolabel', 'osd-nolabel');
+  componentsRow2.add_suffix(levelBtn2);
+  const numericBtn2 = _createToggleBtn(window, 'numeric-nolabel', 'osd-nolabel');
+  componentsRow2.add_suffix(numericBtn2);
+  componentsExpander.add_row(componentsRow2);
+
+  const componentsRow3 = new Adw.ActionRow({
+    title: _('OSDs with No Level'),
+    tooltip_text: _("OSDs like Caffeine, Lock Keys etc."),
+  });
+  const iconBtn3 = _createToggleBtn(window, 'icon-nolevel', 'osd-nolevel');
+  componentsRow3.add_suffix(iconBtn3);
+  const labelBtn3 = _createToggleBtn(window, 'label-nolevel', 'osd-nolevel');
+  componentsRow3.add_suffix(labelBtn3);
+  componentsExpander.add_row(componentsRow3);
+
+  return componentsExpander;
+
+}
+
+//-----------------------------------------------
 
 function _createClockRow(window, buttonKey){
     let settingsActivables = window._activableWidgets['settings'];
@@ -38,31 +89,63 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createMonitorsRow(window, buttonKey){
+  function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientDirectionRow=null){
     let settingsActivables = window._activableWidgets['settings'];
-  
-    const monitorsRow = new Adw.ActionRow({
-      title: _('Monitors'),
+    let title, tooltip_text, comboElements;
+
+    switch (buttonKey) {
+      case 'monitors':
+        title = _('Monitors');
+        tooltip_text = _("Choose monitor to show OSD on");
+        comboElements = [["all", _("All")], ["primary", _("Primary")], ["external", _("External")]];
+        break;
+      case 'gradient-direction':
+        title = _('Gradient Direction');
+        tooltip_text = _("Direction of gradient. Horizontal is along length of OSD");
+        comboElements = [["horizontal", _("Horizontal")], ["vertical", _("Vertical")]];
+        break;
+      case 'bg-effect':
+        title = _('Background Effect ⚗️ ');
+        tooltip_text = _("Background effects for OSD (experimental)");
+        comboElements = [["none", _("None")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], , ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
+        break;
+      default:
+        break;
+    }
+
+    const comboBoxRow = new Adw.ActionRow({
+      title:title,
     });
-    const monitorsCombo = new Gtk.ComboBoxText({
-      tooltip_text: _("Choose monitor to show OSD on"),
+    const comboBox = new Gtk.ComboBoxText({
+      tooltip_text: tooltip_text,
       valign: Gtk.Align.CENTER,
     });
-    monitorsCombo.append("all", _("All"));
-    monitorsCombo.append("primary", _("Primary"));
-    monitorsCombo.append("external", _("External"));
-    monitorsCombo.connect(
+    comboElements.forEach(element => {
+      comboBox.append(element[0], element[1]);
+    });
+    comboBox.connect(
       "changed",
       function (w) {
         var value = w.get_active_id();
+        if (buttonKey == 'bg-effect'){
+          if (value == 'gradient'){
+            gradientBgColorRow.visible = true;
+            gradientDirectionRow.visible = true;
+          } 
+          else {
+            gradientBgColorRow.visible = false;
+            gradientDirectionRow.visible = false;
+          }
+        }
         window._settings.set_string(buttonKey, value);
       }
     );
-    settingsActivables.push({[buttonKey]:monitorsCombo});
-    monitorsRow.add_suffix(monitorsCombo);
-    monitorsRow.set_activatable_widget(monitorsCombo);
-  
-    return monitorsRow;
+    settingsActivables.push({[buttonKey]:comboBox});
+    comboBoxRow.add_suffix(comboBox);
+    comboBoxRow.set_activatable_widget(comboBox);
+    
+    return comboBoxRow;
+
   }
   
   //-----------------------------------------------
@@ -118,26 +201,26 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createToggleBtn(window, buttonKey){
+  function _createToggleBtn(window, buttonKey, osdType){
     let label, tooltip_text;
     let settingsActivables = window._activableWidgets['settings'];
   
-    switch (buttonKey) {
+    switch (buttonKey.split('-')[0]) {
       case 'icon':
-        label = _('Icon');
-        tooltip_text = _("Show icon in OSD");
+        label = _('☀');
+        tooltip_text = _("Icon");
         break;
       case 'label':
-        label = _('Label');
-        tooltip_text = _("Show label in OSD when applicable");
+        label = _('𝓪𝓫𝓬');
+        tooltip_text = _("Label");
         break;
       case 'level':
-        label = _('Level');
-        tooltip_text = _("Show level in OSD when applicable");
+        label = _('↕');
+        tooltip_text = _("Level");
         break;
       case 'numeric':
-        label = _('Numeric');
-        tooltip_text = _("Show numeric value in OSD when applicable");
+        label = _('%');
+        tooltip_text = _("Numeric %");
         break;
       default:
         break;
@@ -153,7 +236,9 @@ function _createClockRow(window, buttonKey){
       "toggled",
       function (w) {
           var value = w.get_active();
-          window._settings.set_boolean(buttonKey, value);
+          let osdTypeDict = window._settings.get_value(osdType).deep_unpack();
+          osdTypeDict[buttonKey] = value;
+          window._settings.set_value(osdType, new GLib.Variant('a{sb}', osdTypeDict));
       }.bind(this)
     );
     settingsActivables.push({[buttonKey]: toggleBtn});
@@ -176,6 +261,11 @@ function _createClockRow(window, buttonKey){
       case 'bgcolor':
         title = _('Background Color');
         tooltip_text = _("Background color of OSD");
+        use_alpha = false;
+        break;
+      case 'bgcolor2':
+        title = _('Gradient End Color');
+        tooltip_text = _("Gradient starts with Background color and ends with this color");
         use_alpha = false;
         break;
       default:

@@ -12,19 +12,18 @@ const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 const Pango = imports.gi.Pango;
 
-const {gettext: _,} = ExtensionUtils;
+const {gettext: _, pgettext} = ExtensionUtils;
 
-// const COSD_SCHEMA = "org.gnome.shell.extensions.custom-osd";
 
 class CustomOSDExtension {
   constructor() {
-    // this._schema = COSD_SCHEMA;
     this._settings = null;
     this._injections = [];
     this._custOSDIcon = null;
     this._timeOSDIcon = null;
     this._restoreIconSize = null;
     this._restoreHideTimeout = 1500;
+    this._resources = null;
   }
 
   _injectToFunction(parent, name, func) {
@@ -108,6 +107,9 @@ class CustomOSDExtension {
     const hide_delay = this._settings.get_double("delay");
     const color = this._settings.get_strv("color");
     const bgcolor = this._settings.get_strv("bgcolor");
+    const bgcolor2 = this._settings.get_strv("bgcolor2");
+    const gradientDirection = this._settings.get_string("gradient-direction");
+    const bgeffect = this._settings.get_string("bg-effect");
     const alphaPct = this._settings.get_double("alpha");
     const shadow = this._settings.get_boolean("shadow");
     const border = this._settings.get_boolean("border");
@@ -122,6 +124,10 @@ class CustomOSDExtension {
     const bgred = parseInt(parseFloat(bgcolor[0]) * 255);
     const bggreen = parseInt(parseFloat(bgcolor[1]) * 255);
     const bgblue = parseInt(parseFloat(bgcolor[2]) * 255);
+
+    const bgred2 = parseInt(parseFloat(bgcolor2[0]) * 255);
+    const bggreen2 = parseInt(parseFloat(bgcolor2[1]) * 255);
+    const bgblue2 = parseInt(parseFloat(bgcolor2[2]) * 255);    
   
     const alpha = parseFloat(alphaPct/100.0);
   
@@ -148,16 +154,33 @@ class CustomOSDExtension {
       );
 
       let pad = parseInt(5 + osd_size*0.3);
-      let thickness = parseInt(3 + osd_size*0.08);
-      let hboxSty = `background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
+      let thickness = parseInt(3 + osd_size*0.08); 
+      let hboxSty = ` background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
                     padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
-      if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.65*falpha}); border-width: ${thickness}px;`;   
-
+      if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.6*falpha}); border-width: ${0.7*thickness}px;`;
+      // else hboxSty += ' border: none;';   
+      if (bgeffect == "gradient") hboxSty += ` background-gradient-start: rgba(${bgred},${bggreen},${bgblue},${alpha});  
+                    background-gradient-end: rgba(${bgred2},${bggreen2},${bgblue2},${alpha}); background-gradient-direction: ${gradientDirection}; 
+                    border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
+      else if (bgeffect != "none") {
+        let resource;
+        if (bgeffect == "glass") {
+          hboxSty += ` border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`; 
+          resource = "glass.png";
+        }
+        else {
+          hboxSty += ` border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
+          resource = `${bgeffect}.jpg`; 
+        }
+        hboxSty += ` background-image: url("resource:///org/gnome/shell/extensions/custom-osd/media/${resource}"); 
+                    background-repeat: no-repeat; background-size: cover;`;
+      }
+      
       // osdW._label.x_align = Clutter.ActorAlign.CENTER;
-      osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.9*falpha}); `; 
+      osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.95*falpha}); `; 
       osdW._level.style = ` height: ${thickness}px; -barlevel-height: ${thickness}px; min-width: ${30 + osdW._icon.icon_size*2.5}px; 
-      -barlevel-active-background-color: rgba(${red},${green},${blue},${falpha}); -barlevel-background-color: rgba(${red},${green},${blue},0.15); `; 
+      -barlevel-active-background-color: rgba(${red},${green},${blue},${falpha}); -barlevel-background-color: rgba(${red},${green},${blue},0.12); `; 
       osdW._levLabel.style = ` font-size: ${15 + osd_size*0.6}px; font-weight: bold; min-width: ${30 + osd_size*1.65}px; `; 
 
       if (font != ""){
@@ -173,11 +196,10 @@ class CustomOSDExtension {
         hboxSty += ` font-family: ${fontFamily}; `;
         osdW._label.style += ` font-size: ${fontSize + osd_size*0.3}px; font-weight: ${fontWeight}; `; 
       }
+      
       osdW._hbox.style = hboxSty;
 
-      osdW.y_align = Clutter.ActorAlign.CENTER;
-
-      icon? osdW._icon.visible = true : osdW._icon.visible = false;      
+      osdW.y_align = Clutter.ActorAlign.CENTER;  
 
     }
 
@@ -224,15 +246,15 @@ class CustomOSDExtension {
     
     let custOSD = this;
 
-    // this._resources = Gio.Resource.load(Me.path + '/resources/custom-osd.gresource');
-    // Gio.resources_register(this._resources);
+    this._resources = Gio.Resource.load(Me.path + '/resources/custom-osd.gresource');
+    Gio.resources_register(this._resources);
     // const gtkTheme = Gtk.IconTheme.get_default();
     // gtkTheme.add_resource_path(Me.path + '/media');
 
     this._custOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-color-symbolic');
     this._timeOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-system-time-symbolic');
 
-    this._settings = ExtensionUtils.getSettings(); //this._schema
+    this._settings = ExtensionUtils.getSettings(); 
     this._settings.connect(`changed`, () => this._syncSettings(true));
     Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._syncSettings(false);
@@ -265,18 +287,39 @@ class CustomOSDExtension {
           return;
         }
 
-        const numeric = custOSD._settings.get_boolean("numeric");
-        numeric? this._levLabel.visible = this._level.visible : this._levLabel.visible = false;
+        let icon, label, level, numeric;
+        if (this._label.visible && this._level.visible){
+          let osdTypeDict = custOSD._settings.get_value("osd-all").deep_unpack();
+          icon = osdTypeDict["icon-all"];
+          label = osdTypeDict["label-all"];
+          level = osdTypeDict["level-all"];
+          numeric = osdTypeDict["numeric-all"];
+        }
+        else if (!this._label.visible && this._level.visible){
+          let osdTypeDict = custOSD._settings.get_value("osd-nolabel").deep_unpack();
+          icon = osdTypeDict["icon-nolabel"];
+          label = false;
+          level = osdTypeDict["level-nolabel"];
+          numeric = osdTypeDict["numeric-nolabel"];
+        }
+        else if (this._label.visible && !this._level.visible){
+          let osdTypeDict = custOSD._settings.get_value("osd-nolevel").deep_unpack();
+          icon = osdTypeDict["icon-nolevel"];
+          label = osdTypeDict["label-nolevel"];
+          level = false;
+          numeric = false;
+        }
+        else {
+          icon = true;
+          label = false;
+          level = false;
+          numeric = false;
+        }
 
-        const level = custOSD._settings.get_boolean("level");
-        if(!level){
-          this._level.visible = false;
-        }
-  
-        const label = custOSD._settings.get_boolean("label");
-        if(!label){
-          this._label.visible = false;
-        }
+        icon? this._icon.visible = true : this._icon.visible = false;  
+        numeric? this._levLabel.visible = this._level.visible : this._levLabel.visible = false;
+        if(!level) this._level.visible = false;
+        if(!label) this._label.visible = false;
 
         const h_percent = custOSD._settings.get_double("horizontal");
         const v_percent = custOSD._settings.get_double("vertical");
@@ -319,6 +362,9 @@ class CustomOSDExtension {
 
 
   disable() {
+
+    Gio.resources_unregister(this._resources);
+    this._resources = null;
 
     Main.wm.removeKeybinding("clock-osd");
 

@@ -2,7 +2,7 @@
 # Custom OSD (GNOME 4X Extension)  
 
 
-A GNOME Shell extension allowing the user to set the position, orientation, size, color, shadow, transparency and delay of the OSD pop-ups. It can also display % level value for OSDs with levels like Volume/Brightness etc. You can choose to display the OSD on Primary/ External or both the monitors and select what components to show. In summary, fully transform the OSD pop-ups to match your theme and liking!  
+A GNOME Shell extension allowing the user to customize the On Screen Display (OSD) pop ups on Gnome. You can set the **Geometry** (position, orientation, size, shape), **Style** (font, colors, shadow, transparency, background effects etc.) and **Beyond**: Set the delay of the OSD pop-ups and optionally display % value for OSDs with levels like Volume/Brightness etc. You can choose to display the OSD on Primary/ External or both the monitors and select what components to show. In summary, fully transform the OSD pop-ups to match your theme and liking!  
 
 <p align="center">
 <img src="media/CustomOSDs.png" width="400">
@@ -40,6 +40,7 @@ Use the settings panel of the extension for most common customizations:
 * Size 
 * Hide-Delay time
 * Color and Background
+* Background effects
 * Box Shadow On/Off
 * Box Border On/Off
 * Transparency
@@ -66,6 +67,7 @@ OSDs are On-Screen-Display pop ups that show up for volume, brightness etc. This
 - Icon is the only mandatory element for any OSD and thus, some of the OSDs may not have one or more of the other components (like label, level, numeric value). This is decided by the app that sends the OSD request (eg. Volume/Brightness app or Lock Keys). Out of the available components, this extension allows to choose what to show and hide.
 - Vertical orientation may sometimes show a glitch in text rendering, please change the size of OSD by a bit to fix this.
 - Font settting also provides an option to change font size (without changing other OSD components). Note that, a large font size will also push the OSD size. Also, if you icrease/decrease size of OSD through settings, it will try to proportionally increase/decrease the font size as well.
+- Background effects are experimental. You can combine them with shadow, border or transparency etc. However, shadow can behave oddly around rectangular OSD with background effects. Other settings of Shape will work fine.
 - Further styling effects are possible by editing the extension's stylesheet (instructions below).
 
 
@@ -78,8 +80,8 @@ For optional styling of advanced css options or things like custom box-shadow ef
 Example code:
 ```
 .osd-style {
-    font-family: Josefin Sans;
-    box-shadow: 1px 1px 5px grey;
+    font-family: Cursive; /* To use this, reset font in settings to default */
+    box-shadow: 1px 1px 5px grey;  /* To use this, turn On box shadow in settings */
 }
 ```
 
@@ -93,6 +95,7 @@ Translators can use tools like [Gtranslator](https://flathub.org/apps/details/or
 The translation files go in the 'po' directory. Please submit a pull request when ready. Thanks in advance!
 
 ## What's New (recent first)
+- New background effects! Also, show/hide components based on OSD type
 - Preferences moved to Adwaita ui, code updated to prepare for translations
 - New clock OSD to show current date/time and option to set OSD font in settings
 - Some refactor, button to reset settings to default, foreground trasparency option integrated in color, shape shift, fix defaults.

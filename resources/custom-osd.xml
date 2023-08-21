@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/gnome/shell/extensions/custom-osd/">
-    <file>media/reset-icon.svg</file>
+    <file>media/glass.png</file>
+  </gresource>
+  <gresource prefix="/org/gnome/shell/extensions/custom-osd/">
+    <file>media/wood1.jpg</file>
+    <file>media/wood2.jpg</file>
   </gresource>
 </gresources>
