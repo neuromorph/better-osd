@@ -107,7 +107,7 @@ function _createClockRow(window, buttonKey){
       case 'bg-effect':
         title = _('Background Effect ⚗️ ');
         tooltip_text = _("Background effects for OSD (experimental)");
-        comboElements = [["none", _("None")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], , ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
+        comboElements = [["none", _("None")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
         break;
       default:
         break;

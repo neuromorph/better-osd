@@ -2,7 +2,6 @@ const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
 const OsdWindow = imports.ui.osdWindow;
 const OsdWindowManager = Main.osdWindowManager;
@@ -167,7 +166,7 @@ class CustomOSDExtension {
         let resource;
         if (bgeffect == "glass") {
           hboxSty += ` border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`; 
-          resource = "glass.png";
+          resource = `${bgeffect}.png`;
         }
         else {
           hboxSty += ` border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
@@ -248,8 +247,6 @@ class CustomOSDExtension {
 
     this._resources = Gio.Resource.load(Me.path + '/resources/custom-osd.gresource');
     Gio.resources_register(this._resources);
-    // const gtkTheme = Gtk.IconTheme.get_default();
-    // gtkTheme.add_resource_path(Me.path + '/media');
 
     this._custOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-color-symbolic');
     this._timeOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-system-time-symbolic');
