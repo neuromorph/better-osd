@@ -1,27 +1,26 @@
-const Clutter = imports.gi.Clutter;
-const St = imports.gi.St;
-const GObject = imports.gi.GObject;
-const Gio = imports.gi.Gio;
-const Main = imports.ui.main;
-const OsdWindow = imports.ui.osdWindow;
+import Clutter from 'gi://Clutter';
+import St from 'gi://St';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import Pango from 'gi://Pango';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as OsdWindow from 'resource:///org/gnome/shell/ui/osdWindow.js';
+
+import {Extension, gettext as _, pgettext} from 'resource:///org/gnome/shell/extensions/extension.js';
+
 const OsdWindowManager = Main.osdWindowManager;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const Pango = imports.gi.Pango;
 
-const {gettext: _, pgettext} = ExtensionUtils;
-
-
-class CustomOSDExtension {
-  constructor() {
+export default class CustomOSDExtension extends Extension {
+  constructor(metadata) {
+    super(metadata);
     this._settings = null;
     this._injections = [];
     this._custOSDIcon = null;
     this._timeOSDIcon = null;
     this._restoreIconSize = null;
-    this._restoreHideTimeout = 1500;
     this._resources = null;
   }
 
@@ -103,7 +102,6 @@ class CustomOSDExtension {
 
     const icon = this._settings.get_boolean("icon");
     const osd_size = this._settings.get_double("size");
-    const hide_delay = this._settings.get_double("delay");
     const color = this._settings.get_strv("color");
     const bgcolor = this._settings.get_strv("bgcolor");
     const bgcolor2 = this._settings.get_strv("bgcolor2");
@@ -130,8 +128,6 @@ class CustomOSDExtension {
   
     const alpha = parseFloat(alphaPct/100.0);
   
-    OsdWindow.HIDE_TIMEOUT = hide_delay;
-
     for (
       let monitorIndex = 0;
       monitorIndex < OsdWindowManager._osdWindows.length;
@@ -157,6 +153,7 @@ class CustomOSDExtension {
       let hboxSty = ` background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
                     padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
+      else hboxSty += ` box-shadow: 0px 0px 4px rgba(${0.5*bgred},${0.5*bggreen},${0.5*bgblue},${0.1+0.4*alpha});`;
       if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.6*falpha}); border-width: ${0.7*thickness}px;`;
       // else hboxSty += ' border: none;';   
       if (bgeffect == "gradient") hboxSty += ` background-gradient-start: rgba(${bgred},${bggreen},${bgblue},${alpha});  
@@ -237,6 +234,9 @@ class CustomOSDExtension {
 
       osdW.y_align = Clutter.ActorAlign.END;
 
+      if (osdW._hideTimeoutId)
+        GLib.source_remove(osdW._hideTimeoutId);
+
     }
   }
 
@@ -245,13 +245,13 @@ class CustomOSDExtension {
     
     let custOSD = this;
 
-    this._resources = Gio.Resource.load(Me.path + '/resources/custom-osd.gresource');
+    this._resources = Gio.Resource.load(this.path + '/resources/custom-osd.gresource');
     Gio.resources_register(this._resources);
 
     this._custOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-color-symbolic');
     this._timeOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-system-time-symbolic');
 
-    this._settings = ExtensionUtils.getSettings(); 
+    this._settings = this.getSettings(); 
     this._settings.connect(`changed`, () => this._syncSettings(true));
     Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._syncSettings(false);
@@ -265,7 +265,6 @@ class CustomOSDExtension {
     );
 
     this._restoreIconSize = OsdWindowManager._osdWindows[0]._icon.icon_size;
-    this._restoreHideTimeout = OsdWindow.HIDE_TIMEOUT;
  
     this._injections["show"] = this._injectToFunction(
       OsdWindow.OsdWindow.prototype,
@@ -283,6 +282,13 @@ class CustomOSDExtension {
           this.cancel();
           return;
         }
+
+        let hide_delay = custOSD._settings.get_double("delay");
+        if (this._hideTimeoutId)
+            GLib.source_remove(this._hideTimeoutId);
+        this._hideTimeoutId = GLib.timeout_add(
+            GLib.PRIORITY_DEFAULT, hide_delay, this._hide.bind(this));
+        GLib.Source.set_name_by_id(this._hideTimeoutId, '[gnome-shell] this._hide');
 
         let icon, label, level, numeric;
         if (this._label.visible && this._level.visible){
@@ -370,17 +376,10 @@ class CustomOSDExtension {
     this._custOSDIcon = null;
     this._timeOSDIcon = null;
     
-    OsdWindow.HIDE_TIMEOUT = this._restoreHideTimeout;
-
     this._removeInjection(OsdWindow.OsdWindow.prototype, this._injections, "show");
     this._injections = [];
     
   }
 
-}
+};
 
-
-function init() {
-  ExtensionUtils.initTranslations();
-  return new CustomOSDExtension();
-}

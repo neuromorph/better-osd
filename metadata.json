@@ -4,9 +4,7 @@
   "name": "Custom OSD",
   "description": "Fully customize your OSD ( On Screen Display ) pop ups like Volume , Brightness or media keys etc. Move, orient, resize, numeric %, choose monitor, set hide-delay and style to match your theme and liking. You can also select any combination of components to display: icon, text-label, level-bar, numeric %. ",
   "shell-version": [
-    "42",
-    "43",
-    "44"
+    "45"
   ],
   "url": "https://github.com/neuromorph/custom-osd",
   "gettext-domain": "custom-osd",

@@ -1,0 +1,22 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+    <style type="text/css"><![CDATA[
+      .isolate {isolation: isolate;} 
+
+    ]]></style>
+  </defs>
+  <!-- Fourth circle -->
+  
+  <circle cx="100" cy="100" r="90" fill="#E6A8FF" stroke="#FFFFFF" stroke-width="4" /> 
+  <g class="isolate">
+      <!-- First circle -->
+      <circle style="mix-blend-mode: screen;" cx="100" cy="67" r="40" fill="#FFC78E" stroke="#FFFFFF" stroke-width="3" />
+
+      <!-- Second circle -->
+      <circle style="mix-blend-mode: screen;" cx="70" cy="117" r="40" fill="#98FFB3" stroke="#FFFFFF" stroke-width="3" />
+
+      <!-- Third circle -->
+      <circle style="mix-blend-mode: screen;" cx="130" cy="117" r="40" fill="#55eeee " stroke="#FFFFFF" stroke-width="3" />
+  </g>
+</svg>
+
