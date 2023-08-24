@@ -1,17 +1,13 @@
 /* 
     You may use this style class to add more advanced styling to OSD. 
-    The extension will apply it to OSD elements. 
+    The extension will apply it to OSD elements. NOTE: If you edit this file, take a backup as it may get overwritten on update.
     For most common options like Color, Background, Transparency, Orientation etc. please use the settings panel of Custom-OSD.
 
     Some examples are given below. You can uncomment them to see the effect.
     Note: To use font here, reset font in settings to default.
-          To use box-shadow here, turn On box shadow in settings.
 */
 .osd-style {
     /* 
     font-family: Cursive; 
-    box-shadow: 1px 1px 5px grey;
     */  
 } 
-
-

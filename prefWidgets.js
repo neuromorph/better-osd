@@ -8,7 +8,7 @@ const {gettext: _, pgettext} = ExtensionUtils;
 
 function _createComponentsRow(window){
   const componentsExpander = new Adw.ExpanderRow({
-    title: _(`OSD Components : Icon | Label | Level | Numeric%`),
+    title: _(`OSD Components :   Icon ☀    Label 𝓪𝓫𝓬    Level ↕    Numeric %`),
     expanded: false,
     tooltip_text: _("Select components to show for each OSD-type below"),
   });
@@ -67,6 +67,7 @@ function _createClockRow(window, buttonKey){
     let clockkey = window._settings.get_strv('clock-osd');
     const clockEntry = new Gtk.Entry({
       text: clockkey[0],
+      placeholder_text: _(`e.g. <Super>T`),
       width_chars: 10,
       tooltip_text: _("Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 1 2 ..."),
       valign: Gtk.Align.CENTER,
@@ -91,7 +92,7 @@ function _createClockRow(window, buttonKey){
   
   function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientDirectionRow=null){
     let settingsActivables = window._activableWidgets['settings'];
-    let title, tooltip_text, comboElements;
+    let title, tooltip_text, tooltip_action=null, comboElements;
 
     switch (buttonKey) {
       case 'monitors':
@@ -106,7 +107,8 @@ function _createClockRow(window, buttonKey){
         break;
       case 'bg-effect':
         title = _('Background Effect ⚗️ ');
-        tooltip_text = _("Background effects for OSD (experimental)");
+        tooltip_action = _("Background effects for OSD (experimental)");
+        tooltip_text = _("Adjust border, shadow and transparency to get the best effect");
         comboElements = [["none", _("None")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
         break;
       default:
@@ -115,6 +117,7 @@ function _createClockRow(window, buttonKey){
 
     const comboBoxRow = new Adw.ActionRow({
       title:title,
+      tooltip_text: tooltip_action,
     });
     const comboBox = new Gtk.ComboBoxText({
       tooltip_text: tooltip_text,
@@ -207,19 +210,19 @@ function _createClockRow(window, buttonKey){
   
     switch (buttonKey.split('-')[0]) {
       case 'icon':
-        label = _('☀');
+        label = '☀';
         tooltip_text = _("Icon");
         break;
       case 'label':
-        label = _('𝓪𝓫𝓬');
+        label = '𝓪𝓫𝓬';
         tooltip_text = _("Label");
         break;
       case 'level':
-        label = _('↕');
+        label = '↕';
         tooltip_text = _("Level");
         break;
       case 'numeric':
-        label = _('%');
+        label = '%';
         tooltip_text = _("Numeric %");
         break;
       default:
@@ -278,10 +281,12 @@ function _createClockRow(window, buttonKey){
     // const colorDialog = new Gtk.ColorDialog({
     //   with_alpha: use_alpha,
     //   title: title,
-    // })
-    // const colorBtn = new Gtk.ColorDialogButton(colorDialog, {
+    // });
+    // const colorBtn = new Gtk.ColorDialogButton({
     //   tooltip_text: tooltip_text,
-    //   valign: Gtk.Align.CENTER,});
+    //   valign: Gtk.Align.CENTER,
+    // });
+    // colorBtn.dialog = colorDialog;
     const colorBtn = new Gtk.ColorButton({
       use_alpha: use_alpha,
       tooltip_text: tooltip_text,

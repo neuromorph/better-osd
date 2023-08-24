@@ -22,7 +22,7 @@ function fillPreferencesWindow(window) {
 
   // window.set_title(_("Custom OSD (On-Screen-Display)"));
   window.default_height = 850;
-  window.default_width = 700;
+  window.default_width = 675;
   // window.search_enabled = true;
 
   window._settings = ExtensionUtils.getSettings();
@@ -87,7 +87,7 @@ function _setDefaultProfile(window){
 function _getTitleLabel(){
   return new Gtk.Label({
     use_markup: true,
-    label: `<span size="x-large" weight="heavy" color="#07D8E3">` + _(`Custom OSD`) + `</span>`,
+    label: `<span size="x-large" weight="heavy" color="#07D8E3">${_("Custom OSD")}</span>`,
     halign: Gtk.Align.CENTER
   });
 }
@@ -168,7 +168,7 @@ function _fillAboutPage(window, aboutPage){
   });
 
   const aboutImage = new Gtk.Image({
-    file: Me.path + "/media/aboutIcon.png",
+    file: Me.path + "/media/aboutIcon.svg",
     vexpand: false,
     hexpand: false,
     pixel_size: 128,
@@ -188,7 +188,7 @@ function _fillAboutPage(window, aboutPage){
 
   const aboutText = new Gtk.Label({
     use_markup: true,
-    label: _(`Turn annoying OSDs into Awesome OSDs 😎 !`),
+    label: _(`Turn annoying OSDs into Awesome OSDs!`),
     width_chars: 35,
   });
   infoBox.append(aboutText);
@@ -203,11 +203,10 @@ function _fillAboutPage(window, aboutPage){
   });
   const homeBtn = new Gtk.Button({icon_name: 'external-link-symbolic', valign: Gtk.Align.CENTER,});
   homeRow.add_suffix(homeBtn);
-  // homeRow.set_activatable_widget(homeBtn);
   homeBtn.connect('clicked', () => {
     Gtk.show_uri(window, Me.metadata.url, Gdk.CURRENT_TIME);
   });
-  homeRow.connect('activate', () => {});
+  // homeRow.connect('activate', () => {});
   rowGroup.add(homeRow);
 
   const issueRow = new Adw.ActionRow({
@@ -215,7 +214,6 @@ function _fillAboutPage(window, aboutPage){
   });
   const issuesBtn = new Gtk.Button({icon_name: 'external-link-symbolic', valign: Gtk.Align.CENTER,});
   issueRow.add_suffix(issuesBtn);
-  // issueRow.set_activatable_widget(issuesBtn);
   let issueLink = "https://github.com/neuromorph/custom-osd/issues";
   issuesBtn.connect('clicked', () => {
     Gtk.show_uri(window, issueLink, Gdk.CURRENT_TIME);
@@ -228,7 +226,6 @@ function _fillAboutPage(window, aboutPage){
   });
   const translateBtn = new Gtk.Button({icon_name: 'external-link-symbolic', valign: Gtk.Align.CENTER,});
   translateRow.add_suffix(translateBtn);
-  // translateRow.set_activatable_widget(translateBtn);
   let translateLink = "https://github.com/neuromorph/custom-osd#translations";
   translateBtn.connect('clicked', () => {
     Gtk.show_uri(window, translateLink, Gdk.CURRENT_TIME);
@@ -245,7 +242,6 @@ function _fillAboutPage(window, aboutPage){
   • ${_(`Users: Thank you for your appreciation and valuable feedback!`)}
   • ${_(`Contributors: Translations are welcome and greatly appreciated!`)}
   • ${_(`Supporters: Highly thankful to you for choosing to support this work 🙏.`)}
-  • ${_(`Image: Color scheme icons created by <a href="https://www.flaticon.com/free-icons/color-scheme" title="color scheme icons">flatart_icons - Flaticon</a>`)}
   </span>`;
   const acknowledgeLabel = new Gtk.Label({
     use_markup: true,
@@ -261,22 +257,23 @@ function _fillAboutPage(window, aboutPage){
   const supportBox = new Gtk.Box({
     orientation: Gtk.Orientation.HORIZONTAL,
     spacing: 1,
-    margin_top: 1,
+    margin_top: 10,
     margin_bottom: 1,
     halign: Gtk.Align.CENTER,
   });
 
-  const coffeeImage = new Gtk.Image({
-    file: Me.path + "/media/bmcButton.svg",
-    pixel_size: 128,
+  const coffeeImage = new Gtk.Picture({
+    vexpand: false,
+    hexpand: false,
   });
+  coffeeImage.set_filename(Me.path + "/media/bmcButton.svg");
   // 
   const coffeeBtn = new Gtk.LinkButton({
     child: coffeeImage,
     uri: "https://www.buymeacoffee.com/neuromorph",
     margin_end: 200,
-    tooltip_text: _("Buy me a coffee ☕"),
-    valign: Gtk.Align.CENTER, 
+    tooltip_text: _("If you'd like to support, you can buy me a coffee ☕"),
+    height_request: 50,
   });
   supportBox.prepend(coffeeBtn);
 
@@ -317,6 +314,7 @@ function _fillAboutPage(window, aboutPage){
     </span>`,
     halign: Gtk.Align.CENTER,
     justify: Gtk.Justification.CENTER,
+    margin_top: 1,
     margin_bottom: 10,
   });
   gnuDisclaimerGroup.add(gnuLabel);

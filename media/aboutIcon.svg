@@ -1,0 +1,47 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+    <style type="text/css"><![CDATA[
+      .isolate {isolation: isolate;} 
+
+    ]]></style>
+
+    <filter id='color-shadow' color-interpolation-filters="sRGB">
+    <feComponentTransfer in="SourceGraphic">
+      <feFuncR type="discrete" tableValues=".3"/>
+      <feFuncG type="discrete" tableValues=".3"/>
+      <feFuncB type="discrete" tableValues=".3"/>
+    </feComponentTransfer>
+    <feGaussianBlur stdDeviation="2"/>
+    <feOffset dx="0" dy="0" result="shadow"/>
+    <feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+  </filter>
+
+  <filter id='color-shadow2' color-interpolation-filters="sRGB">
+    <feComponentTransfer in="SourceGraphic">
+      <feFuncR type="discrete" tableValues=".8"/>
+      <feFuncG type="discrete" tableValues=".8"/>
+      <feFuncB type="discrete" tableValues=".8"/>
+    </feComponentTransfer>
+    <feGaussianBlur stdDeviation="4"/>
+    <feOffset dx="0" dy="0" result="shadow"/>
+    <feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+  </filter>
+
+  </defs>
+  <!-- Fourth circle -->
+  <g filter="url(#color-shadow2)">
+  <circle cx="100" cy="100" r="90" fill="#EebeFF" stroke="#feceff" stroke-width="1" filter="url(#color-shadow)"/> 
+  </g>
+
+  <g class="isolate">
+      <!-- First circle -->
+      <circle style="mix-blend-mode: overlay;" cx="100" cy="67" r="40" fill="#FFae9f" stroke="#ffffff" stroke-width="3" />
+
+      <!-- Second circle -->
+      <circle style="mix-blend-mode: overlay;" cx="70" cy="117" r="40" fill="#98FFB3" stroke="#ffffff" stroke-width="3" />
+
+      <!-- Third circle -->
+      <circle style="mix-blend-mode: overlay;" cx="130" cy="117" r="40" fill="#55eeee " stroke="#ffffff" stroke-width="3" />
+  </g>
+</svg>
+

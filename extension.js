@@ -157,8 +157,9 @@ class CustomOSDExtension {
       let hboxSty = ` background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
                     padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
+      else hboxSty += ` box-shadow: 0 0 5px 0 rgba(50, 50, 50, ${0.5*alpha});`; //0px 0px 0px 1px rgba(255, 255, 255, ${0.05+0.6*alpha});
       if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.6*falpha}); border-width: ${0.7*thickness}px;`;
-      // else hboxSty += ' border: none;';   
+      else hboxSty += ' border-width: 0px; border-color: transparent;';   
       if (bgeffect == "gradient") hboxSty += ` background-gradient-start: rgba(${bgred},${bggreen},${bgblue},${alpha});  
                     background-gradient-end: rgba(${bgred2},${bggreen2},${bgblue2},${alpha}); background-gradient-direction: ${gradientDirection}; 
                     border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
@@ -317,7 +318,7 @@ class CustomOSDExtension {
         numeric? this._levLabel.visible = this._level.visible : this._levLabel.visible = false;
         if(!level) this._level.visible = false;
         if(!label) this._label.visible = false;
-
+        
         const h_percent = custOSD._settings.get_double("horizontal");
         const v_percent = custOSD._settings.get_double("vertical");
         const bradius = custOSD._settings.get_double("bradius");

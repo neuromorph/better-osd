@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-22 01:15+0530\n"
+"POT-Creation-Date: 2023-08-25 02:07+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:55
+#: extension.js:54
 msgctxt "evening time"
 msgid "PM"
 msgstr ""
 
-#: extension.js:55
+#: extension.js:54
 msgctxt "morning time"
 msgid "AM"
 msgstr ""
 
-#: extension.js:65 prefs.js:90 prefs.js:136
+#: extension.js:64 prefs.js:90 prefs.js:136
 msgid "Custom OSD"
 msgstr ""
 
@@ -107,105 +107,98 @@ msgid "© neuromorph"
 msgstr ""
 
 #: prefs.js:191
-msgid "Turn annoying OSDs into Awesome OSDs 😎 !"
+msgid "Turn annoying OSDs into Awesome OSDs!"
 msgstr ""
 
 #: prefs.js:202
 msgid "Custom OSD Home"
 msgstr ""
 
-#: prefs.js:214
+#: prefs.js:213
 msgid "Report an issue"
 msgstr ""
 
-#: prefs.js:227
+#: prefs.js:225
 msgid "Contribute (translation)"
 msgstr ""
 
-#: prefs.js:240
+#: prefs.js:237
 msgid "Acknowledgements"
 msgstr ""
 
-#: prefs.js:244
+#: prefs.js:241
 msgid "Inspired by and initiated from Better OSD 🙏."
 msgstr ""
 
-#: prefs.js:245
+#: prefs.js:242
 msgid "Users: Thank you for your appreciation and valuable feedback!"
 msgstr ""
 
-#: prefs.js:246
+#: prefs.js:243
 msgid "Contributors: Translations are welcome and greatly appreciated!"
 msgstr ""
 
-#: prefs.js:247
+#: prefs.js:244
 msgid ""
 "Supporters: Highly thankful to you for choosing to support this work 🙏."
 msgstr ""
 
-#: prefs.js:248
-msgid ""
-"Image: Color scheme icons created by <a href=\"https://www.flaticon.com/free-"
-"icons/color-scheme\" title=\"color scheme icons\">flatart_icons - Flaticon</"
-"a>"
+#: prefs.js:275
+msgid "If you'd like to support, you can buy me a coffee ☕"
 msgstr ""
 
-#: prefs.js:278
-msgid "Buy me a coffee ☕"
-msgstr ""
-
-#: prefs.js:290
+#: prefs.js:287
 msgid "Share on Twitter"
 msgstr ""
 
-#: prefs.js:302
+#: prefs.js:299
 msgid "Share on Reddit"
 msgstr ""
 
-#: prefs.js:315
+#: prefs.js:312
 msgid "This program comes with absolutely no warranty."
 msgstr ""
 
-#: prefs.js:316
+#: prefs.js:313
 msgid ""
 "See the <a href=\"https://gnu.org/licenses/gpl-3.0.html\">GNU General Public "
 "License, version 3</a> for details."
 msgstr ""
 
-#: prefs.js:332
+#: prefs.js:330
 msgid "Reset Settings?"
 msgstr ""
 
-#: prefs.js:333
+#: prefs.js:331
 msgid "All settings will be reset to extension default values."
 msgstr ""
 
-#: prefs.js:337 prefs.js:449
+#: prefs.js:335 prefs.js:447
 msgid "Reset"
 msgstr ""
 
-#: prefs.js:338
+#: prefs.js:336
 msgid "Cancel"
 msgstr ""
 
-#: prefs.js:375
+#: prefs.js:373
 msgid "Geometry"
 msgstr ""
 
-#: prefs.js:381
+#: prefs.js:379
 msgid "Style"
 msgstr ""
 
-#: prefs.js:387
+#: prefs.js:385
 msgid "Beyond"
 msgstr ""
 
-#: prefs.js:451
+#: prefs.js:449
 msgid "Reset all settings to extension defaults"
 msgstr ""
 
 #: prefWidgets.js:11
-msgid "OSD Components : Icon | Label | Level | Numeric%"
+msgid "OSD Components :   Icon ☀    Label 𝓪𝓫𝓬    Level ↕    Numeric %"
 msgstr ""
 
 #: prefWidgets.js:13
@@ -240,212 +233,204 @@ msgstr ""
 msgid "Clock OSD (hotkey)"
 msgstr ""
 
-#: prefWidgets.js:71
+#: prefWidgets.js:70
+msgid "e.g. <Super>T"
+msgstr ""
+
+#: prefWidgets.js:72
 msgid ""
 "Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 "
 "1 2 ..."
 msgstr ""
 
-#: prefWidgets.js:98
+#: prefWidgets.js:99
 msgid "Monitors"
 msgstr ""
 
-#: prefWidgets.js:99
+#: prefWidgets.js:100
 msgid "Choose monitor to show OSD on"
 msgstr ""
 
-#: prefWidgets.js:100
+#: prefWidgets.js:101
 msgid "All"
 msgstr ""
 
-#: prefWidgets.js:100
+#: prefWidgets.js:101
 msgid "Primary"
 msgstr ""
 
-#: prefWidgets.js:100
+#: prefWidgets.js:101
 msgid "External"
 msgstr ""
 
-#: prefWidgets.js:103
+#: prefWidgets.js:104
 msgid "Gradient Direction"
 msgstr ""
 
-#: prefWidgets.js:104
+#: prefWidgets.js:105
 msgid "Direction of gradient. Horizontal is along length of OSD"
 msgstr ""
 
-#: prefWidgets.js:105
+#: prefWidgets.js:106
 msgid "Horizontal"
 msgstr ""
 
-#: prefWidgets.js:105
+#: prefWidgets.js:106
 msgid "Vertical"
 msgstr ""
 
-#: prefWidgets.js:108
+#: prefWidgets.js:109
 msgid "Background Effect ⚗️ "
 msgstr ""
 
-#: prefWidgets.js:109
+#: prefWidgets.js:110
 msgid "Background effects for OSD (experimental)"
 msgstr ""
 
-#: prefWidgets.js:110
+#: prefWidgets.js:111
+msgid "Adjust border, shadow and transparency to get the best effect"
+msgstr ""
+
+#: prefWidgets.js:112
 msgid "None"
 msgstr ""
 
-#: prefWidgets.js:110
+#: prefWidgets.js:112
 msgid "Gradient"
 msgstr ""
 
-#: prefWidgets.js:110
+#: prefWidgets.js:112
 msgid "Pseudo Glass"
 msgstr ""
 
-#: prefWidgets.js:110
+#: prefWidgets.js:112
 msgid "Wood Raw"
 msgstr ""
 
-#: prefWidgets.js:110
+#: prefWidgets.js:112
 msgid "Wood Polished"
 msgstr ""
 
-#: prefWidgets.js:156
+#: prefWidgets.js:159
 msgid "Font"
 msgstr ""
 
-#: prefWidgets.js:165
+#: prefWidgets.js:168
 msgid "Font for OSD text"
 msgstr ""
 
-#: prefWidgets.js:187
+#: prefWidgets.js:190
 msgid "Reset to default font"
 msgstr ""
 
-#: prefWidgets.js:210
-msgid "☀"
-msgstr ""
-
-#: prefWidgets.js:211
+#: prefWidgets.js:214
 msgid "Icon"
 msgstr ""
 
-#: prefWidgets.js:214
-msgid "𝓪𝓫𝓬"
-msgstr ""
-
-#: prefWidgets.js:215
+#: prefWidgets.js:218
 msgid "Label"
 msgstr ""
 
-#: prefWidgets.js:218
-msgid "↕"
-msgstr ""
-
-#: prefWidgets.js:219
+#: prefWidgets.js:222
 msgid "Level"
 msgstr ""
 
-#: prefWidgets.js:222
-msgid "%"
-msgstr ""
-
-#: prefWidgets.js:223
+#: prefWidgets.js:226
 msgid "Numeric %"
 msgstr ""
 
-#: prefWidgets.js:257
+#: prefWidgets.js:260
 msgid "Color"
 msgstr ""
 
-#: prefWidgets.js:258
+#: prefWidgets.js:261
 msgid "Foreground color of OSD"
 msgstr ""
 
-#: prefWidgets.js:262
+#: prefWidgets.js:265
 msgid "Background Color"
 msgstr ""
 
-#: prefWidgets.js:263
+#: prefWidgets.js:266
 msgid "Background color of OSD"
 msgstr ""
 
-#: prefWidgets.js:267
+#: prefWidgets.js:270
 msgid "Gradient End Color"
 msgstr ""
 
-#: prefWidgets.js:268
+#: prefWidgets.js:271
 msgid "Gradient starts with Background color and ends with this color"
 msgstr ""
 
-#: prefWidgets.js:316
+#: prefWidgets.js:321
 msgid "Vertical Orientation"
 msgstr ""
 
-#: prefWidgets.js:317
+#: prefWidgets.js:322
 msgid "Show OSD vertically"
 msgstr ""
 
-#: prefWidgets.js:320
+#: prefWidgets.js:325
 msgid "Box Shadow"
 msgstr ""
 
-#: prefWidgets.js:321
+#: prefWidgets.js:326
 msgid "Effective on lighter background. Turn Off for transparent or flat look"
 msgstr ""
 
-#: prefWidgets.js:324
+#: prefWidgets.js:329
 msgid "Box Border"
 msgstr ""
 
-#: prefWidgets.js:325
+#: prefWidgets.js:330
 msgid "Box border around OSD"
 msgstr ""
 
-#: prefWidgets.js:362
+#: prefWidgets.js:367
 msgid "Horizontal Position (%)"
 msgstr ""
 
-#: prefWidgets.js:367
+#: prefWidgets.js:372
 msgid "Left Edge: -50  ↞↠  +50 :Right Edge"
 msgstr ""
 
-#: prefWidgets.js:370
+#: prefWidgets.js:375
 msgid "Vertical Position (%)"
 msgstr ""
 
-#: prefWidgets.js:375
+#: prefWidgets.js:380
 msgid "Top Edge: -50  ↞↠  +50 :Bottom Edge"
 msgstr ""
 
-#: prefWidgets.js:378
+#: prefWidgets.js:383
 msgid "Size (%)"
 msgstr ""
 
-#: prefWidgets.js:383
+#: prefWidgets.js:388
 msgid "Size relative to monitor height"
 msgstr ""
 
-#: prefWidgets.js:386
+#: prefWidgets.js:391
 msgid "Transparency (Opacity %)"
 msgstr ""
 
-#: prefWidgets.js:391
+#: prefWidgets.js:396
 msgid "Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud"
 msgstr ""
 
-#: prefWidgets.js:394
+#: prefWidgets.js:399
 msgid "Shape Shift"
 msgstr ""
 
-#: prefWidgets.js:399
+#: prefWidgets.js:404
 msgid "☯:-100  ↞  Rectangle:0  ↞↠  100:Pill  ↠  200:☯"
 msgstr ""
 
-#: prefWidgets.js:402
+#: prefWidgets.js:407
 msgid "Hide Delay (ms)"
 msgstr ""
 
-#: prefWidgets.js:407
+#: prefWidgets.js:412
 msgid "Delay before OSD disappears (ms)"
 msgstr ""
