@@ -64,7 +64,7 @@ export class PrefWidgets {
     
     let clockkey = window._settings.get_strv('clock-osd');
     const clockEntry = new Adw.EntryRow({
-      title: `e.g. <Super>T`,
+      title: _(`e.g. <Super>T`),
       use_markup: false,
       text: clockkey[0],
       show_apply_button: true,
@@ -87,7 +87,7 @@ export class PrefWidgets {
   
   createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientDirectionRow=null){
     let settingsActivables = window._activableWidgets['settings'];
-    let title, tooltip_text, comboElements;
+    let title, tooltip_text, tooltip_action=null, comboElements;
 
     switch (buttonKey) {
       case 'monitors':
@@ -102,7 +102,8 @@ export class PrefWidgets {
         break;
       case 'bg-effect':
         title = _('Background Effect ⚗️ ');
-        tooltip_text = _("Background effects for OSD (experimental)");
+        tooltip_action = _("Background effects for OSD (experimental)");
+        tooltip_text = _("Adjust border, shadow and transparency to get the best effect");
         comboElements = [["none", _("None")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
         break;
       default:
@@ -111,6 +112,7 @@ export class PrefWidgets {
 
     const comboBoxRow = new Adw.ActionRow({
       title:title,
+      tooltip_text:tooltip_action,
     });
     const comboBox = new Gtk.ComboBoxText({
       tooltip_text: tooltip_text,
@@ -274,7 +276,7 @@ export class PrefWidgets {
     // const colorDialog = new Gtk.ColorDialog({
     //   with_alpha: use_alpha,
     //   title: title,
-    // })
+    // });
     // const colorBtn = new Gtk.ColorDialogButton();
     // colorBtn.dialog = colorDialog;
     // colorBtn.tooltip_text = tooltip_text;

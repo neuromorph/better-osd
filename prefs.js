@@ -84,7 +84,7 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
   getTitleLabel(){
     return new Gtk.Label({
       use_markup: true,
-      label: `<span size="x-large" weight="heavy" color="#07D8E3">` + _(`Custom OSD`) + `</span>`,
+      label: `<span size="x-large" weight="heavy" color="#07D8E3">${_("Custom OSD")}</span>`,
       halign: Gtk.Align.CENTER
     });
   }
@@ -259,16 +259,18 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
       halign: Gtk.Align.CENTER,
     });
   
-    const coffeeImage = new Gtk.Image({
-      file: this.path + "/media/bmcButton.svg",
-      pixel_size: 150,
+    const coffeeImage = new Gtk.Picture({
+      vexpand: false,
+      hexpand: false,
     });
+    coffeeImage.set_filename(this.path + "/media/bmcButton.svg");
+    // 
     const coffeeBtn = new Gtk.LinkButton({
       child: coffeeImage,
       uri: "https://www.buymeacoffee.com/neuromorph",
       margin_end: 200,
-      tooltip_text: _("Buy me a coffee ☕"),
-      valign: Gtk.Align.CENTER, 
+      tooltip_text: _("If you'd like to support, you can buy me a coffee ☕"),
+      height_request: 50,
     });
     supportBox.prepend(coffeeBtn);
   
