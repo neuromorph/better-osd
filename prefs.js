@@ -7,7 +7,6 @@ import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Ex
 
 import {PrefWidgets as Widgets} from './prefWidgets.js';
 
-const PrefWidgets = new Widgets();
 
 //-----------------------------------------------
 
@@ -22,6 +21,8 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
 
     window._settings = this.getSettings();
     window._activableWidgets = {'settings': [], 'about': []};
+
+    const PrefWidgets = new Widgets();
 
     const settingsPage = new Adw.PreferencesPage({
         name: 'settings',
@@ -45,7 +46,7 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
     window.add(aboutPage);
 
     // Settings Page
-    this.fillSettingsPage(window, settingsPage);
+    this.fillSettingsPage(window, PrefWidgets, settingsPage);
 
     // Help Page
     this.fillHelpPage(window, helpPage);
@@ -348,7 +349,7 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
   
   //-----------------------------------------------
   
-  fillSettingsPage(window, settingsPage){
+  fillSettingsPage(window, PrefWidgets, settingsPage){
   
     let settingsActivables = window._activableWidgets['settings'];
   
