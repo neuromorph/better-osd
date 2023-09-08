@@ -92,7 +92,7 @@ function _createClockRow(window, buttonKey){
   
   function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientDirectionRow=null){
     let settingsActivables = window._activableWidgets['settings'];
-    let title, tooltip_text, tooltip_action=null, comboElements;
+    let title, subtitle=null, tooltip_text, tooltip_action=null, comboElements;
 
     switch (buttonKey) {
       case 'monitors':

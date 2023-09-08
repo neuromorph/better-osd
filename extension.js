@@ -253,6 +253,7 @@ class CustomOSDExtension {
     this._timeOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-system-time-symbolic');
 
     this._settings = ExtensionUtils.getSettings(); 
+    
     this._settings.connect(`changed`, () => this._syncSettings(true));
     Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._syncSettings(false);
@@ -361,6 +362,7 @@ class CustomOSDExtension {
 
   disable() {
 
+    /// remove Main.LayourManager(monitors-changed)
     Gio.resources_unregister(this._resources);
     this._resources = null;
 
