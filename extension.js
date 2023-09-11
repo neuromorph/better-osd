@@ -157,9 +157,14 @@ class CustomOSDExtension {
       let hboxSty = ` background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
                     padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
-      else hboxSty += ` box-shadow: 0 0 5px 0 rgba(50, 50, 50, ${0.5*alpha});`; //0px 0px 0px 1px rgba(255, 255, 255, ${0.05+0.6*alpha});
+      // else if (bgeffect == "none") {
+      else  hboxSty += ` box-shadow: 0 0 5px 0 rgba(50, 50, 50, ${0.45*alpha});`; //0px 0px 0px 1px rgba(255, 255, 255, ${0.05+0.6*alpha});
+      // }
+      // else hboxSty += ` -st-background-image-shadow: 0 0 5px 0 rgba(50, 50, 50, ${0.5*alpha});`;
+
       if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.6*falpha}); border-width: ${0.7*thickness}px;`;
       else hboxSty += ' border-width: 0px; border-color: transparent;';   
+
       if (bgeffect == "gradient") hboxSty += ` background-gradient-start: rgba(${bgred},${bggreen},${bgblue},${alpha});  
                     background-gradient-end: rgba(${bgred2},${bggreen2},${bgblue2},${alpha}); background-gradient-direction: ${gradientDirection}; 
                     border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;

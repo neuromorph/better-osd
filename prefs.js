@@ -2,6 +2,8 @@ const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
 const Adw = imports.gi.Adw;
 const GLib = imports.gi.GLib;
+const Gio = imports.gi.Gio;
+const Json = imports.gi.Json;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -27,11 +29,12 @@ function fillPreferencesWindow(window) {
 
   window._settings = ExtensionUtils.getSettings();
   window._activableWidgets = {'settings': [], 'profiles': []};
+  window._resettingCombo = false;
 
   const profilesPage = new Adw.PreferencesPage({
     name: 'profiles',
     title: _('Profiles'),
-    icon_name: 'user-identity-symbolic',
+    icon_name: 'system-users-symbolic',
   });
   window.add(profilesPage);
 
@@ -113,7 +116,7 @@ function _saveAsProfile(window, profileName){
 function _fillProfilesPage(window, profilesPage){
 
   let profilesDict = window._settings.get_value('profiles').deep_unpack();
-  let profiles = Object.keys(profilesDict);
+  let profiles = Object.keys(profilesDict).sort();
   let profilesActivables = window._activableWidgets['profiles'];
 
   log('profile keys '+profiles);
@@ -127,8 +130,8 @@ function _fillProfilesPage(window, profilesPage){
   const profileText = new Gtk.Label({
     use_markup: true,
     label: `<span>
-    ${_("You can create and save multiple profiles for OSD settings.")}
-    ${_("You can then choose one to apply e.g. Light vs Dark variant.")}
+    ${_("Create and save multiple profiles for the OSD settings,")}
+    ${_("and/or import Profile Presets. Then, choose one to apply.")}
     </span> `,
     width_chars: 35,
     halign: Gtk.Align.CENTER,
@@ -140,33 +143,58 @@ function _fillProfilesPage(window, profilesPage){
   const activeProfileGroup = new Adw.PreferencesGroup();
   profilesPage.add(activeProfileGroup);
 
-  const activeProfileRow = new Adw.ActionRow({
-    title: `<b>${_('Active Profile')}</b>`,
-    subtitle: `<span allow_breaks="true">${_("This profile is applied to all OSDs. Go to Settings tab to view / edit settings for active profile.")}</span>`,
-  });
-  const activeProfileCombo = new Gtk.ComboBoxText({
-    valign: Gtk.Align.CENTER,
-    tooltip_text: _("Select profile to apply to all OSDs"),
-  });
-  profiles.forEach(p => {
-    activeProfileCombo.append(p, p);
-  });
-  activeProfileCombo.connect('changed', (combo) => {
-    let profileName = combo.get_active_id();
-    log('active profile changed '+profileName);
-    if(profileName != null){
-      window._settings.set_string('active-profile', profileName);
-      _setSettingsForActiveProfile(window, true);
-    }
+  // const activeProfileRow = new Adw.ActionRow({
+  //   title: `<b>${_('Active Profile')}</b>`,
+  //   subtitle: `<span allow_breaks="true">${_("This profile is applied to all OSDs. Go to Settings tab to view / edit settings for active profile.")}</span>`,
+  // });
+  // const activeProfileCombo = new Gtk.ComboBoxText({
+  //   valign: Gtk.Align.CENTER,
+  //   tooltip_text: _("Select profile to apply to all OSDs"),
+  // });
+  // profiles.forEach(p => {
+  //   activeProfileCombo.append(p, p);
+  // });
+  // activeProfileCombo.connect('changed', (combo) => {
+  //   let profileName = combo.get_active_id();
+  //   log('active profile changed '+profileName);
+  //   if(profileName != null){
+  //     window._settings.set_string('active-profile', profileName);
+  //     _setSettingsForActiveProfile(window, true);
+  //   }
       
+  // });
+  // activeProfileCombo.set_active_id(window._settings.get_string('active-profile'));
+
+  const activeProfileRow = new Adw.ComboRow({
+      title: `<b>${_('Active Profile')}</b>`,
+      subtitle: `<span allow_breaks="true">${_("This profile is applied to all OSDs. Go to Settings tab to view / edit settings for active profile.")}</span>`,
   });
-  activeProfileCombo.set_active_id(window._settings.get_string('active-profile'));
 
-log('active profile setting'+window._settings.get_string('active-profile'));
-log('active profile combo '+activeProfileCombo.get_active_id());
+  const activeProfileCombo = new Gtk.StringList();
+  activeProfileCombo.splice(0,0,profiles);
+  // activeProfileCombo.strings = profiles;
+  activeProfileRow.model = activeProfileCombo;
 
-  profilesActivables.push({'active-profile': activeProfileCombo});
-  activeProfileRow.add_suffix(activeProfileCombo);
+  activeProfileRow.connect('notify::selected-item', (combo) => {
+      if (window._resettingCombo) {
+        window._resettingCombo = false;
+        return;
+      }
+
+      let profileName = combo.selected_item.string;
+      log('active profile changed '+profileName);
+      if(profileName != null){
+        window._settings.set_string('active-profile', profileName);
+        _setSettingsForActiveProfile(window, true);
+      }
+  });
+  activeProfileRow.selected = profiles.indexOf(window._settings.get_string('active-profile'));
+
+log('active profile setting '+window._settings.get_string('active-profile'));
+log('active profile combo '+activeProfileRow.selected_item.string);
+
+  profilesActivables.push({'active-profile': activeProfileRow});
+  // activeProfileRow.add_suffix(activeProfileCombo);
   activeProfileGroup.add(activeProfileRow);
 
   const manageProfilesGroup = new Adw.PreferencesGroup();
@@ -202,20 +230,32 @@ log('active profile combo '+activeProfileCombo.get_active_id());
   createProfileRow.add_suffix(createProfBtn);
   manageProfilesGroup.add(createProfileRow);
 
-  const deleteProfileRow = new Adw.ActionRow({
-    title: _('Delete Profile'),
+  // const deleteProfileRow = new Adw.ActionRow({
+  //   title: _('Delete Profile'),
+  // });
+  // const deleteProfCombo = new Gtk.ComboBoxText({
+  //   valign: Gtk.Align.CENTER,
+  //   tooltip_text: _("Delete profile other than 'Default'"),
+  // });
+  // // deleteProfCombo.set_entry_text_column(0);
+  // deleteProfCombo.append_text(_("Select profile to delete"));
+  // profiles.forEach(p => {
+  //   if (p != 'Default') deleteProfCombo.append_text(p);
+  // });
+  // deleteProfCombo.set_active(0);
+  // profilesActivables.push({'delete-profile': deleteProfCombo});
+
+  const deleteProfileRow = new Adw.ComboRow({
+      title: _('Delete Profile'),
   });
-  const deleteProfCombo = new Gtk.ComboBoxText({
-    valign: Gtk.Align.CENTER,
-    tooltip_text: _("Delete profile other than 'Default'"),
-  });
-  // deleteProfCombo.set_entry_text_column(0);
-  deleteProfCombo.append_text(_("Select profile to delete"));
-  profiles.forEach(p => {
-    if (p != 'Default') deleteProfCombo.append_text(p);
-  });
-  deleteProfCombo.set_active(0);
-  profilesActivables.push({'delete-profile': deleteProfCombo});
+  const deleteProfCombo = new Gtk.StringList();
+  deleteProfCombo.append(_("Select profile to delete"));
+  deleteProfCombo.splice(1,0,profiles);
+  deleteProfCombo.splice(profiles.indexOf('Default')+1, 1, null);
+  // deleteProfCombo.strings = profiles;
+  deleteProfileRow.model = deleteProfCombo;
+  deleteProfileRow.selected = 0;
+
   const deleteProfLabel = new Gtk.Label({
     use_markup: true,
     label: `<span size="large" color="#f44336">-</span>`,
@@ -223,17 +263,153 @@ log('active profile combo '+activeProfileCombo.get_active_id());
   const deleteProfBtn = new Gtk.Button({child: deleteProfLabel, valign: Gtk.Align.CENTER,});
   // deleteProfBtn.get_style_context().add_class('destructive-action');
   deleteProfBtn.connect('clicked', () => {
-    let profileName = deleteProfCombo.get_active_text();
+    let profileName = deleteProfileRow.selected_item.string;
     if (profileName != _("Select profile to delete")) {
       // show a message dialog asking for confirmation before deleting
       _deleteProfileDialog(window, profileName);
     }
   });
-  deleteProfileRow.add_suffix(deleteProfCombo);
+  
   deleteProfileRow.add_suffix(deleteProfBtn);
+  profilesActivables.push({'delete-profile': deleteProfileRow});
+  // deleteProfileRow.add_suffix(deleteProfCombo);
   manageProfilesGroup.add(deleteProfileRow);
 
+  const importExportProfsGroup = new Adw.PreferencesGroup();
+  profilesPage.add(importExportProfsGroup);
 
+  const importExportProfLabelRow = new Adw.ActionRow({
+    title: `<b>${_('Import/Export Profiles')}</b>`,
+    subtitle: `<span allow_breaks="true">${_("Import or Export settings profiles to a file. Imported profiles will be added to existing ones. Profiles with same name will be overwriten.")}</span>`,
+  });
+  importExportProfsGroup.add(importExportProfLabelRow);
+
+  const importExportProfRow = new Adw.ActionRow({
+    // title: _('Profile'),
+  });
+  const importProfLabel = new Gtk.Label({
+    use_markup: true,
+    label: `<span color="#07c8d3">Import Profiles</span>`,
+  });
+  const importProfBtn = new Gtk.Button({child: importProfLabel, valign: Gtk.Align.CENTER,});
+  importProfBtn.connect('clicked', () => {
+    _importProfiles(window);
+  });
+
+  const exportProfLabel = new Gtk.Label({
+    use_markup: true,
+    label: `<span color="#07c8d3">Export Profiles</span>`,
+  });
+  const exportProfBtn = new Gtk.Button({child: exportProfLabel, valign: Gtk.Align.CENTER,});
+  exportProfBtn.connect('clicked', () => {
+    _exportProfiles(window);
+  });
+
+  importExportProfRow.add_prefix(importProfBtn);
+  importExportProfRow.add_suffix(exportProfBtn);
+  importExportProfsGroup.add(importExportProfRow);
+
+  const presetProfsGroup = new Adw.PreferencesGroup();
+  profilesPage.add(presetProfsGroup);
+
+  const presetProfLabelRow = new Adw.ActionRow({
+    title: `<b>${_('Profile Presets')}</b>`,
+    subtitle: `<span allow_breaks="true">${_("You can find preset profiles in github that you can download and import and tweak further to your liking. If you'd like to share your cool settings profiles, export to a file and raise a PR or issue in github.")}</span>`,
+  });
+  presetProfsGroup.add(presetProfLabelRow);
+
+  const presetProfRow = new Adw.ActionRow({
+    title: _('Preset Profiles'),
+  })
+  const presetGithubBtn = new Gtk.LinkButton({
+    label: _("Github"),
+    uri: "https://github.com/neuromorph/custom-osd/tree/main/presets",
+  });
+  presetProfRow.add_suffix(presetGithubBtn);
+  presetProfsGroup.add(presetProfRow);
+}
+
+// Export profiles to a JSON file
+function _exportProfiles(window) {
+  let fileChooser = new Gtk.FileChooserDialog({
+      title: "Export Settings Profiles",
+      action: Gtk.FileChooserAction.SAVE,
+      transient_for: window,
+  });
+  fileChooser.add_button("Cancel", Gtk.ResponseType.CANCEL);
+  fileChooser.add_button("Save", Gtk.ResponseType.ACCEPT);
+
+  let filter = new Gtk.FileFilter();
+  filter.add_pattern("*.json");
+  filter.set_name("JSON files");
+  fileChooser.add_filter(filter);
+
+  fileChooser.connect('response', (self, response) => {
+    if (response == Gtk.ResponseType.ACCEPT) {
+      let filePath = fileChooser.get_file().get_path();
+      let file = Gio.File.new_for_path(filePath);
+      let profilesDict = window._settings.get_value('profiles'); 
+      let [contents, len] = Json.gvariant_serialize_data(profilesDict); 
+      // log('profs ' + contents + ' ' + len);
+
+      if (len) {
+          let output = file.replace(null, false, Gio.FileCreateFlags.NONE, null);
+          let outputStream = Gio.BufferedOutputStream.new_sized(output, 4096);
+          outputStream.write_all(contents, null);
+          outputStream.close(null);
+      }
+      else {
+        log("Failed to export profiles to file: " + filePath);
+      }
+    }
+    fileChooser.destroy();
+  });
+
+  fileChooser.show();
+  
+}
+
+// Import profiles from a JSON file
+function _importProfiles(window) {
+  let fileChooser = new Gtk.FileChooserDialog({
+      title: "Import Settings Profiles",
+      action: Gtk.FileChooserAction.OPEN,
+      transient_for: window,
+  });
+  fileChooser.add_button("Cancel", Gtk.ResponseType.CANCEL);
+  fileChooser.add_button("Open", Gtk.ResponseType.ACCEPT);
+
+  let filter = new Gtk.FileFilter();
+  filter.add_pattern("*.json");
+  filter.set_name("JSON files");
+  fileChooser.add_filter(filter);
+
+  fileChooser.connect('response', (self, response) => {
+    let filePath = fileChooser.get_file().get_path();
+    if (response == Gtk.ResponseType.ACCEPT && filePath && GLib.file_test(filePath, GLib.FileTest.EXISTS)) {
+      let file = Gio.File.new_for_path(filePath);
+      let [ok, contents] = file.load_contents(null);
+
+      if (ok) {
+          contents = new TextDecoder().decode(contents);
+          let importedProfs = Json.gvariant_deserialize_data(contents, -1, "a{sv}");  
+          importedProfs = importedProfs.deep_unpack();
+          let profilesDict = window._settings.get_value('profiles').deep_unpack();
+          let profiles = Object.keys(importedProfs);
+          profiles.forEach(profile => {
+            profilesDict[profile] = importedProfs[profile]; 
+          });
+          window._settings.set_value('profiles', new GLib.Variant('a{sv}', profilesDict));
+          _updateProfileCombo(window);
+          // log('Profiles saved');
+      } else {
+          log("Failed to load profiles from file: " + filePath);
+      }
+    }
+    fileChooser.destroy();
+  });
+
+  fileChooser.show();
 }
 
 function _deleteProfileDialog(window, profileName){
@@ -332,7 +508,8 @@ function _deleteProfile(window, profileName){
   if (profiles.includes(profileName)) {
     delete profilesDict[profileName];
     window._settings.set_value('profiles', new GLib.Variant('a{sv}', profilesDict));
-    if (window._settings.get_string('active-profile') == profileName) {
+    log('profile name deleted: '+ profileName + ' active now: ' + window._settings.get_string('active-profile'));
+    if (window._settings.get_string('active-profile') == profileName) { log('setting default as active');
       window._settings.set_string('active-profile', 'Default');
     }
     _updateProfileCombo(window);
@@ -341,21 +518,31 @@ function _deleteProfile(window, profileName){
 
 function _updateProfileCombo(window){
   let profilesDict = window._settings.get_value('profiles').deep_unpack();
-  let profiles = Object.keys(profilesDict);
-  let activeProfileCombo = window._activableWidgets['profiles'].find(x => Object.keys(x)[0] == 'active-profile')['active-profile'];
-  activeProfileCombo.remove_all();
-  profiles.forEach(p => {
-    activeProfileCombo.append(p, p);
-  });
-  activeProfileCombo.set_active_id(window._settings.get_string('active-profile'));
+  let profiles = Object.keys(profilesDict).sort();
+  let activeProfileRow = window._activableWidgets['profiles'].find(x => Object.keys(x)[0] == 'active-profile')['active-profile'];
+  let activeProfileCombo = activeProfileRow.model;
+  // activeProfileCombo.remove_all();
+  // profiles.forEach(p => {
+  //   activeProfileCombo.append(p, p);
+  // });
+  // activeProfileCombo.set_active_id(window._settings.get_string('active-profile'));
+  let numProfs = activeProfileCombo.get_n_items();
+  window._resettingCombo = true;
+  activeProfileCombo.splice(0, numProfs, profiles); log('idx of active prof ' + profiles.indexOf(window._settings.get_string('active-profile')));
+  activeProfileRow.selected = profiles.indexOf(window._settings.get_string('active-profile')); log('selected '+activeProfileRow.selected);
 
-  let deleteProfCombo = window._activableWidgets['profiles'].find(x => Object.keys(x)[0] == 'delete-profile')['delete-profile'];
-  deleteProfCombo.remove_all();
-  deleteProfCombo.append_text(_("Select profile to delete"));
-  profiles.forEach(p => {
-    if (p != 'Default') deleteProfCombo.append_text(p);
-  });
-  deleteProfCombo.set_active(0);
+  let deleteProfileRow = window._activableWidgets['profiles'].find(x => Object.keys(x)[0] == 'delete-profile')['delete-profile'];
+  let deleteProfCombo = deleteProfileRow.model;
+  // deleteProfCombo.remove_all();
+  numProfs = deleteProfCombo.get_n_items();
+  deleteProfCombo.splice(1, numProfs-1, profiles);
+  deleteProfCombo.splice(profiles.indexOf('Default')+1, 1, null);
+  // deleteProfCombo.append(_("Select profile to delete"));
+
+  // profiles.forEach(p => {
+  //   if (p != 'Default') deleteProfCombo.append_text(p);
+  // });
+  deleteProfileRow.selected = 0;
 }
 
 //-----------------------------------------------
@@ -498,7 +685,7 @@ function _fillAboutPage(window, aboutPage){
   rowGroup.add(issueRow);
 
   const translateRow = new Adw.ActionRow({
-    title: _('Contribute (translation)'),
+    title: _('Contribute'),
   });
   const translateBtn = new Gtk.Button({icon_name: 'external-link-symbolic', valign: Gtk.Align.CENTER,});
   translateRow.add_suffix(translateBtn);
@@ -734,7 +921,7 @@ function _fillSettingsPage(window, settingsPage){
   // Settings Page: Save
   const saveLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span color="#07c8d3">✓ ${_("Save")}</span>`
+    label: `<span >✓ ${_("Save")}</span>`, // color="#07c8d3"
   });
   const saveSettingsBtn = new Gtk.Button({
     child: saveLabel,
@@ -751,7 +938,7 @@ function _fillSettingsPage(window, settingsPage){
   // Settings Page: Save As
   const saveAsLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span color="#555555">${_("Save As")}</span>`,
+    label: `<span >${_("Save As")}</span>`, //color="#8f8f14"
   });
   const saveAsSettingsBtn = new Gtk.Button({
     child: saveAsLabel,
@@ -824,6 +1011,7 @@ function _saveAsNewProfile(window){
       let profileName = entry.get_text();
       if (profileName != "") {
         _saveAsProfile(window, profileName);
+        window._settings.set_string('active-profile', profileName);
         _updateProfileCombo(window);
       }
     }
@@ -890,18 +1078,5 @@ function _setWidgetsValues(window){
         break;
     }
   });
-
-  // profilesActivables.forEach(activable => {
-  //   let key = Object.keys(activable)[0];
-  //   let widget = activable[key];
-
-  //   switch (key) {
-  //     case 'active-profile':
-  //       widget.set_active(window._settings.get_string(key));
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // });
   
 }
