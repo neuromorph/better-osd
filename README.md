@@ -3,6 +3,7 @@
 
 
 A GNOME Shell extension allowing the user to customize the On Screen Display (OSD) pop ups on Gnome. You can set the **Geometry** (position, orientation, size, shape), **Style** (font, colors, shadow, transparency, background effects etc.) and **Beyond**: Set the delay of the OSD pop-ups and optionally display % value for OSDs with levels like Volume/Brightness etc. You can choose to display the OSD on Primary/ External or both the monitors and select what components to show. In summary, fully transform the OSD pop-ups to match your theme and liking!  
+The new update allows to create and save multiple Settings profiles and choose one to apply. The profiles can be imported / exported to files. Profiles Presets (exported to file), [available here](presets/), can help as starter pack. Also, if you would like to share your settings profiles, do raise a PR or issue.
 
 <p align="center">
 <img src="media/CustomOSDs.png" width="400">
@@ -33,7 +34,9 @@ You may need to restart the gnome shell environnment (for manual install):
 - `alt+f2` then type `r` and `enter` 
 
 ## Settings
-Use the settings panel of the extension for most common customizations:  
+Use the Profiles panel in settings to create and manage settings profiles.  
+
+Use the Settings panel for most common customizations:  
 
 * Position on Screen 
 * Vertical/Horizontal Orientation
@@ -67,7 +70,7 @@ OSDs are On-Screen-Display pop ups that show up for volume, brightness etc. This
 - Icon is the only mandatory element for any OSD and thus, some of the OSDs may not have one or more of the other components (like label, level, numeric value). This is decided by the app that sends the OSD request (eg. Volume/Brightness app or Lock Keys). Out of the available components, this extension allows to choose what to show and hide.
 - Vertical orientation may sometimes show a glitch in text rendering, please change the size of OSD by a bit to fix this.
 - Font settting also provides an option to change font size (without changing other OSD components). Note that, a large font size will also push the OSD size. Also, if you icrease/decrease size of OSD through settings, it will try to proportionally increase/decrease the font size as well.
-- Background effects are experimental. You can combine them with shadow, border or transparency etc. However, shadow can behave oddly around rectangular OSD with background effects. Other settings of Shape will work fine.
+- Background effects are experimental. You can combine them with shadow, border or transparency etc. However, shadow can behave oddly around rectangular OSD with background effects. Other settings of Shape will work fine. Dynamic Blur will be rectangular. Gnome Shell Blur does not support rounded corners :(
 - Further styling effects are possible by editing the extension's stylesheet (instructions below).
 
 
@@ -95,6 +98,7 @@ Translators can use tools like [Gtranslator](https://flathub.org/apps/details/or
 The translation files go in the 'po' directory. Please submit a pull request when ready. Thanks in advance!
 
 ## What's New (recent first)
+- New Profiles tab to create/manage settings profiles. Multiple profiles can be saved, imported, exported etc. Then on, just select a profile as Active profile to apply to OSDs. Also, new background effect - Dynamic Blur.
 - New background effects! Also, show/hide components based on OSD type
 - Preferences moved to Adwaita ui, code updated to prepare for translations
 - New clock OSD to show current date/time and option to set OSD font in settings

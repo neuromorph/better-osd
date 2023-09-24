@@ -2,6 +2,7 @@ const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
 const Main = imports.ui.main;
 const OsdWindow = imports.ui.osdWindow;
 const OsdWindowManager = Main.osdWindowManager;
@@ -168,6 +169,18 @@ class CustomOSDExtension {
       if (bgeffect == "gradient") hboxSty += ` background-gradient-start: rgba(${bgred},${bggreen},${bgblue},${alpha});  
                     background-gradient-end: rgba(${bgred2},${bggreen2},${bgblue2},${alpha}); background-gradient-direction: ${gradientDirection}; 
                     border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
+      else if (bgeffect == "dynamic-blur") {
+        hboxSty += `background-color: transparent; border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
+        osdW._hbox.effect = new Shell.BlurEffect({name: 'customOSD-dynamic'});
+        const effect = osdW._hbox.get_effect('customOSD-dynamic');
+        if (effect) {
+          effect.set({
+              brightness: 0.8,
+              sigma: 25,
+              mode: Shell.BlurMode.BACKGROUND, 
+          });
+        }
+      }
       else if (bgeffect != "none") {
         let resource;
         if (bgeffect == "glass") {
@@ -181,7 +194,13 @@ class CustomOSDExtension {
         hboxSty += ` background-image: url("resource:///org/gnome/shell/extensions/custom-osd/media/${resource}"); 
                     background-repeat: no-repeat; background-size: cover;`;
       }
-      
+      if (bgeffect != "dynamic-blur") {
+        const effect = osdW._hbox.get_effect('customOSD-dynamic');
+        if (effect) {
+          osdW._hbox.remove_effect_by_name('customOSD-dynamic');
+        }
+      }
+
       // osdW._label.x_align = Clutter.ActorAlign.CENTER;
       osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.95*falpha}); `; 
       osdW._level.style = ` height: ${thickness}px; -barlevel-height: ${thickness}px; min-width: ${30 + osdW._icon.icon_size*2.5}px; 
@@ -215,11 +234,9 @@ class CustomOSDExtension {
 
   _unCustomOSD() {
 
-    for (
-      let monitorIndex = 0;
-      monitorIndex < OsdWindowManager._osdWindows.length;
-      monitorIndex++
-    ) {
+    for ( let monitorIndex = 0;
+          monitorIndex < OsdWindowManager._osdWindows.length;
+          monitorIndex++ ) {
 
       let osdW = OsdWindowManager._osdWindows[monitorIndex];
 
@@ -242,6 +259,17 @@ class CustomOSDExtension {
       osdW._icon.icon_size = this._restoreIconSize;
 
       osdW.y_align = Clutter.ActorAlign.END;
+
+      const effect = osdW._hbox.get_effect('customOSD-dynamic');
+      if (effect) {
+        osdW._hbox.remove_effect_by_name('customOSD-dynamic');
+      }
+
+      if (osdW._blurTimeoutId) {
+        Meta.remove_clutter_debug_flags(null, Clutter.DrawDebugFlag.DISABLE_CLIPPED_REDRAWS, null);
+        GLib.source_remove(osdW._blurTimeoutId);
+        osdW._blurTimeoutId = null;
+      }
 
     }
   }
@@ -358,6 +386,22 @@ class CustomOSDExtension {
 
         let transY = v_percent * (monitor.height - hbxH)/100.0;
         this._hbox.translation_y = transY;
+
+        const effect = this._hbox.get_effect('customOSD-dynamic');
+        if (effect) {
+          const hide_delay = custOSD._settings.get_double("delay");
+          if (!this._blurTimeoutId) {
+            // GLib.source_remove(this._blurTimeoutId);
+            Meta.add_clutter_debug_flags(null, Clutter.DrawDebugFlag.DISABLE_CLIPPED_REDRAWS, null);
+            this._blurTimeoutId = GLib.timeout_add(
+              GLib.PRIORITY_DEFAULT, hide_delay, () => { 
+                Meta.remove_clutter_debug_flags(null, Clutter.DrawDebugFlag.DISABLE_CLIPPED_REDRAWS, null);
+                GLib.source_remove(this._blurTimeoutId);
+                this._blurTimeoutId = null;
+              });
+          }
+        }
+
 
       }
     );

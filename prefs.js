@@ -289,7 +289,7 @@ log('active profile combo '+activeProfileRow.selected_item.string);
   });
   const importProfLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span color="#07c8d3">Import Profiles</span>`,
+    label: `<span color="#05c6d1">Import Profiles</span>`,
   });
   const importProfBtn = new Gtk.Button({child: importProfLabel, valign: Gtk.Align.CENTER,});
   importProfBtn.connect('clicked', () => {
@@ -298,7 +298,7 @@ log('active profile combo '+activeProfileRow.selected_item.string);
 
   const exportProfLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span color="#07c8d3">Export Profiles</span>`,
+    label: `<span color="#05c6d1">Export Profiles</span>`,
   });
   const exportProfBtn = new Gtk.Button({child: exportProfLabel, valign: Gtk.Align.CENTER,});
   exportProfBtn.connect('clicked', () => {
@@ -314,12 +314,12 @@ log('active profile combo '+activeProfileRow.selected_item.string);
 
   const presetProfLabelRow = new Adw.ActionRow({
     title: `<b>${_('Profile Presets')}</b>`,
-    subtitle: `<span allow_breaks="true">${_("You can find preset profiles in github that you can download and import and tweak further to your liking. If you'd like to share your cool settings profiles, export to a file and raise a PR or issue in github.")}</span>`,
+    subtitle: `<span allow_breaks="true">${_("You can find profile presets in github that you can download and import and tweak further to your liking. If you'd like to share your cool settings profiles, please export them to a file and raise a PR or issue in github.")}</span>`,
   });
   presetProfsGroup.add(presetProfLabelRow);
 
   const presetProfRow = new Adw.ActionRow({
-    title: _('Preset Profiles'),
+    title: _('Profile Presets'),
   })
   const presetGithubBtn = new Gtk.LinkButton({
     label: _("Github"),
@@ -384,26 +384,28 @@ function _importProfiles(window) {
   filter.set_name("JSON files");
   fileChooser.add_filter(filter);
 
-  fileChooser.connect('response', (self, response) => {
-    let filePath = fileChooser.get_file().get_path();
-    if (response == Gtk.ResponseType.ACCEPT && filePath && GLib.file_test(filePath, GLib.FileTest.EXISTS)) {
-      let file = Gio.File.new_for_path(filePath);
-      let [ok, contents] = file.load_contents(null);
+  fileChooser.connect('response', (self, response) => {   
+    if (response == Gtk.ResponseType.ACCEPT) {
+      let filePath = fileChooser.get_file().get_path();
+      if (filePath && GLib.file_test(filePath, GLib.FileTest.EXISTS)) {
+        let file = Gio.File.new_for_path(filePath);
+        let [ok, contents] = file.load_contents(null);
 
-      if (ok) {
-          contents = new TextDecoder().decode(contents);
-          let importedProfs = Json.gvariant_deserialize_data(contents, -1, "a{sv}");  
-          importedProfs = importedProfs.deep_unpack();
-          let profilesDict = window._settings.get_value('profiles').deep_unpack();
-          let profiles = Object.keys(importedProfs);
-          profiles.forEach(profile => {
-            profilesDict[profile] = importedProfs[profile]; 
-          });
-          window._settings.set_value('profiles', new GLib.Variant('a{sv}', profilesDict));
-          _updateProfileCombo(window);
-          // log('Profiles saved');
-      } else {
-          log("Failed to load profiles from file: " + filePath);
+        if (ok) {
+            contents = new TextDecoder().decode(contents);
+            let importedProfs = Json.gvariant_deserialize_data(contents, -1, "a{sv}");  
+            importedProfs = importedProfs.deep_unpack();
+            let profilesDict = window._settings.get_value('profiles').deep_unpack();
+            let profiles = Object.keys(importedProfs);
+            profiles.forEach(profile => {
+              profilesDict[profile] = importedProfs[profile]; 
+            });
+            window._settings.set_value('profiles', new GLib.Variant('a{sv}', profilesDict));
+            _updateProfileCombo(window);
+            // log('Profiles saved');
+        } else {
+            log("Failed to load profiles from file: " + filePath);
+        }
       }
     }
     fileChooser.destroy();
@@ -420,8 +422,8 @@ function _deleteProfileDialog(window, profileName){
     transient_for: window,
   });
   // add buttons to dialog as 'Delete' and 'Cancel' with 'Cancel' as default
-  dialog.add_button(_("Delete"), Gtk.ResponseType.YES);
   dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL);
+  dialog.add_button(_("Delete"), Gtk.ResponseType.YES);
   dialog.set_default_response(Gtk.ResponseType.CANCEL);
 
   dialog.connect("response", (dialog, responseId) => {
@@ -550,7 +552,7 @@ function _updateProfileCombo(window){
 function _getTitleLabel(){
   return new Gtk.Label({
     use_markup: true,
-    label: `<span size="x-large" weight="heavy" color="#07D8E3">${_("Custom OSD")}</span>`,
+    label: `<span size="x-large" weight="heavy" color="#05c6d1">${_("Custom OSD")}</span>`,
     halign: Gtk.Align.CENTER
   });
 }
@@ -589,6 +591,8 @@ function _fillHelpPage(window, helpPage){
     expanded: true,
   });
   const notesText = `<span size="medium" underline="none">
+  • ${_(`In Profiles tab, create new profiles with default settings.`)}
+  • ${_(`Select a profile as Active and edit its settings in Settings tab.`)}
   • ${_(`Type/edit the values and hit enter key to update OR`)}
   • ${_(`Simply click the - + buttons or PgUp / PgDn keyboard keys.`)}
   • ${_(`Hover over the values/buttons for more info (tooltips).`)}
@@ -795,8 +799,8 @@ function _resetSettingsDialog(window) {
     transient_for: window,
   });
   // add buttons to dialog as 'Reset' and 'Cancel' with 'Cancel' as default
-  dialog.add_button(_("Reset"), Gtk.ResponseType.YES);
   dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL);
+  dialog.add_button(_("Reset"), Gtk.ResponseType.YES);
   dialog.set_default_response(Gtk.ResponseType.CANCEL);
   
   // Connect the dialog to the callback function
@@ -834,7 +838,7 @@ function _fillSettingsPage(window, settingsPage){
 
   const activeProfileRow = new Adw.ActionRow({
     title: `<b>${_('Active Profile')}</b>`,
-    subtitle: _("Edit settings for active profile and hit 'Save' to save them."),
+    subtitle: _("Edit settings for active profile and hit [ ✔ Save ] to save them."),
   });
   const activeProfileLabel = new Gtk.Label({
     use_markup: true,
@@ -921,7 +925,7 @@ function _fillSettingsPage(window, settingsPage){
   // Settings Page: Save
   const saveLabel = new Gtk.Label({
     use_markup: true,
-    label: `<span >✓ ${_("Save")}</span>`, // color="#07c8d3"
+    label: `<span color="#05c6d1">✓ ${_("Save")}</span>`, // color="#07c8d3"
   });
   const saveSettingsBtn = new Gtk.Button({
     child: saveLabel,
@@ -994,8 +998,8 @@ function _saveAsNewProfile(window){
     secondary_text: _("Save current settings as specified profile."),
     transient_for: window,
   });
-  dialog.add_button(_("Save"), Gtk.ResponseType.YES);
   dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL);
+  dialog.add_button(_("Save"), Gtk.ResponseType.YES);
   dialog.set_default_response(Gtk.ResponseType.YES);
 
   let messageArea = dialog.get_message_area();
