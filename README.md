@@ -118,6 +118,7 @@ The translation files go in the 'po' directory. Please submit a pull request whe
 ## Screenshots
 
 ![Screenshot](media/Screenshot.png)
+![New OSDs](media/newOSD.png)
 
 
 

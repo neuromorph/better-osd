@@ -3,6 +3,7 @@ const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
+const GnomeDesktop = imports.gi.GnomeDesktop;
 const Main = imports.ui.main;
 const OsdWindow = imports.ui.osdWindow;
 const OsdWindowManager = Main.osdWindowManager;
@@ -63,7 +64,10 @@ class CustomOSDExtension {
 
   _showOSD(osd) {
     if (osd == "Test OSD") OsdWindowManager.show(-1, this._custOSDIcon, _("Custom OSD"), 1.0, 1.0);
-    if (osd == "Clock OSD") OsdWindowManager.show(-1, this._timeOSDIcon, this._getDateTime());
+    if (osd == "Clock OSD") {
+        let clock = new GnomeDesktop.WallClock();
+        OsdWindowManager.show(-1, this._timeOSDIcon, clock.clock);
+    }
   }
   
   _createLevLabel(osdW){
@@ -115,6 +119,7 @@ class CustomOSDExtension {
     const border = this._settings.get_boolean("border");
     const rotate = this._settings.get_boolean("rotate");
     const font = this._settings.get_string("font");
+    const bradius = this._settings.get_double("bradius");
 
     const red = parseInt(parseFloat(color[0]) * 255);
     const green = parseInt(parseFloat(color[1]) * 255);
@@ -158,10 +163,15 @@ class CustomOSDExtension {
       let hboxSty = ` background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
                     padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
       if (!shadow) hboxSty += ' box-shadow: none;';
-      // else if (bgeffect == "none") {
-      else  hboxSty += ` box-shadow: 0 0 5px 0 rgba(50, 50, 50, ${0.45*alpha});`; //0px 0px 0px 1px rgba(255, 255, 255, ${0.05+0.6*alpha});
-      // }
-      // else hboxSty += ` -st-background-image-shadow: 0 0 5px 0 rgba(50, 50, 50, ${0.5*alpha});`;
+      else if (bradius > -60 && bradius < 60) {
+        if (bgeffect == "none")
+          hboxSty += ` box-shadow: 0 1px 8px -4px rgba(50, 50, 50, ${0.45*alpha});`; 
+        else
+          hboxSty += ` box-shadow: 0 1px 8px -14px rgba(50, 50, 50, ${0.45*alpha});`; 
+      }
+      else {
+          hboxSty += ` box-shadow: 0 1px 8px -1px rgba(50, 50, 50, ${0.45*alpha});`;
+      }
 
       if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.6*falpha}); border-width: ${0.7*thickness}px;`;
       else hboxSty += ' border-width: 0px; border-color: transparent;';   
@@ -170,7 +180,7 @@ class CustomOSDExtension {
                     background-gradient-end: rgba(${bgred2},${bggreen2},${bgblue2},${alpha}); background-gradient-direction: ${gradientDirection}; 
                     border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
       else if (bgeffect == "dynamic-blur") {
-        hboxSty += `background-color: transparent; border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
+        hboxSty += `box-shadow: none; background-color: transparent; border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
         osdW._hbox.effect = new Shell.BlurEffect({name: 'customOSD-dynamic'});
         const effect = osdW._hbox.get_effect('customOSD-dynamic');
         if (effect) {
@@ -287,8 +297,8 @@ class CustomOSDExtension {
 
     this._settings = ExtensionUtils.getSettings(); 
     
+    this._monitorsChangedId = Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._settings.connect(`changed`, () => this._syncSettings(true));
-    Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._syncSettings(false);
 
     Main.wm.addKeybinding(
@@ -411,12 +421,21 @@ class CustomOSDExtension {
 
   disable() {
 
-    /// remove Main.LayourManager(monitors-changed)
     Gio.resources_unregister(this._resources);
     this._resources = null;
 
+    Main.layoutManager.disconnect(this._monitorsChangedId);
     Main.wm.removeKeybinding("clock-osd");
 
+    /*
+    unCustomOSD() - For each OSD Window: 
+    - remove all styling
+    - remove added child levLabel
+    - remove translation, reset position and size
+    - reset visibility
+    - remove blur effect
+    - remove blurTimeOut
+    */
     this._unCustomOSD();
     this._settings = null;
     this._custOSDIcon = null;

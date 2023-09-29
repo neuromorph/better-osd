@@ -323,7 +323,7 @@ function _createSwitchRow(window, buttonKey){
       break;
     case 'shadow':
       title = _('Box Shadow');
-      tooltip_text = _("Effective on lighter background. Turn Off for transparent or flat look");
+      tooltip_text = _("Effective on lighter background.");
       break;
     case 'border':
       title = _('Box Border');
