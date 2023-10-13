@@ -1,8 +1,12 @@
-v16
+Fully customize your OSD ( On Screen Display ) pop ups like Volume , Brightness or Caffeine , Lock Keys etc. 
 
-Fully customize your OSD ( On Screen Display ) pop ups like Volume , Brightness or Caffeine , Lock Keys etc. Move, orient, resize, numeric %, choose monitor, set hide-delay and style to match your theme and liking. You can also select any combination of components to display: icon, text-label, level-bar, numeric %.
+- Move, orient, resize, show numeric %, choose monitor, set hide-delay and style to match your theme and liking. 
+- Select any combination of components to display: icon, text-label, level-bar, numeric %.
+- OSD components can be turned On/Off based on OSD types.
+- Background effects like Gradient, Blur, Psuedo Glass etc
+- Clock OSD to show current date/time on a hotkey (default none. set hotkey in settings).
 
 Update: 
-New Adwaita preferences ui. OSD components can be turned On/Off based on OSD types. New background effects. Clock OSD default hotkey set to none (blank). Refinements in shadow, border etc.
-
-Gnome 45 port is uploaded.  
+- Save multiple Settings profiles and choose one to apply.
+- Import / Export settings profiles.
+- Share / get profile presets in github.

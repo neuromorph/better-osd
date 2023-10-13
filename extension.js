@@ -6,6 +6,7 @@ import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import Pango from 'gi://Pango';
+import GnomeDesktop from 'gi://GnomeDesktop';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as OsdWindow from 'resource:///org/gnome/shell/ui/osdWindow.js';
 
@@ -61,7 +62,10 @@ export default class CustomOSDExtension extends Extension {
 
   _showOSD(osd) {
     if (osd == "Test OSD") OsdWindowManager.show(-1, this._custOSDIcon, _("Custom OSD"), 1.0, 1.0);
-    if (osd == "Clock OSD") OsdWindowManager.show(-1, this._timeOSDIcon, this._getDateTime());
+    if (osd == "Clock OSD") {
+      let clock = new GnomeDesktop.WallClock();
+      OsdWindowManager.show(-1, this._timeOSDIcon, clock.clock);
+    }
   }
   
   _createLevLabel(osdW){
@@ -112,6 +116,7 @@ export default class CustomOSDExtension extends Extension {
     const border = this._settings.get_boolean("border");
     const rotate = this._settings.get_boolean("rotate");
     const font = this._settings.get_string("font");
+    const bradius = this._settings.get_double("bradius");
 
     const red = parseInt(parseFloat(color[0]) * 255);
     const green = parseInt(parseFloat(color[1]) * 255);
@@ -152,13 +157,36 @@ export default class CustomOSDExtension extends Extension {
       let thickness = parseInt(3 + osd_size*0.08); 
       let hboxSty = ` background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
                     padding: ${pad}px ${0.7*pad}px ${pad}px ${1.3*pad}px; margin: 0px;`;
+      
       if (!shadow) hboxSty += ' box-shadow: none;';
-      else hboxSty += ` box-shadow: 0 0 5px 0 rgba(50, 50, 50, ${0.5*alpha});`;
+      else if (bradius > -60 && bradius < 60) {
+        if (bgeffect == "none")
+          hboxSty += ` box-shadow: 0 1px 8px -4px rgba(50, 50, 50, ${0.45*alpha});`; 
+        else
+          hboxSty += ` box-shadow: 0 1px 8px -14px rgba(50, 50, 50, ${0.45*alpha});`; 
+      }
+      else {
+          hboxSty += ` box-shadow: 0 1px 8px -1px rgba(50, 50, 50, ${0.45*alpha});`;
+      }
+
       if (border) hboxSty += ` border-color: rgba(${red},${green},${blue},${0.6*falpha}); border-width: ${0.7*thickness}px;`;
-      else hboxSty += ' border-width: 0px; border-color: transparent;';  
+      else hboxSty += ' border-width: 0px; border-color: transparent;';
+
       if (bgeffect == "gradient") hboxSty += ` background-gradient-start: rgba(${bgred},${bggreen},${bgblue},${alpha});  
                     background-gradient-end: rgba(${bgred2},${bggreen2},${bgblue2},${alpha}); background-gradient-direction: ${gradientDirection}; 
                     border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
+      else if (bgeffect == "dynamic-blur") {
+        hboxSty += `box-shadow: none; background-color: transparent; border-width: ${0.4*thickness}px; border-color: white darkgray black lightgray;`;
+        osdW._hbox.effect = new Shell.BlurEffect({name: 'customOSD-dynamic'});
+        const effect = osdW._hbox.get_effect('customOSD-dynamic');
+        if (effect) {
+          effect.set({
+              brightness: 0.8,
+              sigma: 25,
+              mode: Shell.BlurMode.BACKGROUND, 
+          });
+        }
+      }
       else if (bgeffect != "none") {
         let resource;
         if (bgeffect == "glass") {
@@ -172,6 +200,13 @@ export default class CustomOSDExtension extends Extension {
         hboxSty += ` background-image: url("resource:///org/gnome/shell/extensions/custom-osd/media/${resource}"); 
                     background-repeat: no-repeat; background-size: cover;`;
       }
+      if (bgeffect != "dynamic-blur") {
+        const effect = osdW._hbox.get_effect('customOSD-dynamic');
+        if (effect) {
+          osdW._hbox.remove_effect_by_name('customOSD-dynamic');
+        }
+      }
+
       
       // osdW._label.x_align = Clutter.ActorAlign.CENTER;
       osdW._label.style = ` font-size: ${14 + osd_size*0.4}px;  font-weight: normal; color: rgba(${red},${green},${blue},${0.95*falpha}); `; 
@@ -237,6 +272,17 @@ export default class CustomOSDExtension extends Extension {
       if (osdW._hideTimeoutId)
         GLib.source_remove(osdW._hideTimeoutId);
 
+      const effect = osdW._hbox.get_effect('customOSD-dynamic');
+      if (effect) {
+        osdW._hbox.remove_effect_by_name('customOSD-dynamic');
+      }
+
+      if (osdW._blurTimeoutId) {
+        Meta.remove_clutter_debug_flags(null, Clutter.DrawDebugFlag.DISABLE_CLIPPED_REDRAWS, null);
+        GLib.source_remove(osdW._blurTimeoutId);
+        osdW._blurTimeoutId = null;
+      }
+
     }
   }
 
@@ -252,8 +298,9 @@ export default class CustomOSDExtension extends Extension {
     this._timeOSDIcon = Gio.ThemedIcon.new_with_default_fallbacks('preferences-system-time-symbolic');
 
     this._settings = this.getSettings(); 
+
+    this._monitorsChangedId = Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._settings.connect(`changed`, () => this._syncSettings(true));
-    Main.layoutManager.connect('monitors-changed', () => this._syncSettings(false));
     this._syncSettings(false);
 
     Main.wm.addKeybinding(
@@ -358,6 +405,21 @@ export default class CustomOSDExtension extends Extension {
         let transY = v_percent * (monitor.height - hbxH)/100.0;
         this._hbox.translation_y = transY;
 
+        const effect = this._hbox.get_effect('customOSD-dynamic');
+        if (effect) {
+          const hide_delay = custOSD._settings.get_double("delay");
+          if (!this._blurTimeoutId) {
+            // GLib.source_remove(this._blurTimeoutId);
+            Meta.add_clutter_debug_flags(null, Clutter.DrawDebugFlag.DISABLE_CLIPPED_REDRAWS, null);
+            this._blurTimeoutId = GLib.timeout_add(
+              GLib.PRIORITY_DEFAULT, hide_delay, () => { 
+                Meta.remove_clutter_debug_flags(null, Clutter.DrawDebugFlag.DISABLE_CLIPPED_REDRAWS, null);
+                GLib.source_remove(this._blurTimeoutId);
+                this._blurTimeoutId = null;
+              });
+          }
+        }
+
       }
     );
   
@@ -369,8 +431,18 @@ export default class CustomOSDExtension extends Extension {
     Gio.resources_unregister(this._resources);
     this._resources = null;
 
+    Main.layoutManager.disconnect(this._monitorsChangedId);
     Main.wm.removeKeybinding("clock-osd");
 
+    /*
+    unCustomOSD() - For each OSD Window: 
+    - remove all styling
+    - remove added child levLabel
+    - remove translation, reset position and size
+    - reset visibility
+    - remove blur effect
+    - remove blurTimeOut
+    */
     this._unCustomOSD();
     this._settings = null;
     this._custOSDIcon = null;

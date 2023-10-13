@@ -104,7 +104,7 @@ export class PrefWidgets {
         title = _('Background Effect ⚗️ ');
         tooltip_action = _("Background effects for OSD (experimental)");
         tooltip_text = _("Adjust border, shadow and transparency to get the best effect");
-        comboElements = [["none", _("None")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
+        comboElements = [["none", _("None")], ["dynamic-blur", _("Dynamic Blur")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
         break;
       default:
         break;
