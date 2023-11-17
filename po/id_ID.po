@@ -1,0 +1,476 @@
+# Custom OSD Indonesian Translations.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Ilham Adi Setiawan <ilhamsetiawan2000@gmail.com, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-22 01:15+0530\n"
+"PO-Revision-Date: 2023-09-29 19:52+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#: extension.js:55
+msgctxt "evening time"
+msgid "PM"
+msgstr "Malam"
+
+#: extension.js:55
+msgctxt "morning time"
+msgid "AM"
+msgstr "Pagi"
+
+#: extension.js:65 prefs.js:90 prefs.js:136
+msgid "Custom OSD"
+msgstr "Kustom 0SD"
+
+#: prefs.js:33
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: prefs.js:40
+msgid "Help"
+msgstr "Bantuan"
+
+#: prefs.js:47
+msgid "About"
+msgstr "Tentang"
+
+#: prefs.js:106
+msgid "OSD What?"
+msgstr "Apa itu OSD ?"
+
+#: prefs.js:107
+msgid ""
+"OSDs are On-Screen-Display pop ups that show up for volume, brightness etc."
+msgstr ""
+"OSD adalah pop up On-Screen-Display yang menampilkan volume, kecerahan, dll."
+
+#: prefs.js:108
+msgid ""
+"This extension allows you to fully customize these pop ups, whether built-in"
+msgstr ""
+"Ekstensi ini memungkinkan Anda untuk sepenuhnya menyesuaikan pop up ini, "
+"termasuk pop up bawaan"
+
+#: prefs.js:109
+msgid "or those created by extensions like Caffeine, Lock Keys etc."
+msgstr "atau yang dibuat oleh ekstensi seperti Caffeine, Lock Keys , dll."
+
+#: prefs.js:125
+msgid "Brief Notes"
+msgstr "Catatan Singkat"
+
+#: prefs.js:129
+msgid "Type/edit the values and hit enter key to update OR"
+msgstr "Type/edit the values and hit enter key to update OR"
+
+#: prefs.js:130
+msgid "Simply click the - + buttons or PgUp / PgDn keyboard keys."
+msgstr "Cukup klik tombol - + atau tombol keyboard PgUp / PgDn."
+
+#: prefs.js:131
+msgid "Hover over the values/buttons for more info (tooltips)."
+msgstr ""
+"Arahkan kursor di atas nilai/tombol untuk info lebih lanjut (keterangan "
+"alat)."
+
+#: prefs.js:132
+msgid "Position is (0,0) at screen-center. Range is -50 to +50 as shown above."
+msgstr ""
+"Posisi adalah (0,0) di bagian tengah layar. Kisarannya adalah -50 hingga +50 "
+"seperti yang ditunjukkan di atas."
+
+#: prefs.js:133
+msgid "Custom-color panel of Color button has foreground transparency slider."
+msgstr ""
+"Panel warna khusus pada tombol Warna memiliki penggeser transparansi latar "
+"depan."
+
+#: prefs.js:134
+msgid "Background effects are currently experimental."
+msgstr "Efek latar belakang saat ini masih bersifat eksperimental."
+
+#: prefs.js:135
+msgid ""
+"Further styling effects are possible by editing the extension's stylesheet."
+msgstr ""
+"Efek gaya lebih lanjut dapat dilakukan dengan mengedit stylesheet ekstensi."
+
+#: prefs.js:136
+msgid "Visit home page for more details"
+msgstr "Kunjungi beranda kami untuk detail lebih lanjut"
+
+#: prefs.js:184
+msgid "Version"
+msgstr "Versi"
+
+#: prefs.js:184
+msgid "© neuromorph"
+msgstr "© neuromorph"
+
+#: prefs.js:191
+msgid "Turn annoying OSDs into Awesome OSDs 😎 !"
+msgstr "Ubah OSD yang menjengkelkan menjadi OSD yang mengagumkan 😎!"
+
+#: prefs.js:202
+msgid "Custom OSD Home"
+msgstr "Kustom  Halaman awal OSD"
+
+#: prefs.js:214
+msgid "Report an issue"
+msgstr "Laporkan Masalah"
+
+#: prefs.js:227
+msgid "Contribute (translation)"
+msgstr "kontribusi  (penerjemahan)"
+
+#: prefs.js:240
+msgid "Acknowledgements"
+msgstr "Ucapan Terimakasih"
+
+#: prefs.js:244
+msgid "Inspired by and initiated from Better OSD 🙏."
+msgstr "Terinspirasi oleh dan diprakarsai oleh Better OSD 🙏."
+
+#: prefs.js:245
+msgid "Users: Thank you for your appreciation and valuable feedback!"
+msgstr ""
+"Pengguna: Terima kasih atas apresiasi dan umpan balik Anda yang sangat "
+"berharga!"
+
+#: prefs.js:246
+msgid "Contributors: Translations are welcome and greatly appreciated!"
+msgstr "Kontributor Terjemahan dipersilakan dan sangat dihargai!"
+
+#: prefs.js:247
+msgid ""
+"Supporters: Highly thankful to you for choosing to support this work 🙏."
+msgstr ""
+"Para pendukung: Sangat berterima kasih kepada Anda karena telah memilih "
+"untuk mendukung pekerjaan ini 🙏."
+
+#: prefs.js:248
+msgid ""
+"Image: Color scheme icons created by <a href=\"https://www.flaticon.com/free-"
+"icons/color-scheme\" title=\"color scheme icons\">flatart_icons - Flaticon</"
+"a>"
+msgstr ""
+"Gambar: Ikon skema warna dibuat oleh <a href=\"https://www.flaticon.com/free-"
+"icons/color-scheme\" title=\"color scheme icons\">flatart_icons - Flaticon</"
+"a>"
+
+#: prefs.js:278
+msgid "Buy me a coffee ☕"
+msgstr "Belikan saya kopi   ☕"
+
+#: prefs.js:290
+msgid "Share on Twitter"
+msgstr "Bagikan di Twitter"
+
+#: prefs.js:302
+msgid "Share on Reddit"
+msgstr "Bagikan di Reddit"
+
+#: prefs.js:315
+msgid "This program comes with absolutely no warranty."
+msgstr "Program ini sama sekali tidak memiliki garansi."
+
+#: prefs.js:316
+msgid ""
+"See the <a href=\"https://gnu.org/licenses/gpl-3.0.html\">GNU General Public "
+"License, version 3</a> for details."
+msgstr ""
+"Lihat <a href=\"https://gnu.org/licenses/gpl-3.0.html\">GNU General Public "
+"License, version 3</a> untuk detailnya."
+
+#: prefs.js:332
+msgid "Reset Settings?"
+msgstr "Mengatur ulang pengaturan"
+
+#: prefs.js:333
+msgid "All settings will be reset to extension default values."
+msgstr "Semua pengaturan akan diatur ulang ke nilai default ekstensi."
+
+#: prefs.js:337 prefs.js:449
+msgid "Reset"
+msgstr "Mengatur ulang"
+
+#: prefs.js:338
+msgid "Cancel"
+msgstr "Batalkan"
+
+#: prefs.js:375
+msgid "Geometry"
+msgstr "Geometri"
+
+#: prefs.js:381
+msgid "Style"
+msgstr "Gaya"
+
+#: prefs.js:387
+msgid "Beyond"
+msgstr "Di luar"
+
+#: prefs.js:451
+msgid "Reset all settings to extension defaults"
+msgstr "Mengatur ulang semua pengaturan ke default ekstensi"
+
+#: prefWidgets.js:11
+msgid "OSD Components : Icon | Label | Level | Numeric%"
+msgstr "Komponen OSD : Ikon | Label | Tingkat | Angka%"
+
+#: prefWidgets.js:13
+msgid "Select components to show for each OSD-type below"
+msgstr ""
+"Pilih komponen yang akan ditampilkan untuk setiap tipe OSD di bawah ini"
+
+#: prefWidgets.js:17
+msgid "OSDs with All Components"
+msgstr "OSDs dengan semua komponen"
+
+#: prefWidgets.js:18
+msgid "OSDs like Volume"
+msgstr "OSD seperti Volume"
+
+#: prefWidgets.js:31
+msgid "OSDs with No Label"
+msgstr "OSD tanpa Label"
+
+#: prefWidgets.js:32
+msgid "OSDs like Brightness"
+msgstr "OSD seperti Kecerahan"
+
+#: prefWidgets.js:43
+msgid "OSDs with No Level"
+msgstr "OSD tanpa Level"
+
+#: prefWidgets.js:44
+msgid "OSDs like Caffeine, Lock Keys etc."
+msgstr "OSD seperti Kafein, Caffeine, Lock Keys, dll."
+
+#: prefWidgets.js:62
+msgid "Clock OSD (hotkey)"
+msgstr "OSD Jam (tombol pintas)"
+
+#: prefWidgets.js:71
+msgid ""
+"Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 "
+"1 2 ..."
+msgstr ""
+"Klik ikon atau Tekan Enter untuk memperbarui. Tombol: <Alt> <Ctrl> <Super> A "
+"B C ... 0 1 2 ..."
+
+#: prefWidgets.js:98
+msgid "Monitors"
+msgstr "Monitor"
+
+#: prefWidgets.js:99
+msgid "Choose monitor to show OSD on"
+msgstr "Pilih monitor untuk menampilkan OSD"
+
+#: prefWidgets.js:100
+msgid "All"
+msgstr "Semua"
+
+#: prefWidgets.js:100
+msgid "Primary"
+msgstr "Utama"
+
+#: prefWidgets.js:100
+msgid "External"
+msgstr "luar"
+
+#: prefWidgets.js:103
+msgid "Gradient Direction"
+msgstr "Arah Gradien"
+
+#: prefWidgets.js:104
+msgid "Direction of gradient. Horizontal is along length of OSD"
+msgstr "Arah gradien. Horisontal adalah sepanjang OSD"
+
+#: prefWidgets.js:105
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: prefWidgets.js:105
+msgid "Vertical"
+msgstr "Vertikal"
+
+#: prefWidgets.js:108
+msgid "Background Effect ⚗️ "
+msgstr "Efek LatarBelakang ⚗️"
+
+#: prefWidgets.js:109
+msgid "Background effects for OSD (experimental)"
+msgstr "Efek latar belakang untuk OSD  (eksperimental)"
+
+#: prefWidgets.js:110
+msgid "None"
+msgstr "Tidak ada"
+
+#: prefWidgets.js:110
+msgid "Gradient"
+msgstr "Gradien"
+
+#: prefWidgets.js:110
+msgid "Pseudo Glass"
+msgstr "Kaca Semu"
+
+#: prefWidgets.js:110
+msgid "Wood Raw"
+msgstr "Kayu baku"
+
+#: prefWidgets.js:110
+msgid "Wood Polished"
+msgstr "Kayu Dipoles"
+
+#: prefWidgets.js:156
+msgid "Font"
+msgstr "Jenis huruf"
+
+#: prefWidgets.js:165
+msgid "Font for OSD text"
+msgstr "Jenis huruf untuk teks OSD"
+
+#: prefWidgets.js:187
+msgid "Reset to default font"
+msgstr "atur ulang font ke bawaan"
+
+#: prefWidgets.js:210
+msgid "☀"
+msgstr "☀"
+
+#: prefWidgets.js:211
+msgid "Icon"
+msgstr "Ikon"
+
+#: prefWidgets.js:214
+msgid "𝓪𝓫𝓬"
+msgstr "𝓪𝓫𝓬"
+
+#: prefWidgets.js:215
+msgid "Label"
+msgstr "label"
+
+#: prefWidgets.js:218
+msgid "↕"
+msgstr "↕"
+
+#: prefWidgets.js:219
+msgid "Level"
+msgstr "level"
+
+#: prefWidgets.js:222
+msgid "%"
+msgstr "%"
+
+#: prefWidgets.js:223
+msgid "Numeric %"
+msgstr "Numeri %"
+
+#: prefWidgets.js:257
+msgid "Color"
+msgstr "Warna"
+
+#: prefWidgets.js:258
+msgid "Foreground color of OSD"
+msgstr "Warna latar depan OSD"
+
+#: prefWidgets.js:262
+msgid "Background Color"
+msgstr "Warna latar belakang"
+
+#: prefWidgets.js:263
+msgid "Background color of OSD"
+msgstr "Warna latar belakang OSD"
+
+#: prefWidgets.js:267
+msgid "Gradient End Color"
+msgstr "Warna Ujung Gradien"
+
+#: prefWidgets.js:268
+msgid "Gradient starts with Background color and ends with this color"
+msgstr ""
+"Gradien dimulai dengan warna Latar Belakang dan diakhiri dengan warna ini"
+
+#: prefWidgets.js:316
+msgid "Vertical Orientation"
+msgstr "Orientasi Vertikal"
+
+#: prefWidgets.js:317
+msgid "Show OSD vertically"
+msgstr "Tampilkan OSD secara vertikal"
+
+#: prefWidgets.js:320
+msgid "Box Shadow"
+msgstr "Kotak bayangan"
+
+#: prefWidgets.js:321
+msgid "Effective on lighter background. Turn Off for transparent or flat look"
+msgstr ""
+"Efektif pada latar belakang yang lebih terang. Matikan untuk tampilan "
+"transparan atau datar"
+
+#: prefWidgets.js:324
+msgid "Box Border"
+msgstr "Batas kotak"
+
+#: prefWidgets.js:325
+msgid "Box border around OSD"
+msgstr "Batas kotak di sekeliling OSD"
+
+#: prefWidgets.js:362
+msgid "Horizontal Position (%)"
+msgstr "Posisi Horizontal (%)"
+
+#: prefWidgets.js:367
+msgid "Left Edge: -50  ↞↠  +50 :Right Edge"
+msgstr "Tepi Kiri: -50 ↞↠ +50: Tepi Kanan"
+
+#: prefWidgets.js:370
+msgid "Vertical Position (%)"
+msgstr "Posisi Vertikal (%)"
+
+#: prefWidgets.js:375
+msgid "Top Edge: -50  ↞↠  +50 :Bottom Edge"
+msgstr "Tepi Atas: -50 ↞↠ +50: Tepi Bawah"
+
+#: prefWidgets.js:378
+msgid "Size (%)"
+msgstr "Ukuran %"
+
+#: prefWidgets.js:383
+msgid "Size relative to monitor height"
+msgstr "Ukuran relatif terhadap tinggi monitor"
+
+#: prefWidgets.js:386
+msgid "Transparency (Opacity %)"
+msgstr "Transparansi (Opasitas %)"
+
+#: prefWidgets.js:391
+msgid "Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud"
+msgstr "Latar Belakang Transparan: 0 ↞↠ 100: Latar Belakang Buram"
+
+#: prefWidgets.js:394
+msgid "Shape Shift"
+msgstr "Perubahan Bentuk"
+
+#: prefWidgets.js:399
+msgid "☯:-100  ↞  Rectangle:0  ↞↠  100:Pill  ↠  200:☯"
+msgstr "☯: -100 ↞ Persegi panjang: 0 ↞↠ 100: Pil ↠ 200: ☯"
+
+#: prefWidgets.js:402
+msgid "Hide Delay (ms)"
+msgstr "Menyembunyikan Tunda (ms)"
+
+#: prefWidgets.js:407
+msgid "Delay before OSD disappears (ms)"
+msgstr "Penundaan sebelum OSD menghilang (ms)"
