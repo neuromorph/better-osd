@@ -1,84 +1,80 @@
-const Gtk = imports.gi.Gtk;
-const Adw = imports.gi.Adw;
-const GLib = imports.gi.GLib;
+import Adw from 'gi://Adw';
+import Gtk from 'gi://Gtk';
+import GLib from 'gi://GLib';
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const {gettext: _, pgettext} = ExtensionUtils;
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
+export class PrefWidgets {
 
-function _createComponentsRow(window){
-  const componentsExpander = new Adw.ExpanderRow({
-    title: _(`OSD Components : Icon | Label | Level | Numeric%`),
-    expanded: false,
-    tooltip_text: _("Select components to show for each OSD-type below"),
-  });
+  createComponentsRow(window){
+    const componentsExpander = new Adw.ExpanderRow({
+      title: _(`OSD Components :   Icon ☀    Label 𝓪𝓫𝓬    Level ↕    Numeric %`),
+      expanded: false,
+      tooltip_text: _("Select components to show for each OSD-type below"),
+    });
 
-  const componentsRow1 = new Adw.ActionRow({
-    title: _('OSDs with All Components'),
-    tooltip_text: _("OSDs like Volume"),
-  });
-  const iconBtn1 = _createToggleBtn(window, 'icon-all', 'osd-all');
-  componentsRow1.add_suffix(iconBtn1);
-  const labelBtn1 = _createToggleBtn(window, 'label-all', 'osd-all');
-  componentsRow1.add_suffix(labelBtn1);
-  const levelBtn1 = _createToggleBtn(window, 'level-all', 'osd-all');
-  componentsRow1.add_suffix(levelBtn1);
-  const numericBtn1 = _createToggleBtn(window, 'numeric-all', 'osd-all');
-  componentsRow1.add_suffix(numericBtn1);
-  componentsExpander.add_row(componentsRow1);
+    const componentsRow1 = new Adw.ActionRow({
+      title: _('OSDs with All Components'),
+      tooltip_text: _("OSDs like Volume"),
+    });
+    const iconBtn1 = this.createToggleBtn(window, 'icon-all', 'osd-all');
+    componentsRow1.add_suffix(iconBtn1);
+    const labelBtn1 = this.createToggleBtn(window, 'label-all', 'osd-all');
+    componentsRow1.add_suffix(labelBtn1);
+    const levelBtn1 = this.createToggleBtn(window, 'level-all', 'osd-all');
+    componentsRow1.add_suffix(levelBtn1);
+    const numericBtn1 = this.createToggleBtn(window, 'numeric-all', 'osd-all');
+    componentsRow1.add_suffix(numericBtn1);
+    componentsExpander.add_row(componentsRow1);
 
-  const componentsRow2 = new Adw.ActionRow({
-    title: _('OSDs with No Label'),
-    tooltip_text: _("OSDs like Brightness"),
-  });
-  const iconBtn2 = _createToggleBtn(window, 'icon-nolabel', 'osd-nolabel');
-  componentsRow2.add_suffix(iconBtn2);
-  const levelBtn2 = _createToggleBtn(window, 'level-nolabel', 'osd-nolabel');
-  componentsRow2.add_suffix(levelBtn2);
-  const numericBtn2 = _createToggleBtn(window, 'numeric-nolabel', 'osd-nolabel');
-  componentsRow2.add_suffix(numericBtn2);
-  componentsExpander.add_row(componentsRow2);
+    const componentsRow2 = new Adw.ActionRow({
+      title: _('OSDs with No Label'),
+      tooltip_text: _("OSDs like Brightness"),
+    });
+    const iconBtn2 = this.createToggleBtn(window, 'icon-nolabel', 'osd-nolabel');
+    componentsRow2.add_suffix(iconBtn2);
+    const levelBtn2 = this.createToggleBtn(window, 'level-nolabel', 'osd-nolabel');
+    componentsRow2.add_suffix(levelBtn2);
+    const numericBtn2 = this.createToggleBtn(window, 'numeric-nolabel', 'osd-nolabel');
+    componentsRow2.add_suffix(numericBtn2);
+    componentsExpander.add_row(componentsRow2);
 
-  const componentsRow3 = new Adw.ActionRow({
-    title: _('OSDs with No Level'),
-    tooltip_text: _("OSDs like Caffeine, Lock Keys etc."),
-  });
-  const iconBtn3 = _createToggleBtn(window, 'icon-nolevel', 'osd-nolevel');
-  componentsRow3.add_suffix(iconBtn3);
-  const labelBtn3 = _createToggleBtn(window, 'label-nolevel', 'osd-nolevel');
-  componentsRow3.add_suffix(labelBtn3);
-  componentsExpander.add_row(componentsRow3);
+    const componentsRow3 = new Adw.ActionRow({
+      title: _('OSDs with No Level'),
+      tooltip_text: _("OSDs like Caffeine, Lock Keys etc."),
+    });
+    const iconBtn3 = this.createToggleBtn(window, 'icon-nolevel', 'osd-nolevel');
+    componentsRow3.add_suffix(iconBtn3);
+    const labelBtn3 = this.createToggleBtn(window, 'label-nolevel', 'osd-nolevel');
+    componentsRow3.add_suffix(labelBtn3);
+    componentsExpander.add_row(componentsRow3);
 
-  return componentsExpander;
+    return componentsExpander;
 
-}
+  }
 
-//-----------------------------------------------
+  //-----------------------------------------------
 
-function _createClockRow(window, buttonKey){
+  createClockRow(window, buttonKey){
     let settingsActivables = window._activableWidgets['settings'];
   
     const clockRow = new Adw.ActionRow({
       title: _('Clock OSD (hotkey)'),
     });
-    // const clockEntry = new Adw.EntryRow({
-    //   tooltip_text: "<Alt> <Ctrl> <Super> A B C ... 0 1 2 ...",
-    // });
+    
     let clockkey = window._settings.get_strv('clock-osd');
-    const clockEntry = new Gtk.Entry({
+    const clockEntry = new Adw.EntryRow({
+      title: _(`e.g. <Super>T`),
+      use_markup: false,
       text: clockkey[0],
+      show_apply_button: true,
       width_chars: 10,
       tooltip_text: _("Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 1 2 ..."),
       valign: Gtk.Align.CENTER,
-    })
-    clockEntry.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, 'preferences-system-time-symbolic');
-    clockEntry.set_icon_activatable(Gtk.EntryIconPosition.SECONDARY, true);
-    clockEntry.set_icon_sensitive(Gtk.EntryIconPosition.SECONDARY, true);
-    ['activate', 'icon-press'].forEach(signal => {
-      clockEntry.connect(signal, (w) => {
-        let key = w.get_text();
-        window._settings.set_strv(buttonKey, [key]);
-      });
+    });
+    clockEntry.connect('apply', (w) => {
+      let key = w.get_text();
+      window._settings.set_strv(buttonKey, [key]);
     });
     settingsActivables.push({[buttonKey]:clockEntry});
     clockRow.add_suffix(clockEntry);
@@ -89,9 +85,9 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientDirectionRow=null){
+  createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientDirectionRow=null){
     let settingsActivables = window._activableWidgets['settings'];
-    let title, tooltip_text, comboElements;
+    let title, tooltip_text, tooltip_action=null, comboElements;
 
     switch (buttonKey) {
       case 'monitors':
@@ -106,8 +102,9 @@ function _createClockRow(window, buttonKey){
         break;
       case 'bg-effect':
         title = _('Background Effect ⚗️ ');
-        tooltip_text = _("Background effects for OSD (experimental)");
-        comboElements = [["none", _("None")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
+        tooltip_action = _("Background effects for OSD (experimental)");
+        tooltip_text = _("Adjust border, shadow and transparency to get the best effect");
+        comboElements = [["none", _("None")], ["dynamic-blur", _("Dynamic Blur")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
         break;
       default:
         break;
@@ -115,6 +112,7 @@ function _createClockRow(window, buttonKey){
 
     const comboBoxRow = new Adw.ActionRow({
       title:title,
+      tooltip_text:tooltip_action,
     });
     const comboBox = new Gtk.ComboBoxText({
       tooltip_text: tooltip_text,
@@ -150,7 +148,7 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createFontRow(window, buttonKey){
+  createFontRow(window, buttonKey){
     let settingsActivables = window._activableWidgets['settings'];
     const fontRow = new Adw.ActionRow({
       title: _('Font'),
@@ -201,25 +199,25 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createToggleBtn(window, buttonKey, osdType){
+  createToggleBtn(window, buttonKey, osdType){
     let label, tooltip_text;
     let settingsActivables = window._activableWidgets['settings'];
   
     switch (buttonKey.split('-')[0]) {
       case 'icon':
-        label = _('☀');
+        label = '☀';
         tooltip_text = _("Icon");
         break;
       case 'label':
-        label = _('𝓪𝓫𝓬');
+        label = '𝓪𝓫𝓬';
         tooltip_text = _("Label");
         break;
       case 'level':
-        label = _('↕');
+        label = '↕';
         tooltip_text = _("Level");
         break;
       case 'numeric':
-        label = _('%');
+        label = '%';
         tooltip_text = _("Numeric %");
         break;
       default:
@@ -248,9 +246,9 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createColorRow(window, buttonKey){
+  createColorRow(window, buttonKey){
     let settingsActivables = window._activableWidgets['settings'];
-    let title, tooltip_text;
+    let title, tooltip_text, use_alpha;
     
     switch (buttonKey) {
       case 'color':
@@ -278,10 +276,11 @@ function _createClockRow(window, buttonKey){
     // const colorDialog = new Gtk.ColorDialog({
     //   with_alpha: use_alpha,
     //   title: title,
-    // })
-    // const colorBtn = new Gtk.ColorDialogButton(colorDialog, {
-    //   tooltip_text: tooltip_text,
-    //   valign: Gtk.Align.CENTER,});
+    // });
+    // const colorBtn = new Gtk.ColorDialogButton();
+    // colorBtn.dialog = colorDialog;
+    // colorBtn.tooltip_text = tooltip_text;
+    // colorBtn.valign = Gtk.Align.CENTER;
     const colorBtn = new Gtk.ColorButton({
       use_alpha: use_alpha,
       tooltip_text: tooltip_text,
@@ -308,7 +307,7 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createSwitchRow(window, buttonKey){
+  createSwitchRow(window, buttonKey){
     let title, tooltip_text;
     let settingsActivables = window._activableWidgets['settings'];
     switch (buttonKey) {
@@ -352,7 +351,7 @@ function _createClockRow(window, buttonKey){
   
   //-----------------------------------------------
   
-  function _createSpinBtnRow(window, buttonKey){
+  createSpinBtnRow(window, buttonKey){
   
     let title, lower, upper, step_increment, page_increment, tooltip_text;
     let settingsActivables = window._activableWidgets['settings'];
@@ -441,4 +440,5 @@ function _createClockRow(window, buttonKey){
   
     return row;
   }
-  
+
+};

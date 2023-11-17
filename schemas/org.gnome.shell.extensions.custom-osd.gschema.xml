@@ -72,12 +72,12 @@
       <description>Transparency of OSD.</description>
     </key>
     <key type="b" name="shadow">
-      <default>false</default>
+      <default>true</default>
       <summary>Box Shadow</summary>
       <description>Box Shadow of OSD.</description>
     </key>
     <key type="b" name="border">
-      <default>true</default>
+      <default>false</default>
       <summary>Box Border</summary>
       <description>Box Border of OSD.</description>
     </key>
@@ -125,10 +125,10 @@
       <summary>OSD No Level</summary>
       <description>OSD No Level.</description>
     </key>
-    <key type="s" name="current-profile">
+    <key type="s" name="active-profile">
       <default>"Default"</default>
-      <summary>Default Profile</summary>
-      <description>Default Profile.</description>
+      <summary>Active Profile</summary>
+      <description>Settings Profile currently applied to all OSDs.</description>
     </key>
     <key type="a{sv}" name="profiles">
       <default><![CDATA[
@@ -158,7 +158,7 @@
         }
       ]]></default>
       <summary>Profiles</summary>
-      <description>Profiles.</description>
+      <description>Settings Profiles.</description>
     </key>
   </schema>
 </schemalist>
