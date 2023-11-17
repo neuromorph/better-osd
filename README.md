@@ -98,8 +98,18 @@ This extension provides a [template file](po/custom-osd@neuromorph.pot) (.pot) t
 
 Translators can use tools like [Gtranslator](https://flathub.org/apps/details/org.gnome.Gtranslator) or [POEdit](https://flathub.org/apps/details/net.poedit.Poedit) or any other online tools to work with the .pot files and create a .po for your language. 
 
-The translation files go in the 'po' directory. Please submit a pull request when ready. Thanks in advance!
+The translation .po files go in the 'po' directory.  
+The compiled translation i.e. the .mo file can be created from the .po file with this command (e.g. fr.po to fr.mo)  
+` $ msgfmt -o fr.mo /path/to/fr.po ` - Replace /path/to with file path.  
+The .mo file goes inside the 'locale' directory under corresponding subpath and filename as 'custom-osd.mo'. For 'fr', ` locale/fr/LC_MESSAGES/custom-osd.mo ` .  
+Please submit a pull request when ready. Thanks in advance!  
 
+| Language | Translated By |
+| ------------- | ------------- |
+| Indonesian (ID)  | Ilham Adi Setiawan (@[IlhamSetiawan](https://github.com/IlhamSetiawan))  |
+| Spanish (ES) | summus imperator(@[Nosis](https://github.com/Nosis)) |
+  
+  
 ## What's New (recent first)
 - New Profiles tab to create/manage settings profiles. Multiple profiles can be saved, imported, exported etc. Then on, just select a profile as Active profile to apply to OSDs. Also, new background effect - Dynamic Blur.
 - New background effects! Also, show/hide components based on OSD type
