@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-30 00:04+0530\n"
+"POT-Creation-Date: 2023-10-13 22:47+0530\n"
 "PO-Revision-Date: 2023-11-10 13:21-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,89 +17,88 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4\n"
 
-#: extension.js:56
+#: extension.js:54
 msgctxt "evening time"
 msgid "PM"
 msgstr "PM"
 
-#: extension.js:56
+#: extension.js:54
 msgctxt "morning time"
 msgid "AM"
 msgstr "AM"
 
-#: extension.js:66 prefs.js:504 prefs.js:552
+#: extension.js:64 prefs.js:503 prefs.js:552
 msgid "Custom OSD"
 msgstr "Custom OSD"
 
-#: prefs.js:36
+#: prefs.js:32
 msgid "Profiles"
 msgstr "Perfiles"
 
-#: prefs.js:43
+#: prefs.js:39
 msgid "Settings"
 msgstr "Configuración"
 
-#: prefs.js:50
+#: prefs.js:46
 msgid "Help"
 msgstr "Ayuda"
 
-#: prefs.js:57
+#: prefs.js:53
 msgid "About"
 msgstr "Acerca de"
 
-#: prefs.js:132
+#: prefs.js:130
 msgid "Create and save multiple profiles for the OSD settings,"
-msgstr "Crea y guarda varios perfiles para los ajustes de OSD,"
+msgstr "Crea y guarda varios perfiles para los ajustes de OSD, y/o importar "
 
-#: prefs.js:133
+#: prefs.js:131
 msgid "and/or import Profile Presets. Then, choose one to apply."
-msgstr ""
-"y/o importar Preajustes de Perfil. A continuación, elija uno para aplicarlo."
+msgstr "Preajustes de Perfil. A continuación, elija uno para aplicarlo."
 
-#: prefs.js:146
+#: prefs.js:145
 msgid "Select Active Profile"
 msgstr "Seleccionar perfil activo"
 
-#: prefs.js:147
+#: prefs.js:146
 msgid ""
-"This profile is applied to all OSDs. Go to Settings tab to view / edit "
-"settings for active profile."
+"Select a profile to be applied to all the OSDs. Go to Settings tab to view / "
+"edit settings for this active profile."
 msgstr ""
-"Este perfil se aplica a todos los OSDs. Vaya a la pestaña de Ajustes para "
-"ver/editar los ajustes del perfil activo."
+"Seleccione un perfil para aplicarlo a todos los OSD. Vaya a la pestaña de Ajustes para "
+"ver/editar los ajustes para este perfil activo."
 
-#: prefs.js:178
+#: prefs.js:177
 msgid "Manage Profiles"
 msgstr "Gestión de perfiles"
 
-#: prefs.js:179
+#: prefs.js:178
 msgid ""
 "Create or Delete profiles. Default profile can be edited but not deleted."
 msgstr ""
 "Crear o eliminar perfiles. El perfil predeterminado puede editarse pero no "
 "borrarse."
 
-#: prefs.js:184
+#: prefs.js:183
 msgid "Create Profile"
 msgstr "Crear perfil"
 
-#: prefs.js:187 prefs.js:953
+#: prefs.js:186 prefs.js:952
 msgid "Enter profile name"
 msgstr "Introduzca el nombre del perfil"
 
-#: prefs.js:209
+#: prefs.js:208
 msgid "Delete Profile"
 msgstr "Eliminar perfil"
 
-#: prefs.js:212 prefs.js:226
+#: prefs.js:211 prefs.js:225
 msgid "Select profile to delete"
 msgstr "Seleccione el perfil que desea eliminar"
 
-#: prefs.js:240
+#: prefs.js:239
 msgid "Import/Export Profiles"
 msgstr "Importar/Exportar Perfiles"
 
-#: prefs.js:241
+#: prefs.js:240
 msgid ""
 "Import or Export settings profiles to a file. Imported profiles will be "
 "added to existing ones. Profiles with same name will be overwriten."
@@ -108,19 +107,19 @@ msgstr ""
 "importados se añadirán a los existentes. Los perfiles con el mismo nombre se "
 "sobrescribirán."
 
-#: prefs.js:249
+#: prefs.js:248
 msgid "Import Profiles"
 msgstr "Importar Perfiles"
 
-#: prefs.js:258
+#: prefs.js:257
 msgid "Export Profiles"
 msgstr "Exportar Perfiles"
 
-#: prefs.js:273 prefs.js:279
+#: prefs.js:272 prefs.js:278
 msgid "Profile Presets"
 msgstr "Preajustes de Perfil"
 
-#: prefs.js:274
+#: prefs.js:273
 msgid ""
 "You can find profile presets in github that you can download and import and "
 "tweak further to your liking. If you'd like to share your cool settings "
@@ -131,104 +130,108 @@ msgstr ""
 "configuración, expórtalos a un archivo y crea un PR o una incidencia en "
 "Github."
 
-#: prefs.js:282
+#: prefs.js:281
 msgid "Github"
 msgstr "Github"
 
-#: prefs.js:292
+#: prefs.js:291
 msgid "Export Settings Profiles"
 msgstr "Exportar perfiles de configuración"
 
-#: prefs.js:296 prefs.js:336 prefs.js:382 prefs.js:750 prefs.js:947
+#: prefs.js:295 prefs.js:335 prefs.js:381 prefs.js:751 prefs.js:946
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: prefs.js:297 prefs.js:876 prefs.js:948
+#: prefs.js:296 prefs.js:877 prefs.js:947
 msgid "Save"
 msgstr "Guardar"
 
-#: prefs.js:301 prefs.js:341
+#: prefs.js:300 prefs.js:340
 msgid "JSON files"
 msgstr "Archivos JSON"
 
-#: prefs.js:332
+#: prefs.js:331
 msgid "Import Settings Profiles"
 msgstr "Importar Perfiles de Configuración"
 
-#: prefs.js:337
+#: prefs.js:336
 msgid "Open"
 msgstr "Abrir"
 
-#: prefs.js:377
+#: prefs.js:376
 msgid "Delete Profile?"
 msgstr "¿Eliminar perfil?"
 
-#: prefs.js:378
+#: prefs.js:377
 msgid "This will delete the settings profile: "
 msgstr "Esto eliminará el perfil de configuración: "
 
-#: prefs.js:383
+#: prefs.js:382
 msgid "Delete"
 msgstr "Eliminar"
 
-#: prefs.js:451
+#: prefs.js:449
 msgid "Profile already exists!"
 msgstr "¡El perfil ya existe!"
 
-#: prefs.js:452
+#: prefs.js:450
 msgid "Please choose a different name."
 msgstr "Por favor, elija un nombre diferente."
 
-#: prefs.js:455
+#: prefs.js:453
 msgid "OK"
 msgstr "OK"
 
-#: prefs.js:520
+#: prefs.js:519
 msgid "OSD What?"
 msgstr "OSD ¿Qué?"
 
-#: prefs.js:521
+#: prefs.js:520
 msgid ""
 "OSDs are On-Screen-Display pop ups that show up for volume, brightness etc."
 msgstr ""
 "Los OSD son ventanas emergentes en pantalla que aparecen para controlar el "
 "volumen, el brillo, etc."
 
-#: prefs.js:522
+#: prefs.js:521
 msgid ""
 "This extension allows you to fully customize these pop ups, whether built-in"
 msgstr ""
 "Esta extensión le permite personalizar completamente estas ventanas "
 "emergentes, ya estén incorporadas"
 
-#: prefs.js:523
+#: prefs.js:522
 msgid "or those created by extensions like Caffeine, Lock Keys etc."
 msgstr "o los creados por extensiones como Caffeine, Lock Keys, etc."
 
-#: prefs.js:539
+#: prefs.js:538
 msgid "Brief Notes"
 msgstr "Notas breves"
 
-#: prefs.js:543
+#: prefs.js:542
 msgid "In Profiles tab, create new profiles with default settings."
 msgstr ""
 "En la pestaña Perfiles, cree nuevos perfiles con la configuración "
 "predeterminada."
 
-#: prefs.js:544
+#: prefs.js:543
 msgid "Select a profile as Active and edit its settings in Settings tab."
 msgstr ""
 "Seleccione un perfil como Activo y edite su configuración en la pestaña "
 "Configuración."
 
-#: prefs.js:545
+#: prefs.js:544
 msgid "Type/edit the values and hit enter key to update OR"
 msgstr "Escriba/edite los valores y pulse la tecla ENTER para actualizar ó"
 
-#: prefs.js:546
+#: prefs.js:545
 msgid "Simply click the - + buttons or PgUp / PgDn keyboard keys."
 msgstr ""
 "Basta con pulsar los botones - + o las teclas RePág / AvPág del teclado."
+
+#: prefs.js:546
+msgid "Press [Save] or [Save As] button to save the setting."
+msgstr "Presione el botón [Guardar] o [Guardar como] para guardar la configuración."
 
 #: prefs.js:547
 msgid "Hover over the values/buttons for more info (tooltips)."
@@ -279,54 +282,54 @@ msgstr "¡Convierte los aburridos OSD en increíbles OSD!"
 msgid "Custom OSD Home"
 msgstr "Inicio de OSD personalizado"
 
-#: prefs.js:628
+#: prefs.js:629
 msgid "Report an issue"
 msgstr "Comunicar un problema"
 
-#: prefs.js:640
+#: prefs.js:641
 msgid "Contribute"
 msgstr "Contribuir"
 
-#: prefs.js:652
+#: prefs.js:653
 msgid "Acknowledgements"
 msgstr "Agradecimientos"
 
-#: prefs.js:656
+#: prefs.js:657
 msgid "Inspired by and initiated from Better OSD 🙏."
 msgstr "Inspirado e iniciado por Better OSD 🙏."
 
-#: prefs.js:657
+#: prefs.js:658
 msgid "Users: Thank you for your appreciation and valuable feedback!"
 msgstr "Usuarios: Gracias por su aprecio y sus valiosos comentarios :D"
 
-#: prefs.js:658
+#: prefs.js:659
 msgid "Contributors: Translations are welcome and greatly appreciated!"
 msgstr "¡Colaboradores: Las traducciones son bienvenidas y muy apreciadas!"
 
-#: prefs.js:659
+#: prefs.js:660
 msgid ""
 "Supporters: Highly thankful to you for choosing to support this work 🙏."
 msgstr ""
 "Apoyantes: Altamente agradecido con ustedes por elegir apoyar este trabajo "
 "🙏."
 
-#: prefs.js:690
+#: prefs.js:691
 msgid "If you'd like to support, you can buy me a coffee ☕"
 msgstr "Si quieres apoyar, puedes invitarme a un café ☕"
 
-#: prefs.js:702
+#: prefs.js:703
 msgid "Share on Twitter"
 msgstr "Compartir en X (Twitter)"
 
-#: prefs.js:714
+#: prefs.js:715
 msgid "Share on Reddit"
 msgstr "Compartir en Reddit"
 
-#: prefs.js:727
+#: prefs.js:728
 msgid "This program comes with absolutely no warranty."
 msgstr "Este programa no tiene garantía alguna."
 
-#: prefs.js:728
+#: prefs.js:729
 msgid ""
 "See the <a href=\"https://gnu.org/licenses/gpl-3.0.html\">GNU General Public "
 "License, version 3</a> for details."
@@ -334,67 +337,67 @@ msgstr ""
 "Consulte la <a href=\"https://gnu.org/licenses/gpl-3.0.html\">Licencia "
 "Pública General GNU, versión 3</a> para más detalles."
 
-#: prefs.js:745
+#: prefs.js:746
 msgid "Reset Changes?"
 msgstr "¿Restablecer Cambios?"
 
-#: prefs.js:746
+#: prefs.js:747
 msgid "Current changes to active profile settings will be reset."
 msgstr ""
 "Se restablecerán los cambios actuales en la configuración del perfil activo."
 
-#: prefs.js:751 prefs.js:909
+#: prefs.js:752 prefs.js:910
 msgid "Reset"
 msgstr "Restablecer"
 
-#: prefs.js:788
+#: prefs.js:789
 msgid "Active Profile"
 msgstr "Perfil activo"
 
-#: prefs.js:789
+#: prefs.js:790
 msgid "Edit settings for active profile and hit [ ✔ Save ] to save them."
 msgstr ""
 "Edite los ajustes del perfil activo y pulse [ ✔ Guardar ] para salvarlos."
 
-#: prefs.js:801
+#: prefs.js:802
 msgid "Geometry"
 msgstr "Geometría"
 
-#: prefs.js:807
+#: prefs.js:808
 msgid "Style"
 msgstr "Estilo"
 
-#: prefs.js:813
+#: prefs.js:814
 msgid "Beyond"
 msgstr "Visite"
 
-#: prefs.js:881
+#: prefs.js:882
 msgid "Save the settings for active profile"
 msgstr "Guardar la configuración del perfil activo"
 
-#: prefs.js:892
+#: prefs.js:893
 msgid "Save As"
 msgstr "Guardar como"
 
-#: prefs.js:898
+#: prefs.js:899
 msgid "Save the settings as a new profile"
 msgstr "Guardar la configuración como un nuevo perfil"
 
-#: prefs.js:915
+#: prefs.js:916
 msgid "Reset the changes for active profile"
 msgstr "Restablecer los cambios del perfil activo"
 
-#: prefs.js:943
+#: prefs.js:942
 msgid "Save Profile As"
 msgstr "Guardar perfil como"
 
-#: prefs.js:944
+#: prefs.js:943
 msgid "Save current settings as specified profile."
 msgstr "Guardar la configuración actual como un perfil establecido."
 
 #: prefWidgets.js:11
 msgid "OSD Components :   Icon ☀    Label 𝓪𝓫𝓬    Level ↕    Numeric %"
-msgstr "Componentes OSD :   Icono ☀ Etiqueta 𝓪𝓫𝓬 Nivel ↕ Numérico %"
+msgstr "Componentes OSD :   Icono ☀    Etiqueta 𝓪𝓫𝓬    Nivel ↕    Numérico %"
 
 #: prefWidgets.js:13
 msgid "Select components to show for each OSD-type below"
@@ -430,7 +433,7 @@ msgstr "OSD para Caffeine, Lock Keys, etc."
 msgid "Clock OSD (hotkey)"
 msgstr "Reloj OSD (tecla de acceso rápido)"
 
-#: prefWidgets.js:70
+#: prefWidgets.js:67
 msgid "e.g. <Super>T"
 msgstr "por ejemplo <Super>T"
 
@@ -442,199 +445,199 @@ msgstr ""
 "Haga clic en el icono o pulse Enter para actualizar. Teclas: <Alt> <Ctrl> "
 "<Super> A B C ... 0 1 2 ..."
 
-#: prefWidgets.js:99
+#: prefWidgets.js:94
 msgid "Monitors"
 msgstr "Monitores"
 
-#: prefWidgets.js:100
+#: prefWidgets.js:95
 msgid "Choose monitor to show OSD on"
 msgstr "Elige el monitor en el que se mostrará el OSD"
 
-#: prefWidgets.js:101
+#: prefWidgets.js:96
 msgid "All"
 msgstr "Todos"
 
-#: prefWidgets.js:101
+#: prefWidgets.js:96
 msgid "Primary"
 msgstr "Principal"
 
-#: prefWidgets.js:101
+#: prefWidgets.js:96
 msgid "External"
 msgstr "Externo"
 
-#: prefWidgets.js:104
+#: prefWidgets.js:99
 msgid "Gradient Direction"
 msgstr "Dirección del Gradiente"
 
-#: prefWidgets.js:105
+#: prefWidgets.js:100
 msgid "Direction of gradient. Horizontal is along length of OSD"
 msgstr "Dirección del gradiente. Horizontal es a lo largo del OSD"
 
-#: prefWidgets.js:106
+#: prefWidgets.js:101
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: prefWidgets.js:106
+#: prefWidgets.js:101
 msgid "Vertical"
 msgstr "Vertical"
 
-#: prefWidgets.js:109
+#: prefWidgets.js:104
 msgid "Background Effect ⚗️ "
 msgstr "Efecto de fondo ⚗️ "
 
-#: prefWidgets.js:110
+#: prefWidgets.js:105
 msgid "Background effects for OSD (experimental)"
 msgstr "Efectos para el fondo para OSD (experimental)"
 
-#: prefWidgets.js:111
+#: prefWidgets.js:106
 msgid "Adjust border, shadow and transparency to get the best effect"
 msgstr ""
 "Ajusta el borde, la sombra y la transparencia para conseguir el mejor efecto"
 
-#: prefWidgets.js:112
+#: prefWidgets.js:107
 msgid "None"
 msgstr "Ninguno"
 
-#: prefWidgets.js:112
+#: prefWidgets.js:107
 msgid "Dynamic Blur"
 msgstr "Desenfoque dinámico"
 
-#: prefWidgets.js:112
+#: prefWidgets.js:107
 msgid "Gradient"
 msgstr "Gradiente"
 
-#: prefWidgets.js:112
+#: prefWidgets.js:107
 msgid "Pseudo Glass"
 msgstr "Pseudovidrio"
 
-#: prefWidgets.js:112
+#: prefWidgets.js:107
 msgid "Wood Raw"
 msgstr "Madera sin tratar"
 
-#: prefWidgets.js:112
+#: prefWidgets.js:107
 msgid "Wood Polished"
 msgstr "Madera pulida"
 
-#: prefWidgets.js:159
+#: prefWidgets.js:154
 msgid "Font"
 msgstr "Fuente"
 
-#: prefWidgets.js:168
+#: prefWidgets.js:163
 msgid "Font for OSD text"
 msgstr "Fuente para el texto OSD"
 
-#: prefWidgets.js:190
+#: prefWidgets.js:185
 msgid "Reset to default font"
 msgstr "Restablecer la fuente predeterminada"
 
-#: prefWidgets.js:214
+#: prefWidgets.js:209
 msgid "Icon"
 msgstr "Icono"
 
-#: prefWidgets.js:218
+#: prefWidgets.js:213
 msgid "Label"
 msgstr "Etiqueta"
 
-#: prefWidgets.js:222
+#: prefWidgets.js:217
 msgid "Level"
 msgstr "Nivel"
 
-#: prefWidgets.js:226
+#: prefWidgets.js:221
 msgid "Numeric %"
 msgstr "% Numérico"
 
-#: prefWidgets.js:260
+#: prefWidgets.js:255
 msgid "Color"
 msgstr "Color"
 
-#: prefWidgets.js:261
+#: prefWidgets.js:256
 msgid "Foreground color of OSD"
 msgstr "Color de primer plano del OSD"
 
-#: prefWidgets.js:265
+#: prefWidgets.js:260
 msgid "Background Color"
 msgstr "Color del Fondo"
 
-#: prefWidgets.js:266
+#: prefWidgets.js:261
 msgid "Background color of OSD"
 msgstr "Color para el fondo del OSD"
 
-#: prefWidgets.js:270
+#: prefWidgets.js:265
 msgid "Gradient End Color"
 msgstr "Color final del Degradado"
 
-#: prefWidgets.js:271
+#: prefWidgets.js:266
 msgid "Gradient starts with Background color and ends with this color"
 msgstr "El degradado comienza con el color de fondo y termina con este color"
 
-#: prefWidgets.js:321
+#: prefWidgets.js:315
 msgid "Vertical Orientation"
 msgstr "Orientación vertical"
 
-#: prefWidgets.js:322
+#: prefWidgets.js:316
 msgid "Show OSD vertically"
 msgstr "Mostrar OSD en vertical"
 
-#: prefWidgets.js:325
+#: prefWidgets.js:319
 msgid "Box Shadow"
 msgstr "Box Shadow"
 
-#: prefWidgets.js:326
+#: prefWidgets.js:320
 msgid "Effective on lighter background."
 msgstr "Efectivo sobre fondo claro."
 
-#: prefWidgets.js:329
+#: prefWidgets.js:323
 msgid "Box Border"
 msgstr "Borde de la caja"
 
-#: prefWidgets.js:330
+#: prefWidgets.js:324
 msgid "Box border around OSD"
 msgstr "Recuadro alrededor del OSD"
 
-#: prefWidgets.js:367
+#: prefWidgets.js:361
 msgid "Horizontal Position (%)"
 msgstr "Posición horizontal (%)"
 
-#: prefWidgets.js:372
+#: prefWidgets.js:366
 msgid "Left Edge: -50  ↞↠  +50 :Right Edge"
 msgstr "Borde izquierdo: -50 ↞↠ +50 :Borde derecho"
 
-#: prefWidgets.js:375
+#: prefWidgets.js:369
 msgid "Vertical Position (%)"
 msgstr "Posición vertical (%)"
 
-#: prefWidgets.js:380
+#: prefWidgets.js:374
 msgid "Top Edge: -50  ↞↠  +50 :Bottom Edge"
 msgstr "Borde superior: -50 ↞↠ +50 :Borde inferior"
 
-#: prefWidgets.js:383
+#: prefWidgets.js:377
 msgid "Size (%)"
 msgstr "Tamaño (%)"
 
-#: prefWidgets.js:388
+#: prefWidgets.js:382
 msgid "Size relative to monitor height"
 msgstr "Tamaño en relación con la altura del monitor"
 
-#: prefWidgets.js:391
+#: prefWidgets.js:385
 msgid "Transparency (Opacity %)"
 msgstr "Transparencia (Opacidad %)"
 
-#: prefWidgets.js:396
+#: prefWidgets.js:390
 msgid "Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud"
 msgstr "Fondo transparente: 0 ↞↠ 100 :Fondo opaco"
 
-#: prefWidgets.js:399
+#: prefWidgets.js:393
 msgid "Shape Shift"
 msgstr "Cambio de forma"
 
-#: prefWidgets.js:404
+#: prefWidgets.js:398
 msgid "☯:-100  ↞  Rectangle:0  ↞↠  100:Pill  ↠  200:☯"
 msgstr "☯:-100 ↞ Rectángulo:0 ↞↠ 100:Píldora ↠ 200:☯"
 
-#: prefWidgets.js:407
+#: prefWidgets.js:401
 msgid "Hide Delay (ms)"
 msgstr "Retardo al ocultar (ms)"
 
-#: prefWidgets.js:412
+#: prefWidgets.js:406
 msgid "Delay before OSD disappears (ms)"
 msgstr "Retraso antes de que desaparezca el OSD (ms)"
