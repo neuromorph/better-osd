@@ -10,3 +10,4 @@ Update:
 - Save multiple Settings profiles and choose one to apply.
 - Import / Export settings profiles.
 - Share / get profile presets in github.
+- Translations : Spanish and Indonesian (thanks to contributors)

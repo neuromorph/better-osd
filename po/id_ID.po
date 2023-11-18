@@ -1,116 +1,122 @@
-# SOME DESCRIPTIVE TITLE.
+# Custom OSD Indonesian Translations.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Ilham Adi Setiawan <ilhamsetiawan2000@gmail.com, 2023.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-13 22:47+0530\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2023-09-29 19:52+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id_ID\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: extension.js:54
 msgctxt "evening time"
 msgid "PM"
-msgstr ""
+msgstr "Malam"
 
 #: extension.js:54
 msgctxt "morning time"
 msgid "AM"
-msgstr ""
+msgstr "Pagi"
 
 #: extension.js:64 prefs.js:503 prefs.js:552
 msgid "Custom OSD"
-msgstr ""
+msgstr "Kustom 0SD"
 
 #: prefs.js:32
 msgid "Profiles"
-msgstr ""
+msgstr "Profil"
 
 #: prefs.js:39
 msgid "Settings"
-msgstr ""
+msgstr "Pengaturan"
 
 #: prefs.js:46
 msgid "Help"
-msgstr ""
+msgstr "Bantuan"
 
 #: prefs.js:53
 msgid "About"
-msgstr ""
+msgstr "Tentang"
 
 #: prefs.js:130
 msgid "Create and save multiple profiles for the OSD settings,"
-msgstr ""
+msgstr "Membuat dan menyimpan beberapa profil untuk pengaturan OSD, dan/atau"
 
 #: prefs.js:131
 msgid "and/or import Profile Presets. Then, choose one to apply."
-msgstr ""
+msgstr "mengimpor Preset Profil. Kemudian, pilih salah satu untuk diterapkan."
 
 #: prefs.js:145
 msgid "Select Active Profile"
-msgstr ""
+msgstr "Pilih Profil Aktif"
 
 #: prefs.js:146
 msgid ""
 "Select a profile to be applied to all the OSDs. Go to Settings tab to view / "
 "edit settings for this active profile."
 msgstr ""
+"Pilih profil yang akan diterapkan ke semua OSD. Buka tab Pengaturan untuk melihat / "
+"edit pengaturan untuk profil aktif ini."
 
 #: prefs.js:177
 msgid "Manage Profiles"
-msgstr ""
+msgstr "Kelola Profil"
 
 #: prefs.js:178
 msgid ""
 "Create or Delete profiles. Default profile can be edited but not deleted."
 msgstr ""
+"Buat atau Hapus profil. Profil default dapat diedit tetapi tidak dihapus."
 
 #: prefs.js:183
 msgid "Create Profile"
-msgstr ""
+msgstr "Buat profil"
 
 #: prefs.js:186 prefs.js:952
 msgid "Enter profile name"
-msgstr ""
+msgstr "Masukkan nama profil"
 
 #: prefs.js:208
 msgid "Delete Profile"
-msgstr ""
+msgstr "Hapus Profil"
 
 #: prefs.js:211 prefs.js:225
 msgid "Select profile to delete"
-msgstr ""
+msgstr "Pilih profil yang akan dihapus"
 
 #: prefs.js:239
 msgid "Import/Export Profiles"
-msgstr ""
+msgstr "Impor/Ekspor Profil"
 
 #: prefs.js:240
 msgid ""
 "Import or Export settings profiles to a file. Imported profiles will be "
 "added to existing ones. Profiles with same name will be overwriten."
 msgstr ""
+"Impor atau Ekspor profil pengaturan ke file. Profil yang diimpor akan "
+"ditambahkanke profil yang sudah ada. Profil dengan nama yang sama akan "
+"ditimpa."
 
 #: prefs.js:248
 msgid "Import Profiles"
-msgstr ""
+msgstr "Impor Profil"
 
 #: prefs.js:257
 msgid "Export Profiles"
-msgstr ""
+msgstr "Ekspor Profil"
 
 #: prefs.js:272 prefs.js:278
 msgid "Profile Presets"
-msgstr ""
+msgstr "Preset Profil"
 
 #: prefs.js:273
 msgid ""
@@ -118,487 +124,542 @@ msgid ""
 "tweak further to your liking. If you'd like to share your cool settings "
 "profiles, please export them to a file and raise a PR or issue in github."
 msgstr ""
+"Anda dapat menemukan preset profil di github yang dapat Anda unduh dan impor "
+"serta sesuaikan lebih lanjut sesuai keinginan Anda. Jika Anda ingin "
+"membagikan profil pengaturan keren Anda, silakan ekspor ke file dan ajukan "
+"PR atau isu di github."
 
 #: prefs.js:281
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: prefs.js:291
 msgid "Export Settings Profiles"
-msgstr ""
+msgstr "Ekspor Profil Pengaturan"
 
 #: prefs.js:295 prefs.js:335 prefs.js:381 prefs.js:751 prefs.js:946
 msgid "Cancel"
-msgstr ""
+msgstr "Batalkan"
 
 #: prefs.js:296 prefs.js:877 prefs.js:947
 msgid "Save"
-msgstr ""
+msgstr "Menyimpan"
 
 #: prefs.js:300 prefs.js:340
 msgid "JSON files"
-msgstr ""
+msgstr "file JSON"
 
 #: prefs.js:331
 msgid "Import Settings Profiles"
-msgstr ""
+msgstr "Impor Profil Pengaturan"
 
 #: prefs.js:336
 msgid "Open"
-msgstr ""
+msgstr "Membuka"
 
 #: prefs.js:376
 msgid "Delete Profile?"
-msgstr ""
+msgstr "Hapus Profil?"
 
 #: prefs.js:377
 msgid "This will delete the settings profile: "
-msgstr ""
+msgstr "Ini akan menghapus profil pengaturan:"
 
 #: prefs.js:382
 msgid "Delete"
-msgstr ""
+msgstr "Menghapus"
 
 #: prefs.js:449
 msgid "Profile already exists!"
-msgstr ""
+msgstr "Profil sudah ada!"
 
 #: prefs.js:450
 msgid "Please choose a different name."
-msgstr ""
+msgstr "Silakan pilih nama lain."
 
 #: prefs.js:453
 msgid "OK"
-msgstr ""
+msgstr "OKE"
 
 #: prefs.js:519
 msgid "OSD What?"
-msgstr ""
+msgstr "Apa itu OSD ?"
 
 #: prefs.js:520
 msgid ""
 "OSDs are On-Screen-Display pop ups that show up for volume, brightness etc."
 msgstr ""
+"OSD adalah pop up On-Screen-Display yang menampilkan volume, kecerahan, dll."
 
 #: prefs.js:521
 msgid ""
 "This extension allows you to fully customize these pop ups, whether built-in"
 msgstr ""
+"Ekstensi ini memungkinkan Anda untuk sepenuhnya menyesuaikan pop up ini, "
+"termasuk pop up bawaan"
 
 #: prefs.js:522
 msgid "or those created by extensions like Caffeine, Lock Keys etc."
-msgstr ""
+msgstr "atau yang dibuat oleh ekstensi seperti Caffeine, Lock Keys , dll."
 
 #: prefs.js:538
 msgid "Brief Notes"
-msgstr ""
+msgstr "Catatan Singkat"
 
 #: prefs.js:542
 msgid "In Profiles tab, create new profiles with default settings."
-msgstr ""
+msgstr "Di tab Profil, buat profil baru dengan pengaturan default."
 
 #: prefs.js:543
 msgid "Select a profile as Active and edit its settings in Settings tab."
-msgstr ""
+msgstr "Pilih profil sebagai Aktif dan edit pengaturannya di tab Pengaturan."
 
 #: prefs.js:544
 msgid "Type/edit the values and hit enter key to update OR"
-msgstr ""
+msgstr "Type/edit the values and hit enter key to update OR"
 
 #: prefs.js:545
 msgid "Simply click the - + buttons or PgUp / PgDn keyboard keys."
-msgstr ""
+msgstr "Cukup klik tombol - + atau tombol keyboard PgUp / PgDn."
 
 #: prefs.js:546
 msgid "Press [Save] or [Save As] button to save the setting."
-msgstr ""
+msgstr "Tekan tombol [Simpan] atau [Simpan Sebagai] untuk menyimpan pengaturan."
 
 #: prefs.js:547
 msgid "Hover over the values/buttons for more info (tooltips)."
 msgstr ""
+"Arahkan kursor di atas nilai/tombol untuk info lebih lanjut (keterangan "
+"alat)."
 
 #: prefs.js:548
 msgid "Position is (0,0) at screen-center. Range is -50 to +50 as shown above."
 msgstr ""
+"Posisi adalah (0,0) di bagian tengah layar. Kisarannya adalah -50 hingga +50 "
+"seperti yang ditunjukkan di atas."
 
 #: prefs.js:549
 msgid "Custom-color panel of Color button has foreground transparency slider."
-msgstr ""
+msgstr "Panel warna khusus pada tombol Warna memiliki penggeser transparansi latar depan."
 
 #: prefs.js:550
 msgid "Background effects are currently experimental."
-msgstr ""
+msgstr "Efek latar belakang saat ini masih bersifat eksperimental."
 
 #: prefs.js:551
 msgid ""
 "Further styling effects are possible by editing the extension's stylesheet."
 msgstr ""
+"Efek gaya lebih lanjut dapat dilakukan dengan mengedit stylesheet ekstensi."
 
 #: prefs.js:552
 msgid "Visit home page for more details"
-msgstr ""
+msgstr "Kunjungi beranda kami untuk detail lebih lanjut"
 
 #: prefs.js:600
 msgid "Version"
-msgstr ""
+msgstr "Versi"
 
 #: prefs.js:600
 msgid "© neuromorph"
-msgstr ""
+msgstr "© neuromorph"
 
 #: prefs.js:607
 msgid "Turn annoying OSDs into Awesome OSDs!"
-msgstr ""
+msgstr "Ubah OSD yang mengganggu menjadi OSD Luar Biasa!"
 
 #: prefs.js:618
 msgid "Custom OSD Home"
-msgstr ""
+msgstr "Kustom  Halaman awal OSD"
 
 #: prefs.js:629
 msgid "Report an issue"
-msgstr ""
+msgstr "Laporkan Masalah"
 
 #: prefs.js:641
 msgid "Contribute"
-msgstr ""
+msgstr "Kontribusi"
 
 #: prefs.js:653
 msgid "Acknowledgements"
-msgstr ""
+msgstr "Ucapan Terimakasih"
 
 #: prefs.js:657
 msgid "Inspired by and initiated from Better OSD 🙏."
-msgstr ""
+msgstr "Terinspirasi oleh dan diprakarsai oleh Better OSD 🙏."
 
 #: prefs.js:658
 msgid "Users: Thank you for your appreciation and valuable feedback!"
 msgstr ""
+"Pengguna: Terima kasih atas apresiasi dan umpan balik Anda yang sangat "
+"berharga!"
 
 #: prefs.js:659
 msgid "Contributors: Translations are welcome and greatly appreciated!"
-msgstr ""
+msgstr "Kontributor Terjemahan dipersilakan dan sangat dihargai!"
 
 #: prefs.js:660
 msgid ""
 "Supporters: Highly thankful to you for choosing to support this work 🙏."
 msgstr ""
+"Para pendukung: Sangat berterima kasih kepada Anda karena telah memilih "
+"untuk mendukung pekerjaan ini 🙏."
 
 #: prefs.js:691
 msgid "If you'd like to support, you can buy me a coffee ☕"
-msgstr ""
+msgstr "Jika Anda ingin mendukung, Anda dapat membelikan saya kopi ☕"
 
 #: prefs.js:703
 msgid "Share on Twitter"
-msgstr ""
+msgstr "Bagikan di Twitter"
 
 #: prefs.js:715
 msgid "Share on Reddit"
-msgstr ""
+msgstr "Bagikan di Reddit"
 
 #: prefs.js:728
 msgid "This program comes with absolutely no warranty."
-msgstr ""
+msgstr "Program ini sama sekali tidak memiliki garansi."
 
 #: prefs.js:729
 msgid ""
 "See the <a href=\"https://gnu.org/licenses/gpl-3.0.html\">GNU General Public "
 "License, version 3</a> for details."
 msgstr ""
+"Lihat <a href=\"https://gnu.org/licenses/gpl-3.0.html\">GNU General Public "
+"License, version 3</a> untuk detailnya."
 
 #: prefs.js:746
 msgid "Reset Changes?"
-msgstr ""
+msgstr "Setel Ulang Perubahan?"
 
 #: prefs.js:747
 msgid "Current changes to active profile settings will be reset."
-msgstr ""
+msgstr "Perubahan terkini pada pengaturan profil aktif akan diatur ulang."
 
 #: prefs.js:752 prefs.js:910
 msgid "Reset"
-msgstr ""
+msgstr "Mengatur ulang"
 
 #: prefs.js:789
 msgid "Active Profile"
-msgstr ""
+msgstr "Profil Aktif"
 
 #: prefs.js:790
 msgid "Edit settings for active profile and hit [ ✔ Save ] to save them."
 msgstr ""
+"Edit pengaturan untuk profil aktif dan tekan [ ✔ Simpan ] untuk menyimpannya."
 
 #: prefs.js:802
 msgid "Geometry"
-msgstr ""
+msgstr "Geometri"
 
 #: prefs.js:808
 msgid "Style"
-msgstr ""
+msgstr "Gaya"
 
 #: prefs.js:814
 msgid "Beyond"
-msgstr ""
+msgstr "Di luar"
 
 #: prefs.js:882
 msgid "Save the settings for active profile"
-msgstr ""
+msgstr "Simpan pengaturan untuk profil aktif"
 
 #: prefs.js:893
 msgid "Save As"
-msgstr ""
+msgstr "Simpan Sebagai"
 
 #: prefs.js:899
 msgid "Save the settings as a new profile"
-msgstr ""
+msgstr "Simpan pengaturan sebagai profil baru"
 
 #: prefs.js:916
 msgid "Reset the changes for active profile"
-msgstr ""
+msgstr "Setel ulang perubahan untuk profil aktif"
 
 #: prefs.js:942
 msgid "Save Profile As"
-msgstr ""
+msgstr "Simpan Profil Sebagai"
 
 #: prefs.js:943
 msgid "Save current settings as specified profile."
-msgstr ""
+msgstr "Simpan pengaturan saat ini sebagai profil yang ditentukan."
 
 #: prefWidgets.js:11
 msgid "OSD Components :   Icon ☀    Label 𝓪𝓫𝓬    Level ↕    Numeric %"
-msgstr ""
+msgstr "Komponen OSD :    Ikon ☀    Label 𝓪𝓫𝓬    Tingkat ↕    Angka %"
 
 #: prefWidgets.js:13
 msgid "Select components to show for each OSD-type below"
 msgstr ""
+"Pilih komponen yang akan ditampilkan untuk setiap tipe OSD di bawah ini"
 
 #: prefWidgets.js:17
 msgid "OSDs with All Components"
-msgstr ""
+msgstr "OSDs dengan semua komponen"
 
 #: prefWidgets.js:18
 msgid "OSDs like Volume"
-msgstr ""
+msgstr "OSD seperti Volume"
 
 #: prefWidgets.js:31
 msgid "OSDs with No Label"
-msgstr ""
+msgstr "OSD tanpa Label"
 
 #: prefWidgets.js:32
 msgid "OSDs like Brightness"
-msgstr ""
+msgstr "OSD seperti Kecerahan"
 
 #: prefWidgets.js:43
 msgid "OSDs with No Level"
-msgstr ""
+msgstr "OSD tanpa Level"
 
 #: prefWidgets.js:44
 msgid "OSDs like Caffeine, Lock Keys etc."
-msgstr ""
+msgstr "OSD seperti Kafein, Caffeine, Lock Keys, dll."
 
 #: prefWidgets.js:62
 msgid "Clock OSD (hotkey)"
-msgstr ""
+msgstr "OSD Jam (tombol pintas)"
 
 #: prefWidgets.js:67
 msgid "e.g. <Super>T"
-msgstr ""
+msgstr "contoh <Super>T"
 
 #: prefWidgets.js:72
 msgid ""
 "Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 "
 "1 2 ..."
 msgstr ""
+"Klik ikon atau Tekan Enter untuk memperbarui. Tombol: <Alt> <Ctrl> <Super> A "
+"B C ... 0 1 2 ..."
 
 #: prefWidgets.js:94
 msgid "Monitors"
-msgstr ""
+msgstr "Monitor"
 
 #: prefWidgets.js:95
 msgid "Choose monitor to show OSD on"
-msgstr ""
+msgstr "Pilih monitor untuk menampilkan OSD"
 
 #: prefWidgets.js:96
 msgid "All"
-msgstr ""
+msgstr "Semua"
 
 #: prefWidgets.js:96
 msgid "Primary"
-msgstr ""
+msgstr "Utama"
 
 #: prefWidgets.js:96
 msgid "External"
-msgstr ""
+msgstr "luar"
 
 #: prefWidgets.js:99
 msgid "Gradient Direction"
-msgstr ""
+msgstr "Arah Gradien"
 
 #: prefWidgets.js:100
 msgid "Direction of gradient. Horizontal is along length of OSD"
-msgstr ""
+msgstr "Arah gradien. Horisontal adalah sepanjang OSD"
 
 #: prefWidgets.js:101
 msgid "Horizontal"
-msgstr ""
+msgstr "Horizontal"
 
 #: prefWidgets.js:101
 msgid "Vertical"
-msgstr ""
+msgstr "Vertikal"
 
 #: prefWidgets.js:104
 msgid "Background Effect ⚗️ "
-msgstr ""
+msgstr "Efek LatarBelakang ⚗️"
 
 #: prefWidgets.js:105
 msgid "Background effects for OSD (experimental)"
-msgstr ""
+msgstr "Efek latar belakang untuk OSD  (eksperimental)"
 
 #: prefWidgets.js:106
 msgid "Adjust border, shadow and transparency to get the best effect"
-msgstr ""
+msgstr "Sesuaikan batas, bayangan, dan transparansi untuk mendapatkan efek terbaik"
 
 #: prefWidgets.js:107
 msgid "None"
-msgstr ""
+msgstr "Tidak ada"
 
 #: prefWidgets.js:107
 msgid "Dynamic Blur"
-msgstr ""
+msgstr "Kabur Dinamis"
 
 #: prefWidgets.js:107
 msgid "Gradient"
-msgstr ""
+msgstr "Gradien"
 
 #: prefWidgets.js:107
 msgid "Pseudo Glass"
-msgstr ""
+msgstr "Kaca Semu"
 
 #: prefWidgets.js:107
 msgid "Wood Raw"
-msgstr ""
+msgstr "Kayu baku"
 
 #: prefWidgets.js:107
 msgid "Wood Polished"
-msgstr ""
+msgstr "Kayu Dipoles"
 
 #: prefWidgets.js:154
 msgid "Font"
-msgstr ""
+msgstr "Jenis huruf"
 
 #: prefWidgets.js:163
 msgid "Font for OSD text"
-msgstr ""
+msgstr "Jenis huruf untuk teks OSD"
 
 #: prefWidgets.js:185
 msgid "Reset to default font"
-msgstr ""
+msgstr "atur ulang font ke bawaan"
 
 #: prefWidgets.js:209
 msgid "Icon"
-msgstr ""
+msgstr "Ikon"
 
 #: prefWidgets.js:213
 msgid "Label"
-msgstr ""
+msgstr "label"
 
 #: prefWidgets.js:217
 msgid "Level"
-msgstr ""
+msgstr "level"
 
 #: prefWidgets.js:221
 msgid "Numeric %"
-msgstr ""
+msgstr "Numeri %"
 
 #: prefWidgets.js:255
 msgid "Color"
-msgstr ""
+msgstr "Warna"
 
 #: prefWidgets.js:256
 msgid "Foreground color of OSD"
-msgstr ""
+msgstr "Warna latar depan OSD"
 
 #: prefWidgets.js:260
 msgid "Background Color"
-msgstr ""
+msgstr "Warna latar belakang"
 
 #: prefWidgets.js:261
 msgid "Background color of OSD"
-msgstr ""
+msgstr "Warna latar belakang OSD"
 
 #: prefWidgets.js:265
 msgid "Gradient End Color"
-msgstr ""
+msgstr "Warna Ujung Gradien"
 
 #: prefWidgets.js:266
 msgid "Gradient starts with Background color and ends with this color"
-msgstr ""
+msgstr "Gradien dimulai dengan warna Latar Belakang dan diakhiri dengan warna ini"
 
 #: prefWidgets.js:315
 msgid "Vertical Orientation"
-msgstr ""
+msgstr "Orientasi Vertikal"
 
 #: prefWidgets.js:316
 msgid "Show OSD vertically"
-msgstr ""
+msgstr "Tampilkan OSD secara vertikal"
 
 #: prefWidgets.js:319
 msgid "Box Shadow"
-msgstr ""
+msgstr "Kotak bayangan"
 
 #: prefWidgets.js:320
-msgid "Effective on lighter background. Turn Off for transparent or flat look"
-msgstr ""
+msgid "Effective on lighter background."
+msgstr "Efektif pada latar belakang yang lebih terang."
 
 #: prefWidgets.js:323
 msgid "Box Border"
-msgstr ""
+msgstr "Batas kotak"
 
 #: prefWidgets.js:324
 msgid "Box border around OSD"
-msgstr ""
+msgstr "Batas kotak di sekeliling OSD"
 
 #: prefWidgets.js:361
 msgid "Horizontal Position (%)"
-msgstr ""
+msgstr "Posisi Horizontal (%)"
 
 #: prefWidgets.js:366
 msgid "Left Edge: -50  ↞↠  +50 :Right Edge"
-msgstr ""
+msgstr "Tepi Kiri: -50 ↞↠ +50: Tepi Kanan"
 
 #: prefWidgets.js:369
 msgid "Vertical Position (%)"
-msgstr ""
+msgstr "Posisi Vertikal (%)"
 
 #: prefWidgets.js:374
 msgid "Top Edge: -50  ↞↠  +50 :Bottom Edge"
-msgstr ""
+msgstr "Tepi Atas: -50 ↞↠ +50: Tepi Bawah"
 
 #: prefWidgets.js:377
 msgid "Size (%)"
-msgstr ""
+msgstr "Ukuran %"
 
 #: prefWidgets.js:382
 msgid "Size relative to monitor height"
-msgstr ""
+msgstr "Ukuran relatif terhadap tinggi monitor"
 
 #: prefWidgets.js:385
 msgid "Transparency (Opacity %)"
-msgstr ""
+msgstr "Transparansi (Opasitas %)"
 
 #: prefWidgets.js:390
 msgid "Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud"
-msgstr ""
+msgstr "Latar Belakang Transparan: 0 ↞↠ 100: Latar Belakang Buram"
 
 #: prefWidgets.js:393
 msgid "Shape Shift"
-msgstr ""
+msgstr "Perubahan Bentuk"
 
 #: prefWidgets.js:398
 msgid "☯:-100  ↞  Rectangle:0  ↞↠  100:Pill  ↠  200:☯"
-msgstr ""
+msgstr "☯: -100 ↞ Persegi panjang: 0 ↞↠ 100: Pil ↠ 200: ☯"
 
 #: prefWidgets.js:401
 msgid "Hide Delay (ms)"
-msgstr ""
+msgstr "Menyembunyikan Tunda (ms)"
 
 #: prefWidgets.js:406
 msgid "Delay before OSD disappears (ms)"
-msgstr ""
+msgstr "Penundaan sebelum OSD menghilang (ms)"
+
+#~ msgid "Contribute (translation)"
+#~ msgstr "kontribusi  (penerjemahan)"
+
+#~ msgid ""
+#~ "Image: Color scheme icons created by <a href=\"https://www.flaticon.com/"
+#~ "free-icons/color-scheme\" title=\"color scheme icons\">flatart_icons - "
+#~ "Flaticon</a>"
+#~ msgstr ""
+#~ "Gambar: Ikon skema warna dibuat oleh <a href=\"https://www.flaticon.com/"
+#~ "free-icons/color-scheme\" title=\"color scheme icons\">flatart_icons - "
+#~ "Flaticon</a>"
+
+#~ msgid "Buy me a coffee ☕"
+#~ msgstr "Belikan saya kopi   ☕"
+
+#~ msgid "All settings will be reset to extension default values."
+#~ msgstr "Semua pengaturan akan diatur ulang ke nilai default ekstensi."
+
+#~ msgid "Reset all settings to extension defaults"
+#~ msgstr "Mengatur ulang semua pengaturan ke default ekstensi"
+
+#~ msgid "☀"
+#~ msgstr "☀"
+
+#~ msgid "𝓪𝓫𝓬"
+#~ msgstr "𝓪𝓫𝓬"
+
+#~ msgid "↕"
+#~ msgstr "↕"
+
+#~ msgid "%"
+#~ msgstr "%"
