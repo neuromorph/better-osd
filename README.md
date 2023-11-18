@@ -104,10 +104,12 @@ The compiled translation i.e. the .mo file can be created from the .po file with
 The .mo file goes inside the 'locale' directory under corresponding subpath and filename as 'custom-osd.mo'. For 'fr', ` locale/fr/LC_MESSAGES/custom-osd.mo ` .  
 Please submit a pull request when ready. Thanks in advance!  
 
-| Language | Translated By |
-| ------------- | ------------- |
-| Indonesian (ID)  | Ilham Adi Setiawan (@[IlhamSetiawan](https://github.com/IlhamSetiawan))  |
-| Spanish (ES) | summus imperator(@[Nosis](https://github.com/Nosis)) |
+Note: There is a lot of text here (check the .pot file) esp. due to the Help tab, field descriptions and tooltips. So, partial translations are welcome as well. Ideally, a bare minimum would be to translate the functional UI part i.e. 'Profiles' and 'Settings' tabs UI even without the tooltips. This should already allow people to use the extension in their language. You may later want to add the translations for tooltips and other tabs or someone else can pitch in. 
+
+| Language | Translated By | Status |
+| ------------- | ------------- | ------------- |
+| Indonesian (ID)  | Ilham Adi Setiawan (@[IlhamSetiawan](https://github.com/IlhamSetiawan))  |  Completed  |
+| Spanish (ES) | summus imperator(@[Nosis](https://github.com/Nosis))  |  Completed  |
   
   
 ## What's New (recent first)
