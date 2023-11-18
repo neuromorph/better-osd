@@ -428,6 +428,11 @@ class CustomOSDExtension {
     Main.wm.removeKeybinding("clock-osd");
 
     /*
+    Reviewer Note: 
+    This extension injects code into the 'show' method of 'osdWindow' class.
+    Thus, from within show(), osdWindow properties are added/edited with 'this'.
+    In disable, however, it is not accessible with 'this' and are thus removed using an osdWindow obj.
+    There can be multiple osdWindow instances for multi monitors and so it is done for all in below function:
     unCustomOSD() - For each OSD Window: 
     - remove all styling
     - remove added child levLabel
