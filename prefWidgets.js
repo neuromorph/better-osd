@@ -15,7 +15,7 @@ function _createComponentsRow(window){
 
   const componentsRow1 = new Adw.ActionRow({
     title: _('OSDs with All Components'),
-    tooltip_text: _("OSDs like Volume"),
+    tooltip_text: _("OSDs like Headphone-Volume"),
   });
   const iconBtn1 = _createToggleBtn(window, 'icon-all', 'osd-all');
   componentsRow1.add_suffix(iconBtn1);
@@ -29,7 +29,7 @@ function _createComponentsRow(window){
 
   const componentsRow2 = new Adw.ActionRow({
     title: _('OSDs with No Label'),
-    tooltip_text: _("OSDs like Brightness"),
+    tooltip_text: _("OSDs like Display-Brightness"),
   });
   const iconBtn2 = _createToggleBtn(window, 'icon-nolabel', 'osd-nolabel');
   componentsRow2.add_suffix(iconBtn2);
@@ -55,42 +55,63 @@ function _createComponentsRow(window){
 
 //-----------------------------------------------
 
-function _createClockRow(window, buttonKey){
+function _createEntryRow(window, buttonKey){
   let settingsActivables = window._activableWidgets['settings'];
+  let title, text, placeholder_text, tooltip_text, icon_name;
+  switch (buttonKey) {
+    case 'clock-osd':
+      title = _('Clock OSD (hotkey)');
+      text = window._settings.get_strv('clock-osd')[0];
+      placeholder_text = _(`e.g. <Super>T`);
+      tooltip_text = _("Clock OSD: Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 1 2 ...");
+      icon_name = 'preferences-system-time-symbolic';
+      break;
+    case 'background-image':
+      title = _('Background Image File');
+      text = window._settings.get_string('background-image');
+      placeholder_text = _(`e.g. /home/user/Pictures/image.png`);
+      tooltip_text = _("Enter image path and Press Return or Click Icon to update.");
+      icon_name = 'checkbox-checked-symbolic';
+      break;
+    default:
+      break;
+  }
 
-  const clockRow = new Adw.ActionRow({
-    title: _('Clock OSD (hotkey)'),
+  const entryRow = new Adw.ActionRow({
+    title: title,
   });
-  // const clockEntry = new Adw.EntryRow({
+  // const entryRow = new Adw.EntryRow({
   //   tooltip_text: "<Alt> <Ctrl> <Super> A B C ... 0 1 2 ...",
   // });
-  let clockkey = window._settings.get_strv('clock-osd');
-  const clockEntry = new Gtk.Entry({
-    text: clockkey[0],
-    placeholder_text: _(`e.g. <Super>T`),
+  const entry = new Gtk.Entry({
+    text: text,
+    placeholder_text: placeholder_text,
     width_chars: 10,
-    tooltip_text: _("Click icon or Press Enter to update. Keys: <Alt> <Ctrl> <Super> A B C ... 0 1 2 ..."),
+    tooltip_text: tooltip_text,
     valign: Gtk.Align.CENTER,
   })
-  clockEntry.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, 'preferences-system-time-symbolic');
-  clockEntry.set_icon_activatable(Gtk.EntryIconPosition.SECONDARY, true);
-  clockEntry.set_icon_sensitive(Gtk.EntryIconPosition.SECONDARY, true);
+  entry.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, icon_name);
+  entry.set_icon_activatable(Gtk.EntryIconPosition.SECONDARY, true);
+  entry.set_icon_sensitive(Gtk.EntryIconPosition.SECONDARY, true);
   ['activate', 'icon-press'].forEach(signal => {
-    clockEntry.connect(signal, (w) => {
+    entry.connect(signal, (w) => {
       let key = w.get_text();
-      window._settings.set_strv(buttonKey, [key]);
+      if(buttonKey === 'clock-osd')
+        window._settings.set_strv(buttonKey, [key]);
+      else
+        window._settings.set_string(buttonKey, key);
     });
   });
-  settingsActivables.push({[buttonKey]:clockEntry});
-  clockRow.add_suffix(clockEntry);
-  clockRow.set_activatable_widget(clockEntry);
+  settingsActivables.push({[buttonKey]:entry});
+  entryRow.add_suffix(entry);
+  entryRow.set_activatable_widget(entry);
 
-  return clockRow;
+  return entryRow;
 }
 
 //-----------------------------------------------
 
-function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientDirectionRow=null){
+function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientAlphaRow=null, gradientDirectionRow=null, ringGapRow=null, ImageEntryRow=null){
   let settingsActivables = window._activableWidgets['settings'];
   let title, subtitle=null, tooltip_text, tooltip_action=null, comboElements;
 
@@ -103,13 +124,13 @@ function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradient
     case 'gradient-direction':
       title = _('Gradient Direction');
       tooltip_text = _("Direction of gradient. Horizontal is along length of OSD");
-      comboElements = [["horizontal", _("Horizontal")], ["vertical", _("Vertical")]];
+      comboElements = [["horizontal", _("Horizontal")], ["vertical", _("Vertical")], ["radial", _("Radial")]];
       break;
     case 'bg-effect':
-      title = _('Background Effect ⚗️ ');
-      tooltip_action = _("Background effects for OSD (experimental)");
-      tooltip_text = _("Adjust border, shadow and transparency to get the best effect");
-      comboElements = [["none", _("None")], ["dynamic-blur", _("Dynamic Blur")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")]];
+      title = _('Special Effects ⚗️ ');
+      tooltip_action = _("Special effects for OSD (experimental)");
+      tooltip_text = _("Adjust border, shadow and transparency etc. to get the best effect");
+      comboElements = [["none", _("None")], ["progress-ring", _("Progress Ring")], ["dynamic-blur", _("Dynamic Blur")], ["gradient", _("Gradient")], ["glass", _("Pseudo Glass")], ["wood1", _("Wood Raw")], ["wood2", _("Wood Polished")], ["background-image", _("Background Image")]];
       break;
     default:
       break;
@@ -133,11 +154,23 @@ function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradient
       if (buttonKey == 'bg-effect'){
         if (value == 'gradient'){
           gradientBgColorRow.visible = true;
+          gradientAlphaRow.visible = true;
           gradientDirectionRow.visible = true;
         } 
         else {
           gradientBgColorRow.visible = false;
+          gradientAlphaRow.visible = false;
           gradientDirectionRow.visible = false;
+        }
+        if (value == 'progress-ring'){
+          ringGapRow.visible = true;
+        } else {
+          ringGapRow.visible = false;
+        }
+        if (value == 'background-image'){
+          ImageEntryRow.visible = true;
+        } else {
+          ImageEntryRow.visible = false;
         }
       }
       window._settings.set_string(buttonKey, value);
@@ -172,7 +205,10 @@ function _createFontRow(window, buttonKey){
   if (font == ""){
     let defaultFont = fontBtn.get_font();
     window._settings.set_string('default-font', defaultFont);
+    window._settings.set_string('font', defaultFont);
+    font = window._settings.get_string('default-font');
   }
+  fontBtn.set_font(font);
   fontBtn.connect(
     "font-set",
     function (w) {
@@ -195,7 +231,9 @@ function _createFontRow(window, buttonKey){
   resetFontBtn.connect('clicked', () => {
     window._settings.reset('font');
     let fontBtn = window._activableWidgets['settings'].find(x => x['font'])['font'];
-    fontBtn.set_font(window._settings.get_string('default-font'));
+    let defaultFont = window._settings.get_string('default-font');
+    fontBtn.set_font(defaultFont);
+    window._settings.set_string('font', defaultFont);
   });
   fontRow.add_suffix(resetFontBtn);
   
@@ -257,7 +295,7 @@ function _createColorRow(window, buttonKey){
   
   switch (buttonKey) {
     case 'color':
-      title = _('Color');
+      title = _('Foreground Color');
       tooltip_text = _("Foreground color of OSD");
       use_alpha = true;
       break;
@@ -269,6 +307,21 @@ function _createColorRow(window, buttonKey){
     case 'bgcolor2':
       title = _('Gradient End Color');
       tooltip_text = _("Gradient starts with Background color and ends with this color");
+      use_alpha = false;
+      break;
+    case 'levcolor':
+      title = _('Level Color');
+      tooltip_text = _("Level color of OSD");
+      use_alpha = false;
+      break;
+    case 'bcolor':
+      title = _('Border Color');
+      tooltip_text = _("Border color of OSD");
+      use_alpha = false;
+      break;
+    case 'shcolor':
+      title = _('Shadow Color');
+      tooltip_text = _("Shadow color of OSD");
       use_alpha = false;
       break;
     default:
@@ -323,11 +376,15 @@ function _createSwitchRow(window, buttonKey){
       break;
     case 'shadow':
       title = _('Box Shadow');
-      tooltip_text = _("Effective on lighter background.");
+      tooltip_text = _("Shadow: Effective on contrasting background.");
       break;
     case 'border':
       title = _('Box Border');
       tooltip_text = _("Box border around OSD");
+      break;
+    case 'square-circle':
+      title = _('Square / Circle');
+      tooltip_text = _("Show OSD in square / circle shape");
       break;
     default:
       break;
@@ -388,7 +445,15 @@ function _createSpinBtnRow(window, buttonKey){
       tooltip_text = _("Size relative to monitor height");
       break;
     case 'alpha':
-      title = _('Transparency (Opacity %)');
+      title = _('Background Opacity %');
+      lower = 0;
+      upper = 100;
+      step_increment = 5;
+      page_increment = 10;
+      tooltip_text = _("Transparent Backgroud: 0 ↞↠ 100 :Opaque Backgroud");
+      break;
+    case 'alpha2':
+      title = _('Gradient End Opacity %');
       lower = 0;
       upper = 100;
       step_increment = 5;
@@ -410,6 +475,62 @@ function _createSpinBtnRow(window, buttonKey){
       step_increment = 10;
       page_increment = 50;
       tooltip_text = _("Delay before OSD disappears (ms)");
+      break;
+    case 'levalpha':
+      title = _('Level Opacity %');
+      lower = 0;
+      upper = 100;
+      step_increment = 5;
+      page_increment = 10;
+      tooltip_text = _("Transparent: 0 ↞↠ 100 :Opaque");
+      break;
+    case 'balpha':
+      title = _('Border Opacity %');
+      lower = 0;
+      upper = 100;
+      step_increment = 5;
+      page_increment = 10;
+      tooltip_text = _("Transparent: 0 ↞↠ 100 :Opaque");
+      break;
+    case 'ring-gap':
+      title = _('Ring Gap from Border (%)');
+      lower = 0;
+      upper = 100;
+      step_increment = 1;
+      page_increment = 5;
+      tooltip_text = _("Gap from border: No gap: 0 ↞↠ 100 :Max gap");
+      break;
+    case 'levthickness':
+      title = _('Level Thickness (%)');
+      lower = 1;
+      upper = 100;
+      step_increment = 1;
+      page_increment = 5;
+      tooltip_text = _("Thickness of Level bar or Progress ring");
+      break;
+    case 'bthickness':
+      title = _('Border Thickness (%)');
+      lower = 1;
+      upper = 100;
+      step_increment = 1;
+      page_increment = 5;
+      tooltip_text = _("Thickness of the OSD Border");
+      break;
+    case 'hpadding':
+      title = _('Horizontal Padding');
+      lower = 0;
+      upper = 50;
+      step_increment = 1;
+      page_increment = 1;
+      tooltip_text = _("Horizontal Padding of OSD");
+      break;
+    case 'vpadding':
+      title = _('Vertical Padding');
+      lower = 0;
+      upper = 50;
+      step_increment = 1;
+      page_increment = 1;
+      tooltip_text = _("Vertical Padding of OSD");
       break;
     default:
       break;
