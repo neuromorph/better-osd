@@ -22,17 +22,17 @@
       <description>Numeric level % along with level bar.</description>
     </key>
     <key type="d" name="horizontal">
-      <default>0.0</default>
+      <default>49.6</default>
       <summary>Horizontal Position (%)</summary>
       <description>The percentage of the screen width (from the center of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="d" name="vertical">
-      <default>0.0</default>
+      <default>42.6</default>
       <summary>Vertical Position (%)</summary>
       <description>The percentage of the screen height (from the center of the screen) at which the OSD will be displayed.</description>
     </key>
     <key type="d" name="size">
-      <default>15.0</default>
+      <default>20.0</default>
       <summary>OSD size (screen %)</summary>
       <description>Relative OSD size.</description>
     </key>
@@ -66,18 +66,78 @@
       <summary>Background Effect</summary>
       <description>Background Effect of OSD.</description>
     </key>
+    <key type="s" name="background-image">
+      <default>""</default>
+      <summary>Custom Background Image Effect</summary>
+      <description>Custom Background Image Effect of OSD.</description>
+    </key>
     <key type="d" name="alpha">
-      <default>90.0</default>
+      <default>85.0</default>
       <summary>Transparency (alpha)</summary>
       <description>Transparency of OSD.</description>
+    </key>
+    <key type="d" name="alpha2">
+      <default>85.0</default>
+      <summary>Gradient End Transparency (alpha)</summary>
+      <description>Gradient End Transparency of OSD.</description>
+    </key>
+    <key type="as" name="levcolor">
+      <default>['1.0','0.64','0.28','1.0']</default>
+      <summary>Level Color (RGB)</summary>
+      <description>Level Color of OSD.</description>
+    </key>
+    <key type="d" name="levalpha">
+      <default>85.0</default>
+      <summary>Transparency (alpha)</summary>
+      <description>Transparency of Level of OSD.</description>
+    </key>
+    <key type="as" name="bcolor">
+      <default>['1.0','0.64','0.28','1.0']</default>
+      <summary>Border Color (RGB)</summary>
+      <description>Border Color of OSD.</description>
+    </key>
+    <key type="d" name="balpha">
+      <default>80.0</default>
+      <summary>Transparency (alpha) of border</summary>
+      <description>Transparency of Border of OSD.</description>
+    </key>
+    <key type="d" name="levthickness">
+      <default>20.0</default>
+      <summary>Thickness of level</summary>
+      <description>Thickness of level of OSD.</description>
+    </key>
+    <key type="d" name="ring-gap">
+      <default>100.0</default>
+      <summary>Progress ring gap from border</summary>
+      <description>Progress ring gap from border of OSD.</description>
+    </key>
+    <key type="d" name="bthickness">
+      <default>6.0</default>
+      <summary>Thickness of border</summary>
+      <description>Thickness of border of OSD.</description>
+    </key>
+    <key type="d" name="hpadding">
+      <default>10.0</default>
+      <summary>Horizontal Padding of OSD</summary>
+      <description>Horizontal Padding of OSD components.</description>
+    </key>
+    <key type="d" name="vpadding">
+      <default>10.0</default>
+      <summary>Vertical Padding of OSD</summary>
+      <description>Vertical Padding of OSD components.</description>
     </key>
     <key type="b" name="shadow">
       <default>true</default>
       <summary>Box Shadow</summary>
       <description>Box Shadow of OSD.</description>
     </key>
+    <key type="as" name="shcolor">
+      <default>['0.14','0.12','0.19','1.0']</default>
+      <summary>Shadow Color (RGB)</summary>
+      <description>Shadow Color of OSD.</description>
+    </key>
     <key type="b" name="border">
-      <default>false</default>
+      <default>true</default>
       <summary>Box Border</summary>
       <description>Box Border of OSD.</description>
     </key>
@@ -85,6 +145,11 @@
       <default>100.0</default>
       <summary>Pill Shape</summary>
       <description>Convert between rectangle and pill shapes.</description>
+    </key>
+    <key type="b" name="square-circle">
+      <default>false</default>
+      <summary>Set shape to square or circle</summary>
+      <description>Set shape to square or circle with height eq to width.</description>
     </key>
     <key type="b" name="rotate">
       <default>false</default>
@@ -134,19 +199,31 @@
       <default><![CDATA[
         {
           'Default': <{
-            'horizontal': <0.0>,
-            'vertical': <0.0>,
-            'size': <15.0>,
+            'horizontal': <49.6>,
+            'vertical': <42.6>,
+            'size': <20.0>,
             'rotate': <false>,
+            'square-circle': <false>,
             'bradius': <100.0>,
             'color': <['1.0', '1.0', '1.0', '1.0']>,
             'bgcolor': <['0.0', '0.73', '0.73', '1.0']>,
             'bgcolor2': <['0.75', '0.40', '0.95', '1.0']>,
             'gradient-direction': <'horizontal'>,
             'bg-effect': <'none'>,
-            'alpha': <90.0>,
-            'shadow': <false>,
+            'alpha': <85.0>,
+            'alpha2': <85.0>,
+            'ring-gap': <100.0>,
+            'hpadding': <10.0>,
+            'vpadding': <10.0>,
+            'shadow': <true>,
+            'shcolor': <['0.14','0.12','0.19','1.0']>,
             'border': <true>,
+            'bcolor': <['1.0','0.64','0.28','1.0']>,
+            'balpha': <80.0>,
+            'bthickness': <6.0>,
+            'levcolor': <['1.0','0.64','0.28','1.0']>,
+            'levalpha': <85.0>,
+            'levthickness': <20.0>,
             'font': <''>,
             'delay': <1500.0>,
             'monitors': <'all'>,
@@ -154,11 +231,156 @@
             'osd-all': <{'icon': true, 'label': true, 'level': true, 'numeric': true}>,
             'osd-nolabel': <{'icon': true, 'level': true, 'numeric': true}>,
             'osd-nolevel': <{'icon': true, 'label': true}>      
+          }>,         
+
+          'Gradient Circle': <{
+            'ring-gap': <100.0>,
+            'vpadding': <4.0>,
+            'shcolor': <['0.14','0.12','0.19','1']>,
+            'bradius': <100.0>,
+            'bgcolor': <['0.06','0.73','0.76','1']>,
+            'square-circle': <true>,
+            'vertical': <45>,
+            'bcolor': <['1','1','1','1']>,
+            'levcolor': <['0.56','0.94','0.64','1']>,
+            'font': <'Sans 14'>,
+            'osd-nolabel': <{'icon-nolabel': true,'level-nolabel': true,'numeric-nolabel': true}>,
+            'horizontal': <49.6>,
+            'border': <true>,
+            'rotate': <false>,
+            'color': <['1','1','1','1']>,
+            'osd-all': <{'icon-all': true,'label-all': true,'level-all': true,'numeric-all': true}>,
+            'balpha': <70.0>,
+            'levthickness': <18.0>,
+            'bg-effect': <'gradient'>,
+            'levalpha': <85.0>,
+            'delay': <1500.0>,
+            'size': <16.0>,
+            'shadow': <false>,
+            'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
+            'alpha': <95.0>,
+            'gradient-direction': <'horizontal'>,
+            'bgcolor2': <['0.75','0.40','0.95','1.0']>,
+            'monitors': <'all'>,
+            'bthickness': <4.0>,
+            'alpha2': <90.0>,
+            'clock-osd': <['']>,
+            'hpadding': <4.0>
+          }>,
+
+          'Dynamic Blur': <{
+            'ring-gap': <100.0>,
+            'vpadding': <14.0>,
+            'shcolor': <['0.14','0.12','0.19','1']>,
+            'bradius': <15.0>,
+            'bgcolor': <['0.0','0.73','0.73','1.0']>,
+            'square-circle': <false>,            
+            'vertical': <-44.6>,
+            'bcolor': <['0.46','0.46','0.48','1']>,
+            'levcolor': <['0.56','0.94','0.64','1']>,
+            'font': <'Sans 12'>,
+            'osd-nolabel': <{'icon-nolabel': true,'level-nolabel': true,'numeric-nolabel': true}>,
+            'horizontal': <0.0>,
+            'border': <true>,
+            'rotate': <false>,
+            'color': <['1','1','1','1']>,
+            'osd-all': <{'icon-all': true,'label-all': true,'level-all': true,'numeric-all': true}>,
+            'balpha': <80.0>,
+            'levthickness': <15.0>,
+            'bg-effect': <'dynamic-blur'>,
+            'levalpha': <85.0>,
+            'delay': <1500.0>,
+            'size': <22.0>,
+            'shadow': <false>,
+            'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
+            'alpha': <0.0>,
+            'gradient-direction': <'horizontal'>,
+            'bgcolor2': <['0.75','0.40','0.95','1.0']>,
+            'monitors': <'all'>,
+            'bthickness': <5.0>,
+            'alpha2': <85.0>,
+            'clock-osd': <['']>,
+            'hpadding': <10.0>
+          }>,
+
+          'Progress Disk': <{
+            'ring-gap': <100.0>,
+            'vpadding': <10.0>,
+            'shcolor': <['0.14','0.12','0.19','1']>,
+            'bradius': <100.0>,
+            'bgcolor': <['0.24','0.22','0.27','1']>,
+            'square-circle': <true>,            
+            'vertical': <-43.4>,
+            'bcolor': <['1','0.64','0.28','1']>,
+            'levcolor': <['0','0.73','0.73','1']>,
+            'font': <'Sans 12'>,
+            'osd-nolabel': <{'icon-nolabel': true,'level-nolabel': true,'numeric-nolabel': true}>,
+            'horizontal': <49.4>,
+            'border': <true>,
+            'rotate': <false>,
+            'color': <['1','1','1','1']>,
+            'osd-all': <{'icon-all': true,'label-all': false,'level-all': true,'numeric-all': true}>,
+            'balpha': <85.0>,
+            'levthickness': <63.0>,
+            'bg-effect': <'progress-ring'>,
+            'levalpha': <85.0>,
+            'delay': <1500.0>,
+            'size': <16.0>,
+            'shadow': <false>,
+            'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
+            'alpha': <50.0>,
+            'gradient-direction': <'radial'>,
+            'bgcolor2': <['0.75','0.40','0.95','1.0']>,
+            'monitors': <'all'>,
+            'bthickness': <6.0>,
+            'alpha2': <85.0>,
+            'clock-osd': <['']>,
+            'hpadding': <10.0>
+          }>,
+
+          'Progress Ring': <{
+            'ring-gap': <40.0>,
+            'vpadding': <10.0>,
+            'shcolor': <['0.14','0.12','0.19','1']>,
+            'bradius': <100.0>,
+            'bgcolor': <['0.24','0.22','0.27','1']>,
+            'square-circle': <true>,            
+            'vertical': <-43.4>,
+            'bcolor': <['1','0.64','0.28','1']>,
+            'levcolor': <['0','0.73','0.73','1']>,
+            'font': <''>,
+            'osd-nolabel': <{'icon-nolabel': true,'level-nolabel': true,'numeric-nolabel': true}>,
+            'horizontal': <49.4>,
+            'border': <true>,
+            'rotate': <false>,
+            'color': <['1','1','1','1']>,
+            'osd-all': <{'icon-all': true,'label-all': false,'level-all': true,'numeric-all': true}>,
+            'balpha': <85.0>,
+            'levthickness': <45.0>,
+            'bg-effect': <'progress-ring'>,
+            'levalpha': <85.0>,
+            'delay': <1500.0>,
+            'size': <16.0>,
+            'shadow': <false>,
+            'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
+            'alpha': <50.0>,
+            'gradient-direction': <'radial'>,
+            'bgcolor2': <['0.75','0.40','0.95','1.0']>,
+            'monitors': <'all'>,
+            'bthickness': <6.0>,
+            'alpha2': <85.0>,
+            'clock-osd': <['']>,
+            'hpadding': <12.0>
           }>
         }
       ]]></default>
       <summary>Profiles</summary>
       <description>Settings Profiles.</description>
+    </key>
+    <key type="s" name="showosd">
+      <default>''</default>
+      <summary>Show OSD from command line</summary>
+      <description>Trigger new OSD from command line.</description>
     </key>
   </schema>
 </schemalist>
