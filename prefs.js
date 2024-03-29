@@ -24,7 +24,7 @@ function fillPreferencesWindow(window) {
 
   // window.set_title(_("Custom OSD (On-Screen-Display)"));
   window.default_height = 850;
-  window.default_width = 675;
+  window.default_width = 775;
   // window.search_enabled = true;
 
   window._settings = ExtensionUtils.getSettings();
