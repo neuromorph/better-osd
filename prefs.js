@@ -1,6 +1,6 @@
-import Adw from 'gi://Adw'; 
 import Gtk from 'gi://Gtk';
 import Gdk from 'gi://Gdk';
+import Adw from 'gi://Adw'; 
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Json from 'gi://Json';
@@ -37,14 +37,14 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
     const settingsPage = new Adw.PreferencesPage({
         name: 'settings',
         title: _('Settings'),
-        icon_name: 'preferences-system-symbolic',
+        icon_name: 'emblem-system-symbolic',
     });
     window.add(settingsPage);
 
     const helpPage = new Adw.PreferencesPage({
       name: 'help',
       title: _('Help'),
-      icon_name: 'help-faq-symbolic',
+      icon_name: 'system-help-symbolic',
     });
     window.add(helpPage);
 
@@ -400,16 +400,17 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
     // let profile = {};
     let nonProfileKeys = ['default-font', 'profiles', 'active-profile', 'icon', 'label', 'level', 'numeric'];
     keys.forEach(key => { 
-      if (!nonProfileKeys.includes(key)) {
+      if (!nonProfileKeys.includes(key) && activeProfDict[key] != undefined) {
   
         switch (key) {
-          case 'rotate': case 'shadow': case 'border': 
+          case 'rotate': case 'shadow': case 'border': case 'square-circle':
             window._settings.set_boolean(key, activeProfDict[key]);
             break;
-          case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay':
+            case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay': case 'levalpha': 
+            case 'balpha': case 'levthickness': case 'bthickness': case 'hpadding': case 'vpadding': case 'alpha2': case 'ring-gap':
             window._settings.set_double(key, activeProfDict[key]);
             break;
-          case 'color': case 'bgcolor': case 'bgcolor2':
+            case 'color': case 'bgcolor': case 'bgcolor2': case 'levcolor': case 'bcolor': case 'shcolor':
             window._settings.set_strv(key, activeProfDict[key]);
             break;
           case 'monitors': case 'bg-effect': case 'gradient-direction': 
@@ -547,8 +548,9 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
     • ${_(`Hover over the values/buttons for more info (tooltips).`)}
     • ${_(`Position is (0,0) at screen-center. Range is -50 to +50 as shown above.`)}
     • ${_(`Custom-color panel of Color button has foreground transparency slider.`)}
-    • ${_(`Background effects are currently experimental.`)}
+    • ${_(`Special effects are currently experimental.`)}
     • ${_(`Further styling effects are possible by editing the extension's stylesheet.`)}
+    • ${_(`Trigger your own OSDs from command line - check ReadMe on Github.`)}
     • ${_(`Visit home page for more details`)}: <a href="${this.metadata.url}"><b>${_('Custom OSD')}</b></a>
     </span>`;
     const notesLabel = new Gtk.Label({
@@ -654,9 +656,9 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
       expanded: false,
     });
     const acknowledgeText = `<span size="medium" underline="none">
-    • ${_(`Inspired by and initiated from Better OSD 🙏.`)}
+    • ${_(`Initially inspired by Better OSD 🙏.`)}
     • ${_(`Users: Thank you for your appreciation and valuable feedback!`)}
-    • ${_(`Contributors: Translations are welcome and greatly appreciated!`)}
+    • ${_(`Contributors: Contributions are welcome and greatly appreciated!`)}
     • ${_(`Supporters: Highly thankful to you for choosing to support this work 🙏.`)}
     </span>`;
     const acknowledgeLabel = new Gtk.Label({
@@ -677,6 +679,19 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
       margin_bottom: 1,
       halign: Gtk.Align.CENTER,
     });
+
+    const starLabel = new Gtk.Label({
+      use_markup: true,
+      label: `<span underline="none">${_('☆ Star')}</span>`,
+    });
+    const starBtn = new Gtk.LinkButton({
+      child: starLabel,
+      uri: "https://github.com/neuromorph/custom-osd",
+      margin_end: 180,
+      tooltip_text: _("Star the project on GitHub"),
+      height_request: 50,
+    });
+    supportBox.prepend(starBtn);
   
     const coffeeImage = new Gtk.Picture({
       vexpand: false,
@@ -687,7 +702,7 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
     const coffeeBtn = new Gtk.LinkButton({
       child: coffeeImage,
       uri: "https://www.buymeacoffee.com/neuromorph",
-      margin_end: 200,
+      // margin_end: 200,
       tooltip_text: _("If you'd like to support, you can buy me a coffee ☕"),
       height_request: 50,
     });
@@ -831,29 +846,65 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
   
     const bradiusRow = PrefWidgets.createSpinBtnRow(window, 'bradius');
     geometryExpander.add_row(bradiusRow);
+
+    const sqrCirRow = PrefWidgets.createSwitchRow(window, 'square-circle');
+    geometryExpander.add_row(sqrCirRow);
   
     // Settings Page: Style
-    const colorRow = PrefWidgets.createColorRow(window, 'color');
+    const gradientBgColorRow = PrefWidgets.createColorRow(window, 'bgcolor2');
+    const gradientAlphaRow = PrefWidgets.createSpinBtnRow(window, 'alpha2');
+    const gradientDirectionRow = PrefWidgets.createComboBoxRow(window, 'gradient-direction');
+    const ringGapRow = PrefWidgets.createSpinBtnRow(window, 'ring-gap');  
+    const ImageEntryRow = PrefWidgets.createEntryRow(window, 'background-image');  
+    const bgEffectRow = PrefWidgets.createComboBoxRow(window, 'bg-effect', gradientBgColorRow, gradientAlphaRow, gradientDirectionRow, ringGapRow, ImageEntryRow);
+    styleExpander.add_row(bgEffectRow);  
+    styleExpander.add_row(gradientBgColorRow);
+    styleExpander.add_row(gradientAlphaRow);
+    styleExpander.add_row(gradientDirectionRow);
+    styleExpander.add_row(ringGapRow);
+    styleExpander.add_row(ImageEntryRow);
+
+  const colorRow = PrefWidgets.createColorRow(window, 'color');
     styleExpander.add_row(colorRow);
   
     const bgcolorRow = PrefWidgets.createColorRow(window, 'bgcolor');
-    styleExpander.add_row(bgcolorRow);
-  
-    const gradientBgColorRow = PrefWidgets.createColorRow(window, 'bgcolor2');
-    const gradientDirectionRow = PrefWidgets.createComboBoxRow(window, 'gradient-direction');
-    const bgEffectRow = PrefWidgets.createComboBoxRow(window, 'bg-effect', gradientBgColorRow, gradientDirectionRow);
-    styleExpander.add_row(bgEffectRow);
-    styleExpander.add_row(gradientBgColorRow);
-    styleExpander.add_row(gradientDirectionRow);
+    styleExpander.add_row(bgcolorRow); 
   
     const alphaRow = PrefWidgets.createSpinBtnRow(window, 'alpha');
     styleExpander.add_row(alphaRow);
   
-    const shadowRow = PrefWidgets.createSwitchRow(window, 'shadow');
-    styleExpander.add_row(shadowRow);
-  
+    const levColorRow = PrefWidgets.createColorRow(window, 'levcolor');
+    styleExpander.add_row(levColorRow);
+
+    const levAlphaRow = PrefWidgets.createSpinBtnRow(window, 'levalpha');
+    styleExpander.add_row(levAlphaRow);
+
+    const levThicknessRow = PrefWidgets.createSpinBtnRow(window, 'levthickness');
+    styleExpander.add_row(levThicknessRow);  
+
     const borderRow = PrefWidgets.createSwitchRow(window, 'border');
     styleExpander.add_row(borderRow);
+
+    const bColorRow = PrefWidgets.createColorRow(window, 'bcolor');
+    styleExpander.add_row(bColorRow);
+
+    const bAlphaRow = PrefWidgets.createSpinBtnRow(window, 'balpha');
+    styleExpander.add_row(bAlphaRow);
+
+    const bThicknessRow = PrefWidgets.createSpinBtnRow(window, 'bthickness');
+    styleExpander.add_row(bThicknessRow);
+
+    const hPadRow = PrefWidgets.createSpinBtnRow(window, 'hpadding');
+    styleExpander.add_row(hPadRow);
+
+    const vPadRow = PrefWidgets.createSpinBtnRow(window, 'vpadding');
+    styleExpander.add_row(vPadRow);
+
+    const shadowRow = PrefWidgets.createSwitchRow(window, 'shadow');
+    styleExpander.add_row(shadowRow);
+
+    const shadowColorRow = PrefWidgets.createColorRow(window, 'shcolor');
+    styleExpander.add_row(shadowColorRow);
   
     const fontRow = PrefWidgets.createFontRow(window, 'font');
     styleExpander.add_row(fontRow);
@@ -935,6 +986,8 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
   
   }
 
+  //-----------------------------------------------
+
   saveAsNewProfile(window){
 
     let dialog = new Gtk.MessageDialog({
@@ -979,13 +1032,14 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
       let widget = activable[key];
   
       switch (key) {
-        case 'rotate': case 'shadow': case 'border': 
+        case 'rotate': case 'shadow': case 'border': case 'square-circle':
           widget.set_active(window._settings.get_boolean(key));
           break;
-        case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay':
-          widget.set_value(window._settings.get_double(key));
-          break;
-        case 'color': case 'bgcolor': case 'bgcolor2':
+          case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay': case 'levalpha':
+            case 'balpha': case 'levthickness': case 'bthickness': case 'hpadding': case 'vpadding': case 'alpha2': case 'ring-gap':
+              widget.set_value(window._settings.get_double(key));
+              break;
+            case 'color': case 'bgcolor': case 'bgcolor2': case 'levcolor': case 'bcolor': case 'shcolor':
           let colorArray = window._settings.get_strv(key);
           let rgba = new Gdk.RGBA();
           rgba.red = parseFloat(colorArray[0]);
