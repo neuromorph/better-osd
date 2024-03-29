@@ -401,16 +401,17 @@ function _setSettingsForActiveProfile(window, setWidgets){
   // let profile = {};
   let nonProfileKeys = ['default-font', 'profiles', 'active-profile', 'icon', 'label', 'level', 'numeric'];
   keys.forEach(key => { 
-    if (!nonProfileKeys.includes(key)) {
+    if (!nonProfileKeys.includes(key) && activeProfDict[key] != undefined) {
 
       switch (key) {
-        case 'rotate': case 'shadow': case 'border': 
+        case 'rotate': case 'shadow': case 'border': case 'square-circle':
           window._settings.set_boolean(key, activeProfDict[key]);
           break;
-        case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay':
+        case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay': case 'levalpha': 
+        case 'balpha': case 'levthickness': case 'bthickness': case 'hpadding': case 'vpadding': case 'alpha2': case 'ring-gap':
           window._settings.set_double(key, activeProfDict[key]);
           break;
-        case 'color': case 'bgcolor': case 'bgcolor2':
+        case 'color': case 'bgcolor': case 'bgcolor2': case 'levcolor': case 'bcolor': case 'shcolor':
           window._settings.set_strv(key, activeProfDict[key]);
           break;
         case 'monitors': case 'bg-effect': case 'gradient-direction': 
@@ -549,6 +550,7 @@ function _fillHelpPage(window, helpPage){
   • ${_(`Custom-color panel of Color button has foreground transparency slider.`)}
   • ${_(`Background effects are currently experimental.`)}
   • ${_(`Further styling effects are possible by editing the extension's stylesheet.`)}
+  • ${_(`Trigger your own OSDs from command line - check ReadMe on Github.`)}
   • ${_(`Visit home page for more details`)}: <a href="${Me.metadata.url}"><b>${_('Custom OSD')}</b></a>
   </span>`;
   const notesLabel = new Gtk.Label({
@@ -653,9 +655,9 @@ function _fillAboutPage(window, aboutPage){
     expanded: false,
   });
   const acknowledgeText = `<span size="medium" underline="none">
-  • ${_(`Inspired by and initiated from Better OSD 🙏.`)}
+  • ${_(`Initially inspired by Better OSD 🙏.`)}
   • ${_(`Users: Thank you for your appreciation and valuable feedback!`)}
-  • ${_(`Contributors: Translations are welcome and greatly appreciated!`)}
+  • ${_(`Contributors: Contributions are welcome and greatly appreciated!`)}
   • ${_(`Supporters: Highly thankful to you for choosing to support this work 🙏.`)}
   </span>`;
   const acknowledgeLabel = new Gtk.Label({
@@ -677,6 +679,19 @@ function _fillAboutPage(window, aboutPage){
     halign: Gtk.Align.CENTER,
   });
 
+  const starLabel = new Gtk.Label({
+    use_markup: true,
+    label: `<span underline="none">${_('☆ Star')}</span>`,
+  });
+  const starBtn = new Gtk.LinkButton({
+    child: starLabel,
+    uri: "https://github.com/neuromorph/custom-osd",
+    margin_end: 180,
+    tooltip_text: _("Star the project on GitHub"),
+    height_request: 50,
+  });
+  supportBox.prepend(starBtn);
+
   const coffeeImage = new Gtk.Picture({
     vexpand: false,
     hexpand: false,
@@ -686,7 +701,7 @@ function _fillAboutPage(window, aboutPage){
   const coffeeBtn = new Gtk.LinkButton({
     child: coffeeImage,
     uri: "https://www.buymeacoffee.com/neuromorph",
-    margin_end: 200,
+    // margin_end: 200,
     tooltip_text: _("If you'd like to support, you can buy me a coffee ☕"),
     height_request: 50,
   });
@@ -831,28 +846,64 @@ function _fillSettingsPage(window, settingsPage){
   const bradiusRow = Widgets._createSpinBtnRow(window, 'bradius');
   geometryExpander.add_row(bradiusRow);
 
+  const sqrCirRow = Widgets._createSwitchRow(window, 'square-circle');
+  geometryExpander.add_row(sqrCirRow);
+
   // Settings Page: Style
+  const gradientBgColorRow = Widgets._createColorRow(window, 'bgcolor2');
+  const gradientAlphaRow = Widgets._createSpinBtnRow(window, 'alpha2');
+  const gradientDirectionRow = Widgets._createComboBoxRow(window, 'gradient-direction');
+  const ringGapRow = Widgets._createSpinBtnRow(window, 'ring-gap');  
+  const ImageEntryRow = Widgets._createEntryRow(window, 'background-image');  
+  const bgEffectRow = Widgets._createComboBoxRow(window, 'bg-effect', gradientBgColorRow, gradientAlphaRow, gradientDirectionRow, ringGapRow, ImageEntryRow);
+  styleExpander.add_row(bgEffectRow);  
+  styleExpander.add_row(gradientBgColorRow);
+  styleExpander.add_row(gradientAlphaRow);
+  styleExpander.add_row(gradientDirectionRow);
+  styleExpander.add_row(ringGapRow);
+  styleExpander.add_row(ImageEntryRow);
+
   const colorRow = Widgets._createColorRow(window, 'color');
   styleExpander.add_row(colorRow);
 
   const bgcolorRow = Widgets._createColorRow(window, 'bgcolor');
   styleExpander.add_row(bgcolorRow);
 
-  const gradientBgColorRow = Widgets._createColorRow(window, 'bgcolor2');
-  const gradientDirectionRow = Widgets._createComboBoxRow(window, 'gradient-direction');
-  const bgEffectRow = Widgets._createComboBoxRow(window, 'bg-effect', gradientBgColorRow, gradientDirectionRow);
-  styleExpander.add_row(bgEffectRow);
-  styleExpander.add_row(gradientBgColorRow);
-  styleExpander.add_row(gradientDirectionRow);
-
   const alphaRow = Widgets._createSpinBtnRow(window, 'alpha');
   styleExpander.add_row(alphaRow);
+
+  const levColorRow = Widgets._createColorRow(window, 'levcolor');
+  styleExpander.add_row(levColorRow);
+
+  const levAlphaRow = Widgets._createSpinBtnRow(window, 'levalpha');
+  styleExpander.add_row(levAlphaRow);
+
+  const levThicknessRow = Widgets._createSpinBtnRow(window, 'levthickness');
+  styleExpander.add_row(levThicknessRow);  
+
+  const borderRow = Widgets._createSwitchRow(window, 'border');
+  styleExpander.add_row(borderRow);
+
+  const bColorRow = Widgets._createColorRow(window, 'bcolor');
+  styleExpander.add_row(bColorRow);
+
+  const bAlphaRow = Widgets._createSpinBtnRow(window, 'balpha');
+  styleExpander.add_row(bAlphaRow);
+
+  const bThicknessRow = Widgets._createSpinBtnRow(window, 'bthickness');
+  styleExpander.add_row(bThicknessRow);
+
+  const hPadRow = Widgets._createSpinBtnRow(window, 'hpadding');
+  styleExpander.add_row(hPadRow);
+
+  const vPadRow = Widgets._createSpinBtnRow(window, 'vpadding');
+  styleExpander.add_row(vPadRow);
 
   const shadowRow = Widgets._createSwitchRow(window, 'shadow');
   styleExpander.add_row(shadowRow);
 
-  const borderRow = Widgets._createSwitchRow(window, 'border');
-  styleExpander.add_row(borderRow);
+  const shadowColorRow = Widgets._createColorRow(window, 'shcolor');
+  styleExpander.add_row(shadowColorRow);
 
   const fontRow = Widgets._createFontRow(window, 'font');
   styleExpander.add_row(fontRow);
@@ -864,7 +915,7 @@ function _fillSettingsPage(window, settingsPage){
   const monitorsRow = Widgets._createComboBoxRow(window, 'monitors');
   beyondExpander.add_row(monitorsRow);
 
-  const clockRow = Widgets._createClockRow(window, 'clock-osd');
+  const clockRow = Widgets._createEntryRow(window, 'clock-osd');
   beyondExpander.add_row(clockRow);
   
   const componentsRow = Widgets._createComponentsRow(window);
@@ -980,13 +1031,14 @@ function _setWidgetsValues(window){
     let widget = activable[key];
 
     switch (key) {
-      case 'rotate': case 'shadow': case 'border': 
+      case 'rotate': case 'shadow': case 'border': case 'square-circle':
         widget.set_active(window._settings.get_boolean(key));
         break;
-      case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay':
+      case 'horizontal': case 'vertical': case 'size': case 'alpha': case 'bradius': case 'delay': case 'levalpha':
+      case 'balpha': case 'levthickness': case 'bthickness': case 'hpadding': case 'vpadding': case 'alpha2': case 'ring-gap':
         widget.set_value(window._settings.get_double(key));
         break;
-      case 'color': case 'bgcolor': case 'bgcolor2':
+      case 'color': case 'bgcolor': case 'bgcolor2': case 'levcolor': case 'bcolor': case 'shcolor':
         let colorArray = window._settings.get_strv(key);
         let rgba = new Gdk.RGBA();
         rgba.red = parseFloat(colorArray[0]);
