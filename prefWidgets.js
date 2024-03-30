@@ -1,5 +1,5 @@
-const Gtk = imports.gi.Gtk;
 const Adw = imports.gi.Adw;
+const Gtk = imports.gi.Gtk;
 const GLib = imports.gi.GLib;
 
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -113,7 +113,7 @@ function _createEntryRow(window, buttonKey){
 
 function _createComboBoxRow(window, buttonKey, gradientBgColorRow=null, gradientAlphaRow=null, gradientDirectionRow=null, ringGapRow=null, ImageEntryRow=null){
   let settingsActivables = window._activableWidgets['settings'];
-  let title, subtitle=null, tooltip_text, tooltip_action=null, comboElements;
+  let title, tooltip_text, tooltip_action=null, comboElements;
 
   switch (buttonKey) {
     case 'monitors':
@@ -206,7 +206,7 @@ function _createFontRow(window, buttonKey){
     let defaultFont = fontBtn.get_font();
     window._settings.set_string('default-font', defaultFont);
     window._settings.set_string('font', defaultFont);
-    font = window._settings.get_string('default-font');
+    font = defaultFont;
   }
   fontBtn.set_font(font);
   fontBtn.connect(
@@ -291,7 +291,7 @@ function _createToggleBtn(window, buttonKey, osdType){
 
 function _createColorRow(window, buttonKey){
   let settingsActivables = window._activableWidgets['settings'];
-  let title, tooltip_text;
+  let title, tooltip_text, use_alpha;
   
   switch (buttonKey) {
     case 'color':
@@ -384,7 +384,7 @@ function _createSwitchRow(window, buttonKey){
       break;
     case 'square-circle':
       title = _('Square / Circle');
-      tooltip_text = _("Show OSD in square / circle shape");
+      tooltip_text = _("Show OSD in square / circle-ish shape (H=W)");
       break;
     default:
       break;
@@ -517,17 +517,17 @@ function _createSpinBtnRow(window, buttonKey){
       tooltip_text = _("Thickness of the OSD Border");
       break;
     case 'hpadding':
-      title = _('Horizontal Padding');
+      title = _('Horizontal Padding (%)');
       lower = 0;
-      upper = 50;
+      upper = 100;
       step_increment = 1;
       page_increment = 1;
       tooltip_text = _("Horizontal Padding of OSD");
       break;
     case 'vpadding':
-      title = _('Vertical Padding');
+      title = _('Vertical Padding (%)');
       lower = 0;
-      upper = 50;
+      upper = 100;
       step_increment = 1;
       page_increment = 1;
       tooltip_text = _("Vertical Padding of OSD");
