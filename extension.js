@@ -262,15 +262,13 @@ export default class CustomOSDExtension extends Extension {
     this.levthickness = levthickness/100;
     this.ringgap = ringgap/100;
 
-    // Scale distances by the OSD size
-    bthickness = Mr(bthickness*osd_size/60); // 1 to 100
-    levthickness = Mr(levthickness*osd_size/60);
-    hpadding = Mr(hpadding*osd_size/30); // 0 to 50
-    vpadding = Mr(vpadding*osd_size/30);    
+    // Scale distances by the OSD size (10 to 110)
+    bthickness = Mr(bthickness*osd_size/55); // 1 to 100
+    levthickness = Mr(levthickness*osd_size/55);
+    hpadding = Mr(hpadding*osd_size/55); // 0 to 100
+    vpadding = Mr(vpadding*osd_size/55);    
     this.hpadding = hpadding;
-  
-    OsdWindow.HIDE_TIMEOUT = hide_delay;
-  
+    
     for (
       let monitorIndex = 0;
       monitorIndex < OsdWindowManager._osdWindows.length;
@@ -295,7 +293,7 @@ export default class CustomOSDExtension extends Extension {
       
       // FONT, COLOR, BG COLOR, PADDING, SPACING, MARGINS
       let hboxSty = ` ${fontStyles} background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
-                    padding: ${vpadding}px ${osd_size/10+hpadding}px ${vpadding}px ${osd_size/5+hpadding}px; margin: 0px; spacing: ${0.5*hpadding}px; `;
+                    padding: ${vpadding}px ${hpadding}px ${vpadding}px ${(100-osd_size)/10 + hpadding*1.25}px; margin: 0px; spacing: ${0.75*hpadding}px; `;
       
       // SHADOW 
       let thresh = 75 + 0.25*osd_size;
@@ -327,6 +325,7 @@ export default class CustomOSDExtension extends Extension {
           effect.set({
               brightness: 0.8,
               sigma: 25,
+              radius: 25,
               mode: Shell.BlurMode.BACKGROUND, 
           });
         }
@@ -529,11 +528,17 @@ export default class CustomOSDExtension extends Extension {
         const bgeffect = custOSD._settings.get_string("bg-effect");
         icon? this._icon.visible = true : this._icon.visible = false;  
         numeric? this._levLabel.visible = this._level.visible : this._levLabel.visible = false;
-        if(this._levLabel.visible) 
-          this._hbox.style += ` padding-right: ${custOSD.hpadding-custOSD.osd_size/4}px;`;
-        else 
-          this._hbox.style += ` padding-right: ${custOSD.hpadding+custOSD.osd_size/10}px;`;
         let levelOn = this._level.visible;
+
+        let padding;
+        if(this._levLabel.visible)  {
+          padding = custOSD.hpadding - (100-custOSD.osd_size)/10;
+          if (padding < 0) padding = 0;
+        }
+        else 
+          padding = custOSD.hpadding*1.65 + (100-custOSD.osd_size)/10;
+        this._hbox.style += ` padding-right: ${padding}px; `;
+        
         if(!level || bgeffect == 'progress-ring') this._level.visible = false;
         if(!label) this._label.visible = false;
 
