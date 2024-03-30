@@ -141,7 +141,7 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
     profilesPage.add(activeProfileGroup);
   
     const activeProfileRow = new Adw.ComboRow({
-        use_markup: true,
+        use_markup: true, // 45 mod
         title: `<b>${_('Select Active Profile')}</b>`,
         subtitle: `<span allow_breaks="true">${_("Select a profile to be applied to all the OSDs. Go to Settings tab to view / edit settings for this active profile.")}</span>`,
     });
@@ -417,7 +417,9 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
             window._settings.set_string(key, activeProfDict[key]);
             break;
           case 'font':
-            window._settings.set_string(key, activeProfDict[key]);
+            let font = activeProfDict[key];
+            if (font == "") {font = window._settings.get_string('default-font');}
+            window._settings.set_string(key, font);
             break;
           case 'clock-osd':
             window._settings.set_strv(key, activeProfDict[key]);
@@ -682,7 +684,7 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
 
     const starLabel = new Gtk.Label({
       use_markup: true,
-      label: `<span underline="none">${_('☆ Star')}</span>`,
+      label: `<span size="large" underline="none">${_('☆ Star')}</span>`,
     });
     const starBtn = new Gtk.LinkButton({
       child: starLabel,
@@ -916,7 +918,7 @@ export default class CustomOSDPreferences extends ExtensionPreferences {
     const monitorsRow = PrefWidgets.createComboBoxRow(window, 'monitors');
     beyondExpander.add_row(monitorsRow);
   
-    const clockRow = PrefWidgets.createClockRow(window, 'clock-osd');
+    const clockRow = PrefWidgets.createEntryRow(window, 'clock-osd');
     beyondExpander.add_row(clockRow);
     
     const componentsRow = PrefWidgets.createComponentsRow(window);
