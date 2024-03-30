@@ -80,6 +80,8 @@ function fillPreferencesWindow(window) {
 
 }
 
+  //-----------------------------------------------
+
 function _saveActiveProfile(window){
   let keys = window._settings.list_keys();
   let nonProfileKeys = ['default-font', 'profiles', 'active-profile', 'icon', 'label', 'level', 'numeric'];
@@ -143,8 +145,9 @@ function _fillProfilesPage(window, profilesPage){
   profilesPage.add(activeProfileGroup);
 
   const activeProfileRow = new Adw.ComboRow({
+      // use_markup: true,
       title: `<b>${_('Select Active Profile')}</b>`,
-      subtitle: `<span allow_breaks="true">${_("This profile is applied to all OSDs. Go to Settings tab to view / edit settings for active profile.")}</span>`,
+      subtitle: `<span allow_breaks="true">${_("Select a profile to be applied to all the OSDs. Go to Settings tab to view / edit settings for this active profile.")}</span>`,
   });
 
   const activeProfileCombo = new Gtk.StringList();
@@ -418,7 +421,9 @@ function _setSettingsForActiveProfile(window, setWidgets){
           window._settings.set_string(key, activeProfDict[key]);
           break;
         case 'font':
-          window._settings.set_string(key, activeProfDict[key]);
+          let font = activeProfDict[key];
+          if (font == "") {font = window._settings.get_string('default-font');}
+          window._settings.set_string(key, font);
           break;
         case 'clock-osd':
           window._settings.set_strv(key, activeProfDict[key]);
@@ -435,7 +440,6 @@ function _setSettingsForActiveProfile(window, setWidgets){
   if(setWidgets)
     _setWidgetsValues(window);
 }
-
 
 
 function _createProfile(window, profileName){
@@ -486,6 +490,7 @@ function _updateProfileCombo(window){
   window._resettingCombo = true;
   activeProfileCombo.splice(0, numProfs, profiles); 
   // log('idx of active prof ' + profiles.indexOf(window._settings.get_string('active-profile')));
+  window._resettingCombo = false;
   activeProfileRow.selected = profiles.indexOf(window._settings.get_string('active-profile')); 
   // log('selected '+activeProfileRow.selected);
 
@@ -545,10 +550,11 @@ function _fillHelpPage(window, helpPage){
   • ${_(`Select a profile as Active and edit its settings in Settings tab.`)}
   • ${_(`Type/edit the values and hit enter key to update OR`)}
   • ${_(`Simply click the - + buttons or PgUp / PgDn keyboard keys.`)}
+  • ${_(`Press [Save] or [Save As] button to save the setting.`)}
   • ${_(`Hover over the values/buttons for more info (tooltips).`)}
   • ${_(`Position is (0,0) at screen-center. Range is -50 to +50 as shown above.`)}
   • ${_(`Custom-color panel of Color button has foreground transparency slider.`)}
-  • ${_(`Background effects are currently experimental.`)}
+  • ${_(`Special effects are currently experimental.`)}
   • ${_(`Further styling effects are possible by editing the extension's stylesheet.`)}
   • ${_(`Trigger your own OSDs from command line - check ReadMe on Github.`)}
   • ${_(`Visit home page for more details`)}: <a href="${Me.metadata.url}"><b>${_('Custom OSD')}</b></a>
@@ -624,6 +630,7 @@ function _fillAboutPage(window, aboutPage){
   homeBtn.connect('clicked', () => {
     Gtk.show_uri(window, Me.metadata.url, Gdk.CURRENT_TIME);
   });
+  homeRow.connect('activate', () => {});
   rowGroup.add(homeRow);
 
   const issueRow = new Adw.ActionRow({
@@ -1021,6 +1028,7 @@ function _saveAsNewProfile(window){
 
   dialog.show();
 }
+//-----------------------------------------------
 
 function _setWidgetsValues(window){
   let settingsActivables = window._activableWidgets['settings'];
@@ -1070,7 +1078,7 @@ function _setWidgetsValues(window){
         widget.set_active(osdNoLabelDict[key]);
         break;
       case 'icon-nolevel': case 'label-nolevel':
-        let osdNoLevelDict = window._settings.get_value('osd-nolevel').deep_unpack(`<b>${window._settings.get_string('active-profile')}</b>`);
+        let osdNoLevelDict = window._settings.get_value('osd-nolevel').deep_unpack();
         widget.set_active(osdNoLevelDict[key]);
         break;
       case 'active-profile':
