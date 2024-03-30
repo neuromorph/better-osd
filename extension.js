@@ -3,15 +3,15 @@ const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
+const Meta = imports.gi.Meta;
+const Shell = imports.gi.Shell;
+const Pango = imports.gi.Pango;
 const GnomeDesktop = imports.gi.GnomeDesktop;
 const Main = imports.ui.main;
 const OsdWindow = imports.ui.osdWindow;
 const OsdWindowManager = Main.osdWindowManager;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const Pango = imports.gi.Pango;
 
 const {gettext: _, pgettext} = ExtensionUtils;
 
@@ -159,7 +159,8 @@ class CustomOSDExtension {
     return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
   }
 
-  _syncSettings(settingChanged, obj, signal) { //console.log('Sync Setting: ', signal, settingChanged);
+  _syncSettings(settingChanged, obj, signal) { 
+    //console.log('Sync Setting: ', signal, settingChanged);
 
     const Mr = Math.round;
 
@@ -264,10 +265,10 @@ class CustomOSDExtension {
     this.ringgap = ringgap/100;
 
     // Scale distances by the OSD size
-    bthickness = Mr(bthickness*osd_size/60); // 1 to 100
-    levthickness = Mr(levthickness*osd_size/60);
-    hpadding = Mr(hpadding*osd_size/30); // 0 to 50
-    vpadding = Mr(vpadding*osd_size/30);    
+    bthickness = Mr(bthickness*osd_size/55); // 1 to 100
+    levthickness = Mr(levthickness*osd_size/55);
+    hpadding = Mr(hpadding*osd_size/55); // 0 to 100
+    vpadding = Mr(vpadding*osd_size/55);    
     this.hpadding = hpadding;
   
     OsdWindow.HIDE_TIMEOUT = hide_delay;
@@ -296,7 +297,7 @@ class CustomOSDExtension {
       
       // FONT, COLOR, BG COLOR, PADDING, SPACING, MARGINS
       let hboxSty = ` ${fontStyles} background-color: rgba(${bgred},${bggreen},${bgblue},${alpha}); color: rgba(${red},${green},${blue},${falpha}); 
-                    padding: ${vpadding}px ${osd_size/10+hpadding}px ${vpadding}px ${osd_size/5+hpadding}px; margin: 0px; spacing: ${0.5*hpadding}px; `;
+                    padding: ${vpadding}px ${hpadding}px ${vpadding}px ${(100-osd_size)/10 + hpadding*1.25}px; margin: 0px; spacing: ${0.75*hpadding}px; `;
       
       // SHADOW 
       let thresh = 75 + 0.25*osd_size;
@@ -364,7 +365,7 @@ class CustomOSDExtension {
       osdW._level.style = ` height: ${levthickness}px; -barlevel-height: ${levthickness}px; min-width: ${Mr(3*osdW._icon.icon_size)}px; margin-right: 0px; margin-left: 0px;
       -barlevel-active-background-color: rgba(${levred},${levgreen},${levblue},${levalpha}); -barlevel-background-color: rgba(${levred},${levgreen},${levblue},0.2); `; 
       // LEV LABEL - NUMERIC %
-      osdW._levLabel.style = ` font-size: ${font_size*1.2}pt; font-weight: bold; min-width: ${Mr((100-osd_size)/10 + osd_size*2.25)}px; `; //28+osd*1.58     
+      osdW._levLabel.style = ` font-size: ${font_size*1.2}pt; font-weight: bold; min-width: ${Mr((100-osd_size)/10 + osd_size*2.22)}px; `;   
       
       osdW.y_align = Clutter.ActorAlign.CENTER;  
 
@@ -521,11 +522,17 @@ class CustomOSDExtension {
         const bgeffect = custOSD._settings.get_string("bg-effect");
         icon? this._icon.visible = true : this._icon.visible = false;  
         numeric? this._levLabel.visible = this._level.visible : this._levLabel.visible = false;
-        if(this._levLabel.visible) 
-          this._hbox.style += ` padding-right: ${custOSD.hpadding-custOSD.osd_size/4}px;`;
-        else 
-          this._hbox.style += ` padding-right: ${custOSD.hpadding+custOSD.osd_size/10}px;`;
         let levelOn = this._level.visible;
+        
+        let padding;
+        if(this._levLabel.visible)  {
+          padding = custOSD.hpadding - (100-custOSD.osd_size)/10;
+          if (padding < 0) padding = 0;
+        }
+        else 
+          padding = custOSD.hpadding*1.65 + (100-custOSD.osd_size)/10;
+        this._hbox.style += ` padding-right: ${padding}px; `;
+        
         if(!level || bgeffect == 'progress-ring') this._level.visible = false;
         if(!label) this._label.visible = false;
         
@@ -574,8 +581,7 @@ class CustomOSDExtension {
             this._hbox.style += ` background-image: url('${Me.path}/media/ring.svg'); background-repeat: no-repeat; background-size: cover; `;
           else
             this._hbox.style += ` background-image: none;`;            
-        }
-        
+        }        
 
         if (rotate){ 
           let o_hbxH = hbxH;        
