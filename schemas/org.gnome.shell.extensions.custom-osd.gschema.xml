@@ -200,7 +200,7 @@
         {
           'Default': <{
             'horizontal': <49.6>,
-            'vertical': <42.6>,
+            'vertical': <-42.6>,
             'size': <20.0>,
             'rotate': <false>,
             'square-circle': <false>,
@@ -213,8 +213,8 @@
             'alpha': <85.0>,
             'alpha2': <85.0>,
             'ring-gap': <100.0>,
-            'hpadding': <10.0>,
-            'vpadding': <10.0>,
+            'hpadding': <14.0>,
+            'vpadding': <14.0>,
             'shadow': <true>,
             'shcolor': <['0.14','0.12','0.19','1.0']>,
             'border': <true>,
@@ -223,19 +223,19 @@
             'bthickness': <6.0>,
             'levcolor': <['1.0','0.64','0.28','1.0']>,
             'levalpha': <85.0>,
-            'levthickness': <20.0>,
+            'levthickness': <16.0>,
             'font': <''>,
             'delay': <1500.0>,
             'monitors': <'all'>,
             'clock-osd': <['']>,
-            'osd-all': <{'icon': true, 'label': true, 'level': true, 'numeric': true}>,
-            'osd-nolabel': <{'icon': true, 'level': true, 'numeric': true}>,
-            'osd-nolevel': <{'icon': true, 'label': true}>      
+            'osd-all': <{'icon-all': true, 'label-all': true, 'level-all': true, 'numeric-all': true}>,
+            'osd-nolabel': <{'icon-nolabel': true, 'level-nolabel': true, 'numeric-nolabel': true}>,
+            'osd-nolevel': <{'icon-nolevel': true, 'label-nolevel': true}>      
           }>,         
 
           'Gradient Circle': <{
             'ring-gap': <100.0>,
-            'vpadding': <4.0>,
+            'vpadding': <12.0>,
             'shcolor': <['0.14','0.12','0.19','1']>,
             'bradius': <100.0>,
             'bgcolor': <['0.06','0.73','0.76','1']>,
@@ -243,7 +243,7 @@
             'vertical': <45>,
             'bcolor': <['1','1','1','1']>,
             'levcolor': <['0.56','0.94','0.64','1']>,
-            'font': <'Sans 14'>,
+            'font': <''>,
             'osd-nolabel': <{'icon-nolabel': true,'level-nolabel': true,'numeric-nolabel': true}>,
             'horizontal': <49.6>,
             'border': <true>,
@@ -255,7 +255,7 @@
             'bg-effect': <'gradient'>,
             'levalpha': <85.0>,
             'delay': <1500.0>,
-            'size': <16.0>,
+            'size': <14.0>,
             'shadow': <false>,
             'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
             'alpha': <95.0>,
@@ -265,12 +265,12 @@
             'bthickness': <4.0>,
             'alpha2': <90.0>,
             'clock-osd': <['']>,
-            'hpadding': <4.0>
+            'hpadding': <12.0>
           }>,
 
           'Dynamic Blur': <{
             'ring-gap': <100.0>,
-            'vpadding': <14.0>,
+            'vpadding': <22.0>,
             'shcolor': <['0.14','0.12','0.19','1']>,
             'bradius': <15.0>,
             'bgcolor': <['0.0','0.73','0.73','1.0']>,
@@ -278,7 +278,7 @@
             'vertical': <-44.6>,
             'bcolor': <['0.46','0.46','0.48','1']>,
             'levcolor': <['0.56','0.94','0.64','1']>,
-            'font': <'Sans 12'>,
+            'font': <''>,
             'osd-nolabel': <{'icon-nolabel': true,'level-nolabel': true,'numeric-nolabel': true}>,
             'horizontal': <0.0>,
             'border': <true>,
@@ -286,21 +286,21 @@
             'color': <['1','1','1','1']>,
             'osd-all': <{'icon-all': true,'label-all': true,'level-all': true,'numeric-all': true}>,
             'balpha': <80.0>,
-            'levthickness': <15.0>,
+            'levthickness': <12.0>,
             'bg-effect': <'dynamic-blur'>,
             'levalpha': <85.0>,
             'delay': <1500.0>,
-            'size': <22.0>,
+            'size': <20.0>,
             'shadow': <false>,
             'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
             'alpha': <0.0>,
             'gradient-direction': <'horizontal'>,
             'bgcolor2': <['0.75','0.40','0.95','1.0']>,
             'monitors': <'all'>,
-            'bthickness': <5.0>,
+            'bthickness': <6.0>,
             'alpha2': <85.0>,
             'clock-osd': <['']>,
-            'hpadding': <10.0>
+            'hpadding': <14.0>
           }>,
 
           'Progress Disk': <{
@@ -313,7 +313,7 @@
             'vertical': <-43.4>,
             'bcolor': <['1','0.64','0.28','1']>,
             'levcolor': <['0','0.73','0.73','1']>,
-            'font': <'Sans 12'>,
+            'font': <''>,
             'osd-nolabel': <{'icon-nolabel': true,'level-nolabel': true,'numeric-nolabel': true}>,
             'horizontal': <49.4>,
             'border': <true>,
@@ -321,11 +321,11 @@
             'color': <['1','1','1','1']>,
             'osd-all': <{'icon-all': true,'label-all': false,'level-all': true,'numeric-all': true}>,
             'balpha': <85.0>,
-            'levthickness': <63.0>,
+            'levthickness': <66.0>,
             'bg-effect': <'progress-ring'>,
             'levalpha': <85.0>,
             'delay': <1500.0>,
-            'size': <16.0>,
+            'size': <20.0>,
             'shadow': <false>,
             'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
             'alpha': <50.0>,
@@ -335,11 +335,11 @@
             'bthickness': <6.0>,
             'alpha2': <85.0>,
             'clock-osd': <['']>,
-            'hpadding': <10.0>
+            'hpadding': <5.0>
           }>,
 
           'Progress Ring': <{
-            'ring-gap': <40.0>,
+            'ring-gap': <50.0>,
             'vpadding': <10.0>,
             'shcolor': <['0.14','0.12','0.19','1']>,
             'bradius': <100.0>,
@@ -356,11 +356,11 @@
             'color': <['1','1','1','1']>,
             'osd-all': <{'icon-all': true,'label-all': false,'level-all': true,'numeric-all': true}>,
             'balpha': <85.0>,
-            'levthickness': <45.0>,
+            'levthickness': <50.0>,
             'bg-effect': <'progress-ring'>,
             'levalpha': <85.0>,
             'delay': <1500.0>,
-            'size': <16.0>,
+            'size': <20.0>,
             'shadow': <false>,
             'osd-nolevel': <{'icon-nolevel': true,'label-nolevel': true}>,
             'alpha': <50.0>,
@@ -370,7 +370,7 @@
             'bthickness': <6.0>,
             'alpha2': <85.0>,
             'clock-osd': <['']>,
-            'hpadding': <12.0>
+            'hpadding': <20.0>
           }>
         }
       ]]></default>
