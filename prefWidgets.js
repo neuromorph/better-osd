@@ -516,17 +516,17 @@ export class PrefWidgets {
         tooltip_text = _("Thickness of the OSD Border");
         break;
       case 'hpadding':
-        title = _('Horizontal Padding');
+        title = _('Horizontal Padding (%)');
         lower = 0;
-        upper = 50;
+        upper = 100;
         step_increment = 1;
         page_increment = 1;
         tooltip_text = _("Horizontal Padding of OSD");
         break;
       case 'vpadding':
-        title = _('Vertical Padding');
+        title = _('Vertical Padding (%)');
         lower = 0;
-        upper = 50;
+        upper = 100;
         step_increment = 1;
         page_increment = 1;
         tooltip_text = _("Vertical Padding of OSD");
