@@ -34,19 +34,20 @@ You may need to restart the gnome shell environnment (for manual install):
 - `alt+f2` then type `r` and `enter` 
 
 ## Settings
-Use the Profiles panel in settings to create and manage settings profiles.  
+Use the Profiles page in Extension Preferences to create and manage settings profiles.  
 
-Use the settings panel of the extension for most common customizations:  
+Use the settings page of the Preferences for customizations:  
 
+* Special Effects
 * Position on Screen 
 * Vertical/Horizontal Orientation
 * Size 
 * Hide-Delay time
-* Color and Background
-* Background effects
-* Box Shadow On/Off
-* Box Border On/Off
-* Transparency
+* Foreground and Background colors
+* Box Shadow On/Off and Color/Thickness
+* Box Border On/Off and Color
+* Level Color/Thickness
+* Transparency for foreground, background, border, level
 * Shape Shift: Pill/Rectangle/Other (interpolation)
 * Numeric % for levels
 * Monitor to show OSD on
@@ -73,22 +74,25 @@ OSDs are On-Screen-Display pop ups that show up for volume, brightness etc. This
 - Icon is the only mandatory element for any OSD and thus, some of the OSDs may not have one or more of the other components (like label, level, numeric value). This is decided by the app that sends the OSD request (eg. Volume/Brightness app or Lock Keys). Out of the available components, this extension allows to choose what to show and hide.
 - Vertical orientation may sometimes show a glitch in text rendering, please change the size of OSD by a bit to fix this.
 - Font settting also provides an option to change font size (without changing other OSD components). Note that, a large font size will also push the OSD size. Also, if you icrease/decrease size of OSD through settings, it will try to proportionally increase/decrease the font size as well.
-- Background effects are experimental. You can combine them with shadow, border or transparency etc. However, shadow can be less effective around rectangular shape with background effects. Other settings of Shape will work fine. Dynamic Blur will be rectangular. Gnome Shell Blur does not support rounded corners :(
-- Further styling effects are possible by editing the extension's stylesheet (instructions below).
+- Background effects are experimental. You can combine them with shadow, border or transparency etc. However, shadow can be less effective around rectangular shape with background effects. Other settings of Shape will work fine. Dynamic Blur will be rectangular. Gnome Shell Blur does not support rounded corners :/
+- Further styling effects maybe possible by editing the extension's stylesheet.
+- You can also trigger your own custom OSDs from command line (see below).
 
 
-## Optional Advanced Styling
-For optional styling of advanced css options or things like custom box-shadow effect that is not in settings, you will need to edit "spreadsheet.css" file at -  
-~/.local/share/gnome-shell/extensions/custom-osd@neuromorph/  
- After editing the file, you need to disable and enable the extension for the changes to take effect. Alternately, you can lock the screen and unlock again.  
- This allows for some esoteric tinkering for the ones so inclined. 
+## Trigger Custom OSDs from Command Line
+If you want to trigger new custom OSDs from command line, as part of a shell script for example, you can do so using following not so elegant command.  
+The main part to edit is the last string being passed to the command. The format is:  
+"$RANDOM, Name of Icon, Label, Level"
+- $RANDOM: Random number required to cause a change even if everything else is same. Keep as it is.
+- Name of Icon [OPTIONAL]: The icon to display in the OSD. It should be installed and available in path. e.g. `preferences-system-time-symbolic`
+- Label [OPTIONAL]: Text to display in OSD. Keep it short. e.g. Media Playing or Caps Lock ON etc. 
+- Level [OPTIONAL]: The level of the level bar, if applicable. Range is 0 to 1.0. e.g. 0.5 for 50% volume. 
 
-Example code:
+If you want to skip an optional param, leave it blank, keep the commas. If icon is not provided, a default icon will be used. 
+
+Example command:
 ```
-.osd-style {
-    font-family: Cursive; /* To use this, reset font in settings to default */
-    box-shadow: 1px 1px 5px grey;  /* To use this, turn On box shadow in settings */
-}
+GSETTINGS_SCHEMA_DIR=$HOME/.local/share/gnome-shell/extensions/custom-osd@neuromorph/schemas gsettings set org.gnome.shell.extensions.custom-osd showosd "$RANDOM,preferences-system-time-symbolic,My OSD,0.75"
 ```
 
 ## Translations
