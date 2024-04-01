@@ -1,13 +1,39 @@
 Fully customize your OSD ( On Screen Display ) pop ups like Volume , Brightness or Caffeine , Lock Keys etc. 
 
-- Move, orient, resize, show numeric %, choose monitor, set hide-delay and style to match your theme and liking. 
+UPDATE (v25, v26):
+- Profiles: New default profiles added for new users to get started
+- Vertical Position: Please note vertical position convention is changed: +50 is Top and -50 is Bottom of screen
+- Size also changed a bit so you may need to resize existing OSDs in settings
+- Square/Circle toggle option allows to get squarish/circlish shapes (as you vary Shape Shift)
+- New Special Effects: Progress Ring and Background Image (see below)
+- Gradient: New radial gradient direction and option to set end color opacity
+- Level: New level color, opacity and thickness options
+- Border: New border color, opacity and thickness options
+- Padding: New horizontal and vertical padding options
+- Shadow: New shadow color option
+- Font: Improved implementation of font attributes (font style, stretch, weight)
+- Trigger custom OSDs from command line (e.g. from a script) (see ReadMe on Github: https://github.com/neuromorph/custom-osd?tab=readme-ov-file#trigger-custom-osds-from-command-line)
+
+Progress Ring / Disk:
+- Select Sepcial Effect 'Progress Ring' in settings
+- Set 'Ring Gap from Border' and 'Level Thickness' to get a Progress Ring or Progress Disk
+- For Disk, set Gap to 100 and adjust Level. For Ring reduce Gap to 40-50 and adjust Level.
+- Combine with color / opacity styles for fg, bg, level and border
+
+Background Image:
+- Set any image as OSD background (smaller size preferred)
+- Select Special Effect 'Background Image'
+- In 'Background Image FIle', provide path to a local file e.g. Pictures/myOsdImage.png
+
+Features:
+- Customize OSD position, orientation, size, numeric %,  monitor to show on, hide-delay and style 
 - Select any combination of components to display: icon, text-label, level-bar, numeric %.
 - OSD components can be turned On/Off based on OSD types.
-- Background effects like Gradient, Blur, Psuedo Glass etc
+- Special effects like Progress Ring, Gradient, Blur, Background Image etc
 - Clock OSD to show current date/time on a hotkey (default none. set hotkey in settings).
-
-Update: 
-- Save multiple Settings profiles and choose one to apply.
+- Create and Save multiple Settings profiles and choose one to apply (Profiles page in settings).
 - Import / Export settings profiles.
 - Share / get profile presets in github.
-- Translations : Spanish and Indonesian (thanks to contributors)
+
+
+Translations : Spanish and Indonesian (thanks to contributors)
