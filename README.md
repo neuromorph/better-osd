@@ -112,8 +112,9 @@ Note: There is a lot of text here (check the .pot file) esp. due to the Help tab
 
 | Language | Translated By | Status |
 | ------------- | ------------- | ------------- |
-| Indonesian (ID)  | Ilham Adi Setiawan (@[IlhamSetiawan](https://github.com/IlhamSetiawan))  |  Completed  |
-| Spanish (ES) | summus imperator(@[Nosis](https://github.com/Nosis))  |  Completed  |
+| Indonesian (ID)  | Ilham Adi Setiawan (@[IlhamSetiawan](https://github.com/IlhamSetiawan))  |  Completed (upto CustomOSD v24) |
+| Spanish (ES) | summus imperator (@[Nosis](https://github.com/Nosis))  |  Completed (upto CustomOSD v24) |
+| French (FR)  | Ludo Loops (@[neuroloops](https://github.com/neuroloops))  |  Completed (upto CustomOSD v26) |
   
   
 ## What's New (recent first)
