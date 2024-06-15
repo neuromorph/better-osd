@@ -362,7 +362,7 @@ export default class CustomOSDExtension extends Extension {
       osdW._level.style = ` height: ${levthickness}px; -barlevel-height: ${levthickness}px; min-width: ${Mr(3*osdW._icon.icon_size)}px; margin-right: 0px; margin-left: 0px;
       -barlevel-active-background-color: rgba(${levred},${levgreen},${levblue},${levalpha}); -barlevel-background-color: rgba(${levred},${levgreen},${levblue},0.2); `; 
       // LEV LABEL - NUMERIC %
-      osdW._levLabel.style = ` font-size: ${font_size*1.2}pt; font-weight: bold; min-width: ${Mr((100-osd_size)/10 + osd_size*2.25)}px; `; //28+osd*1.58     
+      osdW._levLabel.style = ` font-size: ${font_size*1.2}pt; font-weight: bold; min-width: ${Mr((100-osd_size)/10 + osd_size*2.22)}px; `; //28+osd*1.58     
       
       osdW.y_align = Clutter.ActorAlign.CENTER;  
 
