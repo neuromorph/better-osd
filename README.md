@@ -6,7 +6,7 @@ A GNOME Shell extension allowing the user to customize the On Screen Display (OS
 The new update allows to create and save multiple Settings profiles and choose one to apply. The profiles can be imported / exported to files. Profiles Presets (exported to file), [available here](https://github.com/neuromorph/custom-osd/tree/main/presets), can help as starter pack. Also, if you would like to share your settings profiles, do raise a PR or issue.
 
 <p align="center">
-<img src="media/CustomOSDs.png" width="400">
+<img src="screens/CustomOSDs.png" width="400">
 </p>
 
 ## Installation
@@ -137,8 +137,8 @@ Note: There is a lot of text here (check the .pot file) esp. due to the Help tab
 
 ## Screenshots
 
-![Screenshot](media/Screenshot.png)
-![New OSDs](media/newOSD.png)
+![Screenshot](screens/Screenshot.png)
+![New OSDs](screens/newOSD.png)
 
 
 
