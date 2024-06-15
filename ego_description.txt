@@ -36,4 +36,4 @@ Features:
 - Share / get profile presets in github.
 
 
-Translations : Spanish and Indonesian (thanks to contributors)
+Translations : Spanish, Indonesian and French (thanks to contributors)
